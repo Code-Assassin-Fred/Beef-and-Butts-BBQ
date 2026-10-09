@@ -88,12 +88,12 @@ const CATEGORIES: Category[] = [
     },
 ];
 
-const ORDER_MODES = [
-    { value: "pickup", label: "Pickup", text: "Swing by and grab it hot off the pit." },
-    { value: "delivery", label: "Delivery", text: "We'll bring the smoke to your door." },
-] as const;
+// Display only: shown beside the heading, not selectable
+const SERVICE_OPTIONS = [
+    { label: "Pickup", text: "Swing by and grab it hot off the pit." },
+    { label: "Delivery", text: "We'll bring the smoke to your door." },
+];
 
-export type OrderMode = (typeof ORDER_MODES)[number]["value"];
 export type CartLine = { item: MenuItem; quantity: number };
 
 /* ------------------------------ Helpers ------------------------------ */
@@ -114,17 +114,14 @@ const focusRing =
 type MenuProps = {
     /** Called whenever the cart changes. */
     onCartChange?: (lines: CartLine[]) => void;
-    /** Called when the person picks pickup or delivery. */
-    onModeChange?: (mode: OrderMode) => void;
     /** Called when Checkout is pressed in the summary bar. */
-    onCheckout?: (lines: CartLine[], mode: OrderMode) => void;
+    onCheckout?: (lines: CartLine[]) => void;
 };
 
-export default function Menu({ onCartChange, onModeChange, onCheckout }: MenuProps) {
+export default function Menu({ onCartChange, onCheckout }: MenuProps) {
     const baseId = useId();
     const [open, setOpen] = useState<Set<string>>(new Set([CATEGORIES[0].id])); // first category open
     const [cart, setCart] = useState<Record<string, number>>({});
-    const [mode, setMode] = useState<OrderMode>("pickup");
 
     const allItems = useMemo(() => CATEGORIES.flatMap((c) => c.items), []);
     const toLines = (c: Record<string, number>): CartLine[] =>
@@ -149,11 +146,6 @@ export default function Menu({ onCartChange, onModeChange, onCheckout }: MenuPro
             onCartChange?.(toLines(next));
             return next;
         });
-
-    const chooseMode = (m: OrderMode) => {
-        setMode(m);
-        onModeChange?.(m);
-    };
 
     return (
         <section
@@ -210,63 +202,34 @@ export default function Menu({ onCartChange, onModeChange, onCheckout }: MenuPro
                 />
             </div>
 
-            <div className="mx-auto max-w-6xl px-5 pb-24 pt-28 sm:px-8 sm:pt-32 md:pb-28">
-                {/* Header: title + text on the left, pickup / delivery on the right */}
-                <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-                    <div className="text-center lg:text-left">
+            <div className="mx-auto max-w-6xl px-5 pb-24 pt-14 sm:px-8 sm:pt-16 md:pb-28">
+                {/* Header: tagline + text on the left, pickup / delivery on the right */}
+                <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-14">
+                    <div className="flex flex-col justify-center text-center lg:text-left">
                         <h2
-                            className={`${scriptFont.className} py-2 text-[clamp(4.5rem,11vw,8rem)] leading-[0.95] text-[#E5391C]`}
+                            className={`${scriptFont.className} py-2 text-[clamp(2.5rem,4.6vw,4rem)] leading-[1.1] text-[#E5391C] lg:whitespace-nowrap`}
                         >
-                            Our Menu
+                            Catch the Flavor.
+                            <br />
+                            Own the Craving.
                         </h2>
-                        <p className="mx-auto mt-4 max-w-md text-base leading-relaxed tracking-wide text-neutral-300 lg:mx-0">
-                            Smoked low and slow, served hot. Pick what you want, choose pickup or delivery,
-                            and we&rsquo;ll get it on the pit.
+                        <p className="mx-auto mt-3 max-w-md text-[0.95rem] leading-relaxed tracking-wide text-neutral-300 lg:mx-0">
+                            Smoked low and slow, served hot. Pick what you want and we&rsquo;ll get it on the pit.
                         </p>
                     </div>
 
-                    <fieldset className="mx-auto w-full max-w-md lg:mx-0 lg:ml-auto">
-                        <legend className="sr-only">How would you like your order?</legend>
-                        <div className="grid gap-4 sm:grid-cols-2">
-                            {ORDER_MODES.map((m) => {
-                                const selected = mode === m.value;
-                                return (
-                                    <label key={m.value} className="block cursor-pointer">
-                                        <input
-                                            type="radio"
-                                            name={`${baseId}-mode`}
-                                            value={m.value}
-                                            checked={selected}
-                                            onChange={() => chooseMode(m.value)}
-                                            className="peer sr-only"
-                                        />
-                                        <div
-                                            className={`h-full border-2 p-5 transition-colors peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[#EEEBDC] ${selected ? "border-[#EEEBDC]" : "border-white/20 hover:border-white/50"
-                                                }`}
-                                        >
-                                            <span className="flex items-center gap-3">
-                                                <span
-                                                    aria-hidden="true"
-                                                    className={`grid h-5 w-5 place-items-center rounded-full border-2 ${selected ? "border-[#E5391C]" : "border-white/40"
-                                                        }`}
-                                                >
-                                                    {selected && <span className="h-2.5 w-2.5 rounded-full bg-[#E5391C]" />}
-                                                </span>
-                                                <span
-                                                    className={`${displayFont.className} text-2xl uppercase tracking-[0.06em]`}
-                                                >
-                                                    {m.label}
-                                                </span>
-                                            </span>
-                                            <span className="mt-3 block text-sm leading-relaxed tracking-wide text-neutral-400">
-                                                {m.text}
-                                            </span>
-                                        </div>
-                                    </label>
-                                );
-                            })}
-                        </div>
-                    </fieldset>
+                    <ul className="mx-auto grid w-full max-w-lg gap-8 text-center sm:grid-cols-2 sm:text-left lg:mr-0">
+                        {SERVICE_OPTIONS.map((o) => (
+                            <li key={o.label}>
+                                <p className={`${displayFont.className} text-2xl uppercase tracking-[0.06em]`}>
+                                    {o.label}
+                                </p>
+                                <p className="mt-3 text-sm leading-relaxed tracking-wide text-neutral-400">
+                                    {o.text}
+                                </p>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
 
                 {/* Categories */}
@@ -394,13 +357,11 @@ export default function Menu({ onCartChange, onModeChange, onCheckout }: MenuPro
                             <p className="text-center text-sm font-semibold uppercase tracking-[0.12em] sm:text-left sm:text-base">
                                 {count} {count === 1 ? "item" : "items"}
                                 <span className="mx-3 text-neutral-500" aria-hidden="true">|</span>
-                                {mode === "pickup" ? "Pickup" : "Delivery"}
-                                <span className="mx-3 text-neutral-500" aria-hidden="true">|</span>
                                 Subtotal {total(subtotal)}
                             </p>
                             <button
                                 type="button"
-                                onClick={() => onCheckout?.(lines, mode)}
+                                onClick={() => onCheckout?.(lines)}
                                 className={`${ORANGE} border-b-[3px] border-[#FF8A3D] pb-1 text-sm font-semibold uppercase tracking-[0.12em] transition-opacity hover:opacity-80 ${focusRing}`}
                             >
                                 Checkout
