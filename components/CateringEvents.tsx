@@ -277,8 +277,8 @@ export default function CateringEvents({ quoteHref = "/quote" }: Props) {
                 </div>
             </div>
 
-            {/* ============ Part 2: Floating "Choose Your Service" Card (straddling Catering & About) ============ */}
-            <div className="relative z-30 mx-auto -mb-28 max-w-6xl px-4 sm:-mb-36 sm:px-6 lg:-mb-40">
+            {/* ============ Part 2: "Choose Your Service" Card (inside Catering & Events) ============ */}
+            <div className="relative z-10 mx-auto max-w-6xl px-4 pb-20 pt-8 sm:px-6 md:pb-28">
                 <div className="relative rounded-2xl bg-[#141414] p-4 text-white shadow-2xl sm:p-6 md:p-8">
                     {/* Inner orange accent border */}
                     <div className="relative rounded-xl border border-[#D42F16]/70 p-5 sm:p-8 md:p-10">
