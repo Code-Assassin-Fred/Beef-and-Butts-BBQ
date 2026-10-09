@@ -7,6 +7,7 @@ import CateringEvents from "@/components/CateringEvents";
 import About from "@/components/About";
 import OrderBanner from "@/components/OrderBanner";
 import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <About />
       <OrderBanner />
       <Contact />
+      <Footer />
     </main>
   );
 }

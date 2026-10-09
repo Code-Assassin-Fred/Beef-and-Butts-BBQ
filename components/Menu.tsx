@@ -1,18 +1,19 @@
 "use client";
 
-import { useId, useMemo, useState } from "react";
+import { useId, useMemo, useState, useEffect } from "react";
 import { Anton, Montserrat, Great_Vibes } from "next/font/google";
+import { useCart } from "./CartContext";
 
 const displayFont = Anton({ subsets: ["latin"], weight: "400", display: "swap" });
 const bodyFont = Montserrat({ subsets: ["latin"], weight: ["400", "500", "600", "700"], display: "swap" });
 const scriptFont = Great_Vibes({ subsets: ["latin"], weight: "400", display: "swap" });
 
-/* ----------------------------- Menu data ----------------------------- */
+/* ----------------------------- Types & Defaults ----------------------------- */
 
 type MenuItem = {
     id: string;
     name: string;
-    price: number; // CAD
+    price: number | string; // CAD or formatted string
     description?: string;
 };
 
@@ -22,16 +23,16 @@ type Category = {
     items: MenuItem[];
 };
 
-const CATEGORIES: Category[] = [
+const DEFAULT_CATEGORIES: Category[] = [
     {
         id: "meats",
         title: "Smoked Meats & Platters",
         items: [
-            { id: "brisket", name: "BBQ Beef Brisket", price: 18 },
-            { id: "chicken-leg", name: "BBQ Chicken Leg", price: 13 },
-            { id: "half-rack", name: "1/2 Rack Pork Ribs", price: 20 },
-            { id: "full-rack", name: "Full Rack Pork Ribs", price: 35 },
-            { id: "pulled-pork", name: "Pulled Pork Sandwich", price: 16 },
+            { id: "brisket", name: "BBQ Beef Brisket", price: 18, description: "Slow-smoked over hardwood for 14 hours." },
+            { id: "chicken-leg", name: "BBQ Chicken Leg", price: 13, description: "Glazed and wood-fired chicken leg." },
+            { id: "half-rack", name: "1/2 Rack Pork Ribs", price: 20, description: "Tender St. Louis cut ribs." },
+            { id: "full-rack", name: "Full Rack Pork Ribs", price: 35, description: "Full rack of fall-off-the-bone smoked ribs." },
+            { id: "pulled-pork", name: "Pulled Pork Sandwich", price: 16, description: "Hickory-smoked pulled pork on brioche." },
             {
                 id: "farmers-sausage",
                 name: "Smoked Farmers Sausage",
@@ -56,16 +57,16 @@ const CATEGORIES: Category[] = [
         id: "sides",
         title: "Classic Sides",
         items: [
-            { id: "coleslaw", name: "Coleslaw", price: 6 },
+            { id: "coleslaw", name: "Coleslaw", price: 6, description: "Fresh and crunchy house coleslaw." },
             {
                 id: "pit-beans",
                 name: "Baked Pit Beans",
                 price: 5,
                 description: "Slow-cooked with brisket burnt ends.",
             },
-            { id: "mac", name: "Creamy Mac & Cheese", price: 6 },
-            { id: "cornbread", name: "Cornbread with Honey Butter", price: 5 },
-            { id: "fries", name: "French Fries", price: 5 },
+            { id: "mac", name: "Creamy Mac & Cheese", price: 6, description: "Baked four-cheese mac." },
+            { id: "cornbread", name: "Cornbread with Honey Butter", price: 5, description: "Warm cornbread with honey butter." },
+            { id: "fries", name: "French Fries", price: 5, description: "Golden crispy seasoned fries." },
             {
                 id: "poutine",
                 name: "Smoked BBQ Poutine",
@@ -88,7 +89,6 @@ const CATEGORIES: Category[] = [
     },
 ];
 
-// Display only: shown beside the heading, not selectable
 const SERVICE_OPTIONS = [
     { label: "Pickup", text: "Swing by and grab it hot off the pit." },
     { label: "Delivery", text: "We'll bring the smoke to your door." },
@@ -98,10 +98,19 @@ export type CartLine = { item: MenuItem; quantity: number };
 
 /* ------------------------------ Helpers ------------------------------ */
 
-const money = (n: number) => (Number.isInteger(n) ? `$${n}` : `$${n.toFixed(2)}`);
+const parseNumericPrice = (p: number | string): number => {
+    if (typeof p === "number") return p;
+    if (!p) return 0;
+    return parseFloat(p.toString().replace("$", ""));
+};
+
+const money = (n: number | string) => {
+    const num = parseNumericPrice(n);
+    return Number.isInteger(num) ? `$${num}` : `$${num.toFixed(2)}`;
+};
+
 const total = (n: number) => `$${n.toFixed(2)}`;
 
-// Fine film grain, tiled. Inline SVG, so no image asset is needed.
 const GRAIN =
     "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")";
 
@@ -112,38 +121,66 @@ const focusRing =
 /* ------------------------------ Component ----------------------------- */
 
 type MenuProps = {
-    /** Called whenever the cart changes. */
     onCartChange?: (lines: CartLine[]) => void;
-    /** Called when Checkout is pressed in the summary bar. */
     onCheckout?: (lines: CartLine[]) => void;
 };
 
 export default function Menu({ onCartChange, onCheckout }: MenuProps) {
     const baseId = useId();
-    const [open, setOpen] = useState<Set<string>>(new Set([CATEGORIES[0].id])); // first category open
-    const [cart, setCart] = useState<Record<string, number>>({});
+    const [categories, setCategories] = useState<Category[]>(DEFAULT_CATEGORIES);
+    const [loading, setLoading] = useState(true);
+    const [open, setOpen] = useState<Set<string>>(new Set(["meats"]));
 
-    const allItems = useMemo(() => CATEGORIES.flatMap((c) => c.items), []);
-    const toLines = (c: Record<string, number>): CartLine[] =>
-        allItems.filter((i) => c[i.id] > 0).map((item) => ({ item, quantity: c[item.id] }));
+    // Integration with global CartContext
+    const { cart: globalCart, addToCart, updateQty: updateGlobalQty } = useCart();
 
-    const lines = useMemo(() => toLines(cart), [cart]); // eslint-disable-line react-hooks/exhaustive-deps
-    const count = lines.reduce((s, l) => s + l.quantity, 0);
-    const subtotal = lines.reduce((s, l) => s + l.quantity * l.item.price, 0);
+    useEffect(() => {
+        let isMounted = true;
+        async function fetchMenu() {
+            try {
+                const res = await fetch("/api/menu");
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.categories && Array.isArray(data.categories) && data.categories.length > 0) {
+                        const formattedCats: Category[] = data.categories.map((c: any, index: number) => ({
+                            id: c.id || `cat-${index}`,
+                            title: c.title,
+                            items: (c.items || []).map((item: any, iIdx: number) => ({
+                                id: item.id || `item-${index}-${iIdx}`,
+                                name: item.name,
+                                price: item.price,
+                                description: item.description || "",
+                            })),
+                        }));
+                        if (isMounted) {
+                            setCategories(formattedCats);
+                            if (formattedCats.length > 0) {
+                                setOpen(new Set([formattedCats[0].id]));
+                            }
+                        }
+                    }
+                }
+            } catch (err) {
+                console.error("Failed to fetch menu from API, using defaults:", err);
+            } finally {
+                if (isMounted) setLoading(false);
+            }
+        }
+        fetchMenu();
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
+    const getItemQty = (name: string) => {
+        const found = globalCart.find((ci) => ci.name === name);
+        return found ? found.qty : 0;
+    };
 
     const toggle = (id: string) =>
         setOpen((prev) => {
             const next = new Set(prev);
             next.has(id) ? next.delete(id) : next.add(id);
-            return next;
-        });
-
-    const setQty = (id: string, delta: number) =>
-        setCart((prev) => {
-            const qty = Math.max(0, (prev[id] ?? 0) + delta);
-            const next = { ...prev, [id]: qty };
-            if (qty === 0) delete next[id];
-            onCartChange?.(toLines(next));
             return next;
         });
 
@@ -153,7 +190,6 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
             aria-label="Menu"
             className={`${bodyFont.className} relative isolate overflow-hidden bg-gradient-to-b from-[#0a0a0a] via-[#131313] to-[#1c1c1c] text-[#EEEBDC]`}
         >
-            {/* Shared SVG filters (ids prefixed so they never clash with other sections) */}
             <svg width="0" height="0" aria-hidden="true" focusable="false" className="absolute">
                 <filter id="menu-torn" x="-5%" y="-50%" width="110%" height="200%">
                     <feTurbulence type="fractalNoise" baseFrequency="0.018 0.22" numOctaves="4" seed="4" result="n" />
@@ -170,14 +206,12 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
                 </filter>
             </svg>
 
-            {/* Film grain */}
             <div
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-0 -z-10 opacity-[0.07] mix-blend-screen"
                 style={{ backgroundImage: GRAIN }}
             />
 
-            {/* Top edge: charred band with ragged lower edge + soot flecks */}
             <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-28">
                 <div className="absolute inset-x-0 -top-4 h-12 bg-[#050505]" style={{ filter: "url(#menu-torn)" }} />
                 <div
@@ -190,7 +224,6 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
                 />
             </div>
 
-            {/* Bottom edge: rough red ember streak */}
             <div aria-hidden="true" className="pointer-events-none absolute bottom-0 left-0 -z-10 h-3 w-[78%]">
                 <div
                     className="h-full w-full"
@@ -203,7 +236,6 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
             </div>
 
             <div className="mx-auto max-w-6xl px-5 pb-24 pt-14 sm:px-8 sm:pt-16 md:pb-28">
-                {/* Header: tagline + text on the left, pickup / delivery on the right */}
                 <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-14">
                     <div className="flex flex-col justify-center text-center lg:text-left">
                         <h2
@@ -232,9 +264,8 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
                     </ul>
                 </div>
 
-                {/* Categories */}
                 <div className="mt-14 space-y-5">
-                    {CATEGORIES.map((cat) => {
+                    {categories.map((cat) => {
                         const isOpen = open.has(cat.id);
                         const panelId = `${baseId}-${cat.id}-panel`;
                         const buttonId = `${baseId}-${cat.id}-btn`;
@@ -256,7 +287,6 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
                                             {cat.title}
                                         </span>
 
-                                        {/* Minus when open, plus when closed */}
                                         <span aria-hidden="true" className="relative block h-6 w-6 shrink-0">
                                             <span className="absolute left-0 top-1/2 h-[3px] w-full -translate-y-1/2 bg-[#EEEBDC]" />
                                             <span
@@ -277,7 +307,7 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
                                     <div className="overflow-hidden">
                                         <ul className="grid gap-x-12 px-5 pb-8 pt-2 sm:px-8 lg:grid-cols-2">
                                             {cat.items.map((item) => {
-                                                const qty = cart[item.id] ?? 0;
+                                                const qty = getItemQty(item.name);
                                                 return (
                                                     <li
                                                         key={item.id}
@@ -302,7 +332,12 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
                                                             {qty === 0 ? (
                                                                 <button
                                                                     type="button"
-                                                                    onClick={() => setQty(item.id, 1)}
+                                                                    onClick={() =>
+                                                                        addToCart({
+                                                                            name: item.name,
+                                                                            price: typeof item.price === "number" ? `$${item.price}` : item.price,
+                                                                        })
+                                                                    }
                                                                     aria-label={`Add ${item.name} to cart`}
                                                                     className={`${ORANGE} py-1 text-sm font-semibold uppercase tracking-[0.1em] underline-offset-4 hover:underline ${focusRing}`}
                                                                 >
@@ -316,7 +351,7 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
                                                                 >
                                                                     <button
                                                                         type="button"
-                                                                        onClick={() => setQty(item.id, -1)}
+                                                                        onClick={() => updateGlobalQty(item.name, -1)}
                                                                         aria-label={`Remove one ${item.name}`}
                                                                         className={`px-2 py-1 text-xl leading-none ${focusRing}`}
                                                                     >
@@ -330,7 +365,7 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
                                                                     </span>
                                                                     <button
                                                                         type="button"
-                                                                        onClick={() => setQty(item.id, 1)}
+                                                                        onClick={() => updateGlobalQty(item.name, 1)}
                                                                         aria-label={`Add another ${item.name}`}
                                                                         className={`px-2 py-1 text-xl leading-none ${focusRing}`}
                                                                     >
@@ -348,26 +383,6 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
                             </div>
                         );
                     })}
-                </div>
-
-                {/* Cart summary, appears once something is added */}
-                <div role="status" aria-live="polite" className="mt-8">
-                    {count > 0 && (
-                        <div className="flex flex-col items-center justify-between gap-4 border-2 border-[#EEEBDC] px-5 py-4 sm:flex-row sm:px-8">
-                            <p className="text-center text-sm font-semibold uppercase tracking-[0.12em] sm:text-left sm:text-base">
-                                {count} {count === 1 ? "item" : "items"}
-                                <span className="mx-3 text-neutral-500" aria-hidden="true">|</span>
-                                Subtotal {total(subtotal)}
-                            </p>
-                            <button
-                                type="button"
-                                onClick={() => onCheckout?.(lines)}
-                                className={`${ORANGE} border-b-[3px] border-[#FF8A3D] pb-1 text-sm font-semibold uppercase tracking-[0.12em] transition-opacity hover:opacity-80 ${focusRing}`}
-                            >
-                                Checkout
-                            </button>
-                        </div>
-                    )}
                 </div>
             </div>
         </section>

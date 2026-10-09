@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Anton, Jost } from "next/font/google";
 
@@ -6,7 +9,6 @@ const bodyFont = Jost({ subsets: ["latin"], weight: ["400", "500", "600", "700"]
 
 /* ------------------------------ Content ------------------------------ */
 
-// TODO: confirm every line below with the client before launch (founder story, location, dates).
 const PARAGRAPHS = [
     "Beef N Butts BBQ was built on a simple idea: real barbecue takes time, and it is worth every minute. We cook over fire and slow smoke until the brisket gives up, the ribs wear a deep, sticky bark, and the chicken comes off the grill glazed and a little bit charred.",
     "We also like to play with our food. Crispy bhajia with chilli sauce, curry chip dip, and smoked ribs share the same table here, classic pit flavor with a twist you won't find at the next smokehouse.",
@@ -17,9 +19,9 @@ const GALLERY_TITLE = "Pit-Fired. Plate-Ready.";
 const GALLERY_TEXT =
     "Bark-crusted ribs, glazed chicken and bhajia with a kick of chilli: a look at what leaves our smoker and fryer every day.";
 
-type GalleryItem = { name: string; src: string; alt: string };
+type GalleryItem = { id?: string; name: string; src: string; alt: string };
 
-const GALLERY: GalleryItem[] = [
+const DEFAULT_GALLERY: GalleryItem[] = [
     { name: "Ribs & Bhajia", src: "/Assets/bbq-ribs-with-bhajia.jpg", alt: "BBQ ribs served with crispy bhajia" },
     { name: "Bhajia & Chilli Sauce", src: "/Assets/bhajia-with-chilli-sauce.jpg", alt: "Crispy bhajia with chilli sauce" },
     { name: "Curry & Tortilla Chips", src: "/Assets/curry-with-tortilla-chips.jpg", alt: "Curry dip with tortilla chips" },
@@ -32,7 +34,6 @@ const GALLERY: GalleryItem[] = [
 
 /* ------------------------------ Texture ------------------------------ */
 
-// Same rough paper texture as the other white sections (inline SVG noise, no image files).
 const svg = (inner: string, size: number) =>
     `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='${size}' height='${size}'>${inner}</svg>")`;
 
@@ -52,7 +53,6 @@ const FLECKS = svg(
 /* ----------------------------- Component ----------------------------- */
 
 type Props = {
-    /** Background photo for the parallax hero. */
     heroImage?: { src: string; alt: string };
 };
 
@@ -62,9 +62,39 @@ export default function About({
         alt: "Sliced smoked brisket served with greens",
     },
 }: Props) {
+    const [gallery, setGallery] = useState<GalleryItem[]>(DEFAULT_GALLERY);
+
+    useEffect(() => {
+        let isMounted = true;
+        async function fetchGallery() {
+            try {
+                const res = await fetch("/api/gallery");
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.photos && Array.isArray(data.photos) && data.photos.length > 0) {
+                        const items: GalleryItem[] = data.photos.map((p: any) => ({
+                            id: p.id,
+                            name: p.caption || p.name || "Beef N' Butts BBQ",
+                            src: p.src || p.imageBase64,
+                            alt: p.caption || "BBQ Gallery Photo",
+                        }));
+                        if (isMounted) {
+                            setGallery(items);
+                        }
+                    }
+                }
+            } catch (err) {
+                console.error("Failed to fetch gallery photos from API, using defaults:", err);
+            }
+        }
+        fetchGallery();
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
     return (
         <>
-            {/* Shared SVG filter: distressed headline type */}
             <svg width="0" height="0" aria-hidden="true" focusable="false" className="absolute">
                 <filter id="about-stamp" x="-3%" y="-3%" width="106%" height="106%">
                     <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="7" result="warp" />
@@ -75,10 +105,6 @@ export default function About({
                 </filter>
             </svg>
 
-            {/* ===== Parallax hero =====
-          The photo is position:fixed, but the section is clipped with clip-path,
-          so the image stays still while the text scrolls over it and the next
-          section slides up and covers it. Works on iOS too (unlike background-attachment: fixed). */}
             <section
                 aria-labelledby="about-heading"
                 className={`${bodyFont.className} relative isolate bg-[#0a0a0a] text-white`}
@@ -93,7 +119,6 @@ export default function About({
                         sizes="100vw"
                         className="object-cover"
                     />
-                    {/* Darken for legibility */}
                     <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-black/80" />
                 </div>
 
@@ -120,7 +145,7 @@ export default function About({
                 </div>
             </section>
 
-            {/* ===== Gallery: slides up over the still photo ===== */}
+            {/* ===== Gallery: fetched from Firestore database ===== */}
             <section
                 aria-labelledby="gallery-heading"
                 className={`${bodyFont.className} relative z-10 isolate bg-white`}
@@ -147,8 +172,8 @@ export default function About({
                     </header>
 
                     <ul className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 md:mt-16">
-                        {GALLERY.map((item) => (
-                            <li key={item.src}>
+                        {gallery.map((item, index) => (
+                            <li key={item.id || `${item.src}-${index}`}>
                                 <figure className="group relative aspect-[4/5] overflow-hidden rounded-[2px] bg-[#0f0f0f] shadow-[0_10px_30px_-12px_rgba(0,0,0,0.45)] ring-1 ring-black/10">
                                     <Image
                                         src={item.src}
@@ -157,7 +182,6 @@ export default function About({
                                         sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                                         className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                                     />
-                                    {/* Shade so the name reads on any photo */}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
                                     <figcaption className="absolute inset-x-0 bottom-0 p-5 sm:p-6">

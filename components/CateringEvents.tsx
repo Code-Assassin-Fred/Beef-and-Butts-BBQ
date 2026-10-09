@@ -1,5 +1,7 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import {
     Anton,
     Jost,
@@ -8,6 +10,7 @@ import {
     Great_Vibes,
     Playfair_Display,
 } from "next/font/google";
+import QuoteModal from "./QuoteModal";
 
 const displayFont = Anton({ subsets: ["latin"], weight: "400", display: "swap" });
 const headingFont = League_Gothic({ subsets: ["latin"], weight: "400", display: "swap" });
@@ -23,7 +26,6 @@ type Category = {
     title: string;
     description: string;
     groups: string[];
-    /** Drop a photo in /public and set it here. Until then a placeholder shows. */
     image?: { src: string; alt: string };
 };
 
@@ -99,9 +101,8 @@ const STEPS = [
     },
 ];
 
-/* ------------------------------ Texture ------------------------------ */
+/* ------------------------------ Textures ------------------------------ */
 
-// Same rough paper texture as the Service Columns section (inline SVG noise, no image files).
 const svg = (inner: string, size: number) =>
     `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='${size}' height='${size}'>${inner}</svg>")`;
 
@@ -118,68 +119,53 @@ const FLECKS = svg(
     300
 );
 
-// Fine film grain for the dark band (light specks on black)
-const DARK_GRAIN =
-    "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")";
-
-/* ----------------------------- Components ---------------------------- */
-
 const focusRing =
-    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D42F16]";
+    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D42F16]";
 
-function Arrow({ className = "" }: { className?: string }) {
+function Arrow({ className = "h-4 w-4" }: { className?: string }) {
     return (
-        <svg viewBox="0 0 10 14" aria-hidden="true" className={className}>
-            <path d="M1.2 1.2 8.6 7 1.2 12.8Z" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
+        <svg className={className} fill="none" viewBox="0 0 10 14" aria-hidden="true">
+            <path d="M1.5 1.5L7.5 7L1.5 12.5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square" />
         </svg>
     );
 }
 
-type Props = {
-    /** Where the quote buttons go. Category cards add ?event=<id>. */
-    quoteHref?: string;
-};
+/* ------------------------------ Component ----------------------------- */
 
-export default function CateringEvents({ quoteHref = "/quote" }: Props) {
+export default function CateringEvents() {
+    const [isQuoteOpen, setIsQuoteOpen] = useState(false);
+    const [selectedCategoryTitle, setSelectedCategoryTitle] = useState("Weddings & Receptions");
+
+    const openQuote = (categoryTitle?: string) => {
+        if (categoryTitle) setSelectedCategoryTitle(categoryTitle);
+        setIsQuoteOpen(true);
+    };
+
     return (
-        <section
-            id="catering"
-            aria-label="Catering and events"
-            className={`${bodyFont.className} relative overflow-hidden bg-white text-neutral-900`}
-        >
-            {/* All SVG filters for the whole section (ids prefixed) */}
+        <section id="catering" aria-label="Catering & Events" className={`${bodyFont.className} bg-[#0a0a0a]`}>
+            <QuoteModal
+                isOpen={isQuoteOpen}
+                onClose={() => setIsQuoteOpen(false)}
+                initialCategory={selectedCategoryTitle}
+            />
+
+            {/* Shared SVG filters */}
             <svg width="0" height="0" aria-hidden="true" focusable="false" className="absolute">
-                {/* Torn photo edges */}
-                <filter id="cat-torn" x="-6%" y="-8%" width="112%" height="116%">
-                    <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="4" seed="6" result="n" />
-                    <feDisplacementMap in="SourceGraphic" in2="n" scale="18" xChannelSelector="R" yChannelSelector="G" />
-                </filter>
-                {/* Distressed headline type */}
                 <filter id="cat-stamp" x="-3%" y="-3%" width="106%" height="106%">
-                    <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="7" result="warp" />
-                    <feDisplacementMap in="SourceGraphic" in2="warp" scale="2.6" xChannelSelector="R" yChannelSelector="G" result="d" />
-                    <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="3" result="grit" />
+                    <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="9" result="warp" />
+                    <feDisplacementMap in="SourceGraphic" in2="warp" scale="2.2" xChannelSelector="R" yChannelSelector="G" result="d" />
+                    <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="2" seed="5" result="grit" />
                     <feColorMatrix in="grit" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -12 0 0 0 9.2" result="holes" />
                     <feComposite in="d" in2="holes" operator="in" />
                 </filter>
-                {/* Dark band: charred top edge, soot flecks, ember streak */}
-                <filter id="cat-torn-edge" x="-5%" y="-50%" width="110%" height="200%">
-                    <feTurbulence type="fractalNoise" baseFrequency="0.018 0.22" numOctaves="4" seed="4" result="n" />
-                    <feDisplacementMap in="SourceGraphic" in2="n" scale="26" xChannelSelector="R" yChannelSelector="G" />
-                </filter>
-                <filter id="cat-flecks" x="0" y="0" width="100%" height="100%">
-                    <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="2" seed="11" result="n" />
-                    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  14 0 0 0 -6.3" result="speck" />
-                    <feComposite in="SourceGraphic" in2="speck" operator="in" />
-                </filter>
-                <filter id="cat-streak" x="-5%" y="-300%" width="110%" height="700%">
-                    <feTurbulence type="fractalNoise" baseFrequency="0.03 0.5" numOctaves="3" seed="2" result="n" />
-                    <feDisplacementMap in="SourceGraphic" in2="n" scale="16" xChannelSelector="R" yChannelSelector="G" />
+                <filter id="cat-torn" x="-4%" y="-4%" width="108%" height="108%">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.02 0.08" numOctaves="4" seed="12" result="edge" />
+                    <feDisplacementMap in="SourceGraphic" in2="edge" scale="14" xChannelSelector="R" yChannelSelector="G" />
                 </filter>
             </svg>
 
-            {/* ============ Part 1: event categories (white, rough texture) ============ */}
-            <div className="relative isolate">
+            {/* ============ Part 1: White paper section ============ */}
+            <div className="relative isolate bg-white text-[#0f0f0f]">
                 <div
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0 -z-10 opacity-[0.16] mix-blend-multiply"
@@ -189,15 +175,45 @@ export default function CateringEvents({ quoteHref = "/quote" }: Props) {
                     }}
                 />
 
-                <div className="mx-auto max-w-7xl px-5 pb-20 pt-16 sm:px-8 md:pb-28 md:pt-24">
-                    <h2
-                        className={`${headingFont.className} text-center text-[clamp(3rem,5.2vw,4.5rem)] uppercase leading-none tracking-[0.01em] text-[#D42F16]`}
-                    >
-                        Catering{" "}
-                        <span className={`${ampFont.className} text-[0.8em] font-bold normal-case`}>&amp;</span>{" "}
-                        Events
-                    </h2>
+                <div className="mx-auto max-w-6xl px-5 pb-20 pt-16 sm:px-8 md:pb-28 md:pt-24">
+                    <header className="mx-auto max-w-3xl text-center">
+                        <h2
+                            className={`${displayFont.className} text-[clamp(2.4rem,5.5vw,4.5rem)] uppercase leading-[1.05] tracking-[0.02em]`}
+                            style={{ filter: "url(#cat-stamp)" }}
+                        >
+                            We bring the smoke to your table.
+                        </h2>
 
+                        <p className={`${scriptFont.className} mt-3 text-[clamp(2rem,3.8vw,3.2rem)] leading-none text-[#D42F16]`}>
+                            Smoked slow. Served loud.
+                        </p>
+
+                        <p className="mt-6 text-lg leading-relaxed text-neutral-700 md:text-xl">
+                            From intimate backyard cookouts to full-scale corporate feasts, we slow-smoke barbecue over live hardwood fire and serve it fresh for any crowd.
+                        </p>
+                    </header>
+
+                    {/* How it works */}
+                    <div className="mt-14 border-y border-neutral-300 py-10 md:mt-20 md:py-14">
+                        <h3 className={`${displayFont.className} text-center text-xl uppercase tracking-[0.15em] text-neutral-500`}>
+                            How Catering Works
+                        </h3>
+                        <ol className="mt-8 grid gap-8 sm:grid-cols-3 md:mt-10 md:gap-12">
+                            {STEPS.map((s) => (
+                                <li key={s.n} className="flex flex-col items-center text-center">
+                                    <span className={`${headingFont.className} text-5xl leading-none text-[#D42F16] md:text-6xl`}>
+                                        {s.n}
+                                    </span>
+                                    <h4 className={`${displayFont.className} mt-2 text-xl uppercase tracking-[0.04em]`}>
+                                        {s.title}
+                                    </h4>
+                                    <p className="mt-2 text-sm leading-relaxed text-neutral-600">{s.text}</p>
+                                </li>
+                            ))}
+                        </ol>
+                    </div>
+
+                    {/* Category List */}
                     <div className="mt-14 md:mt-20">
                         {CATEGORIES.map((cat, i) => {
                             const flip = i % 2 === 1;
@@ -206,13 +222,12 @@ export default function CateringEvents({ quoteHref = "/quote" }: Props) {
                                     key={cat.id}
                                     className="relative mb-16 grid items-center last:mb-0 lg:mb-28 lg:grid-cols-12 lg:last:mb-0"
                                 >
-                                    {/* Photo with torn, grimy edges */}
                                     <div
                                         className={`relative aspect-[4/3] sm:aspect-[16/10] lg:col-span-8 lg:row-start-1 ${flip ? "lg:col-start-5" : "lg:col-start-1"
                                             }`}
                                     >
                                         <div className="absolute inset-0" style={{ filter: "url(#cat-torn)" }}>
-                                            {cat.image ? (
+                                            {cat.image && (
                                                 <Image
                                                     src={cat.image.src}
                                                     alt={cat.image.alt}
@@ -220,18 +235,7 @@ export default function CateringEvents({ quoteHref = "/quote" }: Props) {
                                                     sizes="(min-width: 1024px) 66vw, 100vw"
                                                     className="object-cover"
                                                 />
-                                            ) : (
-                                                <div
-                                                    role="img"
-                                                    aria-label={`${cat.title} photo placeholder`}
-                                                    className="flex h-full w-full items-end bg-gradient-to-br from-[#3d2b23] via-[#2a1d18] to-[#15100d] p-6"
-                                                >
-                                                    <span className="text-xs uppercase tracking-[0.2em] text-white/40">
-                                                        Photo: {cat.title}
-                                                    </span>
-                                                </div>
                                             )}
-                                            {/* Dark red grime creeping in from the edges */}
                                             <div
                                                 aria-hidden="true"
                                                 className="absolute inset-0 shadow-[inset_0_0_45px_12px_rgba(70,8,6,0.65)]"
@@ -239,7 +243,6 @@ export default function CateringEvents({ quoteHref = "/quote" }: Props) {
                                         </div>
                                     </div>
 
-                                    {/* Description card */}
                                     <div
                                         className={`relative z-10 -mt-12 mx-4 bg-[#0f0f0f] p-6 text-white sm:mx-8 sm:p-8 lg:mx-0 lg:mt-0 lg:col-span-7 lg:row-start-1 lg:p-9 ${flip ? "lg:col-start-1" : "lg:col-start-6"
                                             }`}
@@ -262,13 +265,14 @@ export default function CateringEvents({ quoteHref = "/quote" }: Props) {
                                             ))}
                                         </ul>
 
-                                        <Link
-                                            href={{ pathname: quoteHref, query: { event: cat.id } }}
+                                        <button
+                                            type="button"
+                                            onClick={() => openQuote(cat.title)}
                                             className={`${displayFont.className} mt-7 inline-flex items-center gap-2 bg-[#D42F16] px-5 py-2.5 text-base uppercase tracking-[0.06em] text-white transition-colors hover:bg-[#B72511] ${focusRing}`}
                                         >
                                             Get a Quote
                                             <Arrow className="h-3.5 w-2.5" />
-                                        </Link>
+                                        </button>
                                     </div>
                                 </article>
                             );
@@ -277,27 +281,23 @@ export default function CateringEvents({ quoteHref = "/quote" }: Props) {
                 </div>
             </div>
 
-            {/* ============ Part 2: "Choose Your Service" Card (inside Catering & Events) ============ */}
-            <div className="relative z-10 mx-auto max-w-6xl px-4 pb-20 pt-8 sm:px-6 md:pb-28">
+            {/* ============ Part 2: "Choose Your Service" Card ============ */}
+            <div className={`${darkBodyFont.className} relative z-10 mx-auto max-w-6xl px-4 pb-20 pt-8 sm:px-6 md:pb-28`}>
                 <div className="relative rounded-sm bg-[#141414] p-4 text-white shadow-2xl sm:p-6 md:p-8">
-                    {/* Inner orange accent border */}
                     <div className="relative rounded-sm border border-[#D42F16]/70 p-5 sm:p-8 md:p-10">
-                        {/* Top title with horizontal lines interrupting border */}
                         <div className="relative -mt-10 mb-8 sm:-mt-13 text-center">
                             <div className="flex items-center justify-center gap-4">
                                 <span className="hidden h-[1px] w-12 bg-[#D42F16]/60 sm:block sm:w-24 md:w-32" />
                                 <span
                                     className={`${ampFont.className} italic bg-[#141414] px-4 text-xl font-bold uppercase tracking-[0.15em] text-white sm:text-2xl md:text-3xl`}
                                 >
-                                    Choose Your Service
+                                    CHOOSE YOUR SERVICE
                                 </span>
                                 <span className="hidden h-[1px] w-12 bg-[#D42F16]/60 sm:block sm:w-24 md:w-32" />
                             </div>
                         </div>
 
-                        {/* 3 Steps / Columns */}
-                        <div className="grid gap-8 md:grid-cols-3 md:gap-0">
-                            {/* 1. Pick-up */}
+                        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-0">
                             <div className="flex flex-col items-center text-center md:px-6 lg:px-8">
                                 <span className={`${displayFont.className} text-2xl font-bold text-[#D42F16] sm:text-3xl`}>
                                     1.
@@ -308,12 +308,8 @@ export default function CateringEvents({ quoteHref = "/quote" }: Props) {
                                 <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-neutral-200 sm:text-sm">
                                     Order and pick up from any of our locations.
                                 </p>
-                                <p className="mt-4 text-[11px] font-bold uppercase tracking-widest text-[#D42F16] sm:text-xs">
-                                    Convenient + Cost-Effective!
-                                </p>
                             </div>
 
-                            {/* 2. Drop-off */}
                             <div className="flex flex-col items-center text-center md:border-x md:border-white/15 md:px-6 lg:px-8">
                                 <span className={`${displayFont.className} text-2xl font-bold text-[#D42F16] sm:text-3xl`}>
                                     2.
@@ -324,12 +320,8 @@ export default function CateringEvents({ quoteHref = "/quote" }: Props) {
                                 <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-neutral-200 sm:text-sm">
                                     Our team will deliver and setup your order.
                                 </p>
-                                <p className="mt-4 text-[11px] font-bold uppercase tracking-widest text-[#D42F16] sm:text-xs">
-                                    No Hassle so you can chill!
-                                </p>
                             </div>
 
-                            {/* 3. Catered */}
                             <div className="flex flex-col items-center text-center md:px-6 lg:px-8">
                                 <span className={`${displayFont.className} text-2xl font-bold text-[#D42F16] sm:text-3xl`}>
                                     3.
@@ -340,13 +332,9 @@ export default function CateringEvents({ quoteHref = "/quote" }: Props) {
                                 <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-neutral-200 sm:text-sm">
                                     Our full service catering. Our team will set up, serve and clean up.
                                 </p>
-                                <p className="mt-4 text-[11px] font-bold uppercase tracking-widest text-[#D42F16] sm:text-xs">
-                                    Don&rsquo;t lift a finger!
-                                </p>
                             </div>
                         </div>
 
-                        {/* Bottom line + phone & CTA row */}
                         <div className="mt-8 border-t border-[#D42F16]/50 pt-6">
                             <div className="flex flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
                                 <div className="flex items-center gap-3">
@@ -362,12 +350,13 @@ export default function CateringEvents({ quoteHref = "/quote" }: Props) {
                                         Order Catering by phone at <a href="tel:+16478898033" className="hover:text-[#D42F16] transition-colors">(647) 889-8033</a>
                                     </span>
                                 </div>
-                                <Link
-                                    href={quoteHref}
+                                <button
+                                    type="button"
+                                    onClick={() => openQuote("Catering Inquiry")}
                                     className={`${displayFont.className} rounded bg-[#D42F16] px-6 py-3 text-base uppercase tracking-[0.06em] text-white transition-colors hover:bg-[#B72511] ${focusRing}`}
                                 >
                                     Inquire for Catering
-                                </Link>
+                                </button>
                             </div>
                         </div>
                     </div>

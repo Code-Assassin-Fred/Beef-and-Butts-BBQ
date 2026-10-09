@@ -4,18 +4,14 @@ import { useState } from "react";
 
 /* ------------------------------ Content ------------------------------ */
 
-// TODO: once the restaurant's street address is known, set MAP_QUERY to it (e.g. "123 Main St, Toronto, ON")
-// and raise MAP_ZOOM (about 15), then put the same address in LOCATION below.
 const MAP_QUERY = "Ontario, Canada";
 const MAP_ZOOM = 6;
 
-// TODO: replace the placeholder email with the real address.
 const EMAIL = "hello@beefnbuttsbbq.com";
 const PHONE_DISPLAY = "+1 647 889-8033";
 const PHONE_HREF = "tel:+16478898033";
 const LOCATION = "Ontario, Canada";
 
-// TODO: WhatsApp link in international format, digits only (wa.me/<number>). Assumes the same number as the phone.
 const DEFAULT_WHATSAPP = "https://wa.me/16478898033";
 
 /* ------------------------------- Icons ------------------------------- */
@@ -60,15 +56,45 @@ type Props = {
 };
 
 export default function Contact({ whatsappHref = DEFAULT_WHATSAPP }: Props) {
-    // The embedded map ignores the page scroll until the visitor clicks it (stops accidental zooming).
     const [mapActive, setMapActive] = useState(false);
-    const [sent, setSent] = useState(false);
+    const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(MAP_QUERY)}&z=${MAP_ZOOM}&output=embed`;
 
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setStatus("sending");
+        setErrorMessage("");
+
+        const formData = new FormData(e.currentTarget);
+        const name = formData.get("name") as string;
+        const email = formData.get("email") as string;
+        const message = formData.get("message") as string;
+
+        try {
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, message }),
+            });
+
+            if (res.ok) {
+                setStatus("sent");
+                (e.target as HTMLFormElement).reset();
+            } else {
+                const data = await res.json();
+                setStatus("error");
+                setErrorMessage(data.error || "Failed to send message. Please try again.");
+            }
+        } catch {
+            setStatus("error");
+            setErrorMessage("Network error. Please try again.");
+        }
+    };
+
     return (
         <section aria-label="Contact">
-            {/* ===== 1. Details (20%) + Map (80%) ===== */}
             <div className="grid bg-white lg:grid-cols-[20%_80%]">
                 <div className="flex flex-col justify-center gap-7 px-6 py-10 sm:px-10 lg:px-8 lg:py-0">
                     <div>
@@ -123,10 +149,8 @@ export default function Contact({ whatsappHref = DEFAULT_WHATSAPP }: Props) {
                 </div>
             </div>
 
-            {/* ===== 2. Get in touch ===== */}
             <div className="bg-[#F1F1EF] text-black">
                 <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 md:px-10 md:py-16 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.6fr)] lg:gap-14">
-                    {/* Left: copy */}
                     <div>
                         <h2 className="text-[clamp(2rem,3.2vw,2.75rem)] font-bold leading-[1.05] tracking-tight">
                             Get in Touch
@@ -157,15 +181,7 @@ export default function Contact({ whatsappHref = DEFAULT_WHATSAPP }: Props) {
                         </a>
                     </div>
 
-                    {/* Right: form */}
-                    <form
-                        className="flex flex-col"
-                        onSubmit={(e) => {
-                            e.preventDefault();
-                            // TODO: wire to the real endpoint (API route, Formspree, Resend, etc.).
-                            setSent(true);
-                        }}
-                    >
+                    <form className="flex flex-col" onSubmit={handleSubmit}>
                         <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
                             <label className="block">
                                 <span className="text-sm font-bold">Name</span>
@@ -202,15 +218,20 @@ export default function Contact({ whatsappHref = DEFAULT_WHATSAPP }: Props) {
                             />
                         </label>
 
+                        {status === "error" && (
+                            <p className="mt-3 text-sm text-red-600 font-semibold">{errorMessage}</p>
+                        )}
+
                         <div className="mt-6 flex flex-col items-end gap-3">
                             <button
                                 type="submit"
-                                className="rounded-lg bg-black px-9 py-3.5 text-lg font-bold text-white shadow-[0_4px_12px_rgba(0,0,0,0.22)] ring-4 ring-white/70 transition-colors hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[6px] focus-visible:outline-black"
+                                disabled={status === "sending"}
+                                className="rounded-lg bg-black px-9 py-3.5 text-lg font-bold text-white shadow-[0_4px_12px_rgba(0,0,0,0.22)] ring-4 ring-white/70 transition-colors hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[6px] focus-visible:outline-black disabled:opacity-50"
                             >
-                                Send message
+                                {status === "sending" ? "Sending..." : "Send message"}
                             </button>
-                            <p role="status" aria-live="polite" className="min-h-5 text-sm text-neutral-700">
-                                {sent ? "Thanks, we'll reply within 24 hours." : ""}
+                            <p role="status" aria-live="polite" className="min-h-5 text-sm text-neutral-700 font-medium">
+                                {status === "sent" ? "Thanks! Your message has been sent." : ""}
                             </p>
                         </div>
                     </form>
