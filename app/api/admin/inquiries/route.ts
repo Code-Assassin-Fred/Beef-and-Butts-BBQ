@@ -19,13 +19,20 @@ export async function GET() {
 export async function PATCH(req: Request) {
     try {
         const body = await req.json();
-        const { id, status } = body;
+        const { id, status, isRead } = body;
 
-        if (!id || !status) {
-            return NextResponse.json({ error: "ID and status are required." }, { status: 400 });
+        if (!id) {
+            return NextResponse.json({ error: "ID is required." }, { status: 400 });
         }
 
-        await adminDb.collection("inquiries").doc(id).update({ status });
+        const updateData: Record<string, any> = {};
+        if (status !== undefined) updateData.status = status;
+        if (isRead !== undefined) {
+            updateData.isRead = isRead;
+            updateData.status = isRead ? "read" : "unread";
+        }
+
+        await adminDb.collection("inquiries").doc(id).update(updateData);
         return NextResponse.json({ success: true, message: "Inquiry status updated" });
     } catch (error) {
         console.error("Error updating inquiry status:", error);

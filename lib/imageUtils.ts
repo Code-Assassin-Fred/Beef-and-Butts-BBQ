@@ -75,7 +75,7 @@ export async function compressImageToBase64(
  */
 export function normalizeImageBase64(
     base64String: string,
-    maxSizeKB: number = 700
+    maxSizeKB: number = 2000
 ): string {
     if (!base64String || typeof base64String !== "string") {
         return "";

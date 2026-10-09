@@ -303,16 +303,13 @@ export default function AdminDashboard() {
             <header className="bg-[#111827] border-b border-slate-800 px-6 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <span className={`${scriptFont.className} text-[#FF8A3D] text-3xl`}>Beef N' Butts</span>
-                    <span className={`${displayFont.className} text-xs tracking-widest text-white bg-[#FF8A3D]/20 border border-[#FF8A3D]/50 px-2 py-0.5 rounded`}>
-                        ADMIN PANEL
-                    </span>
                 </div>
 
                 <div className="flex items-center gap-4">
                     <span className="text-xs text-slate-400 hidden sm:inline">{user.email}</span>
                     <button
                         onClick={handleLogout}
-                        className="text-xs bg-red-600/20 text-red-400 hover:bg-red-600/30 border border-red-500/40 px-3 py-1.5 rounded transition-colors"
+                        className="text-xs bg-[#dc2626] hover:bg-[#b91c1c] text-white font-bold px-4 py-1.5 rounded-lg transition-colors cursor-pointer shadow-sm border-none"
                     >
                         Sign Out
                     </button>
@@ -562,18 +559,30 @@ export default function AdminDashboard() {
 
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                                 {galleryPhotos.map((photo) => (
-                                    <div key={photo.id} className="relative group aspect-square rounded-xl overflow-hidden bg-slate-900 border border-slate-800">
+                                    <div key={photo.id} className="relative aspect-square rounded-xl overflow-hidden bg-slate-900 border border-slate-800 shadow-md">
                                         <Image
                                             src={photo.src || photo.imageBase64}
                                             alt={photo.caption || "Gallery"}
                                             fill
                                             className="object-cover"
                                         />
-                                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity p-3 flex flex-col justify-between">
-                                            <p className="text-xs text-white font-bold">{photo.caption}</p>
+                                        {/* Subtle top & bottom shadow gradient for legibility */}
+                                        <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/70 via-transparent to-black/75" />
+
+                                        {/* Caption Label - Always Visible */}
+                                        {photo.caption && (
+                                            <div className="absolute top-2 left-2 right-2 pointer-events-none">
+                                                <span className="inline-block bg-black/80 backdrop-blur-xs text-white text-[11px] font-bold px-2.5 py-1 rounded-md shadow border border-white/10 max-w-full truncate">
+                                                    {photo.caption}
+                                                </span>
+                                            </div>
+                                        )}
+
+                                        {/* Delete Button - Always Visible */}
+                                        <div className="absolute bottom-2 right-2">
                                             <button
                                                 onClick={() => handleDeleteGallery(photo.id)}
-                                                className="text-xs bg-red-600 text-white py-1 px-2 rounded self-end"
+                                                className="bg-[#dc2626] hover:bg-[#b91c1c] text-white text-xs font-bold py-1.5 px-3 rounded-md shadow transition-colors cursor-pointer"
                                             >
                                                 Delete
                                             </button>
