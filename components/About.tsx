@@ -97,7 +97,7 @@ export default function About({
                     <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-black/80" />
                 </div>
 
-                <div className="mx-auto w-full max-w-7xl px-6 py-28 text-center sm:px-10 md:py-40">
+                <div className="mx-auto w-full max-w-7xl px-6 pt-36 pb-28 text-center sm:px-10 sm:pt-48 md:pb-40 lg:pt-56">
                     <h1
                         id="about-heading"
                         className={`${displayFont.className} text-[clamp(1.9rem,4.2vw,4rem)] uppercase leading-[1.05] tracking-[0.02em] md:whitespace-nowrap`}
