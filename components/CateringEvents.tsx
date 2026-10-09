@@ -208,7 +208,7 @@ export default function CateringEvents({ quoteHref = "/quote" }: Props) {
                                 >
                                     {/* Photo with torn, grimy edges */}
                                     <div
-                                        className={`relative aspect-[4/3] sm:aspect-[16/10] lg:col-span-7 lg:row-start-1 ${flip ? "lg:col-start-6" : "lg:col-start-1"
+                                        className={`relative aspect-[4/3] sm:aspect-[16/10] lg:col-span-8 lg:row-start-1 ${flip ? "lg:col-start-5" : "lg:col-start-1"
                                             }`}
                                     >
                                         <div className="absolute inset-0" style={{ filter: "url(#cat-torn)" }}>
@@ -241,7 +241,7 @@ export default function CateringEvents({ quoteHref = "/quote" }: Props) {
 
                                     {/* Description card */}
                                     <div
-                                        className={`relative z-10 -mt-12 mx-4 bg-[#0f0f0f] p-6 text-white sm:mx-8 sm:p-8 lg:mx-0 lg:mt-0 lg:col-span-7 lg:row-start-1 lg:p-9 ${flip ? "lg:col-start-1 lg:translate-y-6" : "lg:col-start-6 lg:translate-y-6"
+                                        className={`relative z-10 -mt-12 mx-4 bg-[#0f0f0f] p-6 text-white sm:mx-8 sm:p-8 lg:mx-0 lg:mt-0 lg:col-span-7 lg:row-start-1 lg:p-9 ${flip ? "lg:col-start-1" : "lg:col-start-6"
                                             }`}
                                     >
                                         <h3
