@@ -6,6 +6,7 @@ import Menu from "@/components/Menu";
 import CateringEvents from "@/components/CateringEvents";
 import About from "@/components/About";
 import OrderBanner from "@/components/OrderBanner";
+import Contact from "@/components/Contact";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <CateringEvents />
       <About />
       <OrderBanner />
+      <Contact />
     </main>
   );
 }
