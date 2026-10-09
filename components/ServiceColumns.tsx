@@ -49,11 +49,10 @@ const columns: Column[] = [
             <>
                 Backyard cookouts, office lunches, big celebrations.{" "}
                 <strong className="font-bold">We bring the pit to your party</strong>{" "}
-                with platters, party trays and full-service spreads. Looking for
-                something more intimate? Ask about our six-seat Smoke Sessions.
+                with platters, party trays and full-service spreads.
             </>
         ),
-        cta: { label: "Request a catering quote", href: "/catering" },
+        cta: { label: "View options", href: "/catering" },
     },
 ];
 

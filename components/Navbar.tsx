@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Jost, Kaushan_Script } from "next/font/google";
 
 // Nav font: Jost (geometric uppercase sans, same look as shortys.com nav)
@@ -86,16 +86,33 @@ function Logo() {
 export default function Navbar() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 50);
+        };
+        // Check initial scroll position (e.g. after refresh mid-page)
+        handleScroll();
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     return (
         <header
-            className={`${jost.className} absolute inset-x-0 top-0 z-50 border-b border-white/10 bg-transparent text-white`}
+            className={`${jost.className} inset-x-0 top-0 z-50 text-white transition-all duration-300 ${
+                scrolled
+                    ? "fixed border-b border-white/10 bg-black/80 shadow-lg backdrop-blur-md"
+                    : "absolute border-b border-white/10 bg-transparent"
+            }`}
         >
             {/* Soft top shade so the transparent nav stays readable over bright footage */}
-            <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-black/80 via-black/40 to-transparent"
-            />
+            {!scrolled && (
+                <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-black/80 via-black/40 to-transparent"
+                />
+            )}
 
             <div className="mx-auto flex h-[90px] items-center px-6 lg:h-[120px] lg:px-[5.7vw]">
                 <Logo />
