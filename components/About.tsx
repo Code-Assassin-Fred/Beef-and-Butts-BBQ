@@ -81,7 +81,7 @@ export default function About({
           section slides up and covers it. Works on iOS too (unlike background-attachment: fixed). */}
             <section
                 aria-labelledby="about-heading"
-                className={`${bodyFont.className} relative isolate flex min-h-[100svh] items-center bg-[#0a0a0a] text-white`}
+                className={`${bodyFont.className} relative isolate bg-[#0a0a0a] text-white`}
                 style={{ clipPath: "inset(0)" }}
             >
                 <div aria-hidden="false" className="fixed inset-0 -z-10 motion-reduce:absolute">
@@ -97,7 +97,7 @@ export default function About({
                     <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-black/80" />
                 </div>
 
-                <div className="mx-auto w-full max-w-7xl px-6 py-28 text-center sm:px-10 md:py-40">
+                <div className="mx-auto w-full max-w-7xl px-6 pt-14 pb-20 text-center sm:px-10 md:pt-20 md:pb-28">
                     <h1
                         id="about-heading"
                         className={`${displayFont.className} text-[clamp(1.9rem,4.2vw,4rem)] uppercase leading-[1.05] tracking-[0.02em] md:whitespace-nowrap`}
@@ -134,7 +134,7 @@ export default function About({
                     }}
                 />
 
-                <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 md:py-24">
+                <div className="mx-auto max-w-7xl px-5 pt-10 pb-16 sm:px-8 md:pt-14 md:pb-24">
                     <header className="mx-auto max-w-2xl text-center">
                         <h2
                             id="gallery-heading"

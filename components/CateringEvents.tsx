@@ -279,9 +279,9 @@ export default function CateringEvents({ quoteHref = "/quote" }: Props) {
 
             {/* ============ Part 2: "Choose Your Service" Card (inside Catering & Events) ============ */}
             <div className="relative z-10 mx-auto max-w-6xl px-4 pb-20 pt-8 sm:px-6 md:pb-28">
-                <div className="relative rounded-2xl bg-[#141414] p-4 text-white shadow-2xl sm:p-6 md:p-8">
+                <div className="relative rounded-sm bg-[#141414] p-4 text-white shadow-2xl sm:p-6 md:p-8">
                     {/* Inner orange accent border */}
-                    <div className="relative rounded-xl border border-[#D42F16]/70 p-5 sm:p-8 md:p-10">
+                    <div className="relative rounded-sm border border-[#D42F16]/70 p-5 sm:p-8 md:p-10">
                         {/* Top title with horizontal lines interrupting border */}
                         <div className="relative -mt-10 mb-8 sm:-mt-13 text-center">
                             <div className="flex items-center justify-center gap-4">
@@ -359,7 +359,7 @@ export default function CateringEvents({ quoteHref = "/quote" }: Props) {
                                         <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
                                     </svg>
                                     <span className="text-sm font-bold text-white sm:text-base md:text-lg">
-                                        Order Catering by phone at <a href="tel:2407070858" className="hover:text-[#D42F16] transition-colors">(240) 707-0858</a>
+                                        Order Catering by phone at <a href="tel:+16478898033" className="hover:text-[#D42F16] transition-colors">(647) 889-8033</a>
                                     </span>
                                 </div>
                                 <Link

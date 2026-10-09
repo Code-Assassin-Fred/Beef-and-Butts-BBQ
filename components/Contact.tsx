@@ -150,7 +150,7 @@ export default function Contact({ whatsappHref = DEFAULT_WHATSAPP }: Props) {
                             href={whatsappHref}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="mt-7 inline-flex items-center gap-2.5 rounded-full bg-[#25D366] px-6 py-3 text-base font-bold text-white transition-colors hover:bg-[#1FB858] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#25D366]"
+                            className="mt-7 inline-flex items-center gap-2 text-base font-bold text-[#25D366] transition-colors hover:text-[#1FB858] hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]"
                         >
                             <ChatIcon />
                             Chat with us on WhatsApp
@@ -203,10 +203,9 @@ export default function Contact({ whatsappHref = DEFAULT_WHATSAPP }: Props) {
                         </label>
 
                         <div className="mt-6 flex flex-col items-end gap-3">
-                            {/* Only the colour differs from the reference: hickory brown instead of navy. */}
                             <button
                                 type="submit"
-                                className="rounded-lg bg-[#5A2E1A] px-9 py-3.5 text-lg font-bold text-white shadow-[0_4px_12px_rgba(0,0,0,0.22)] ring-4 ring-white/70 transition-colors hover:bg-[#46230F] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[6px] focus-visible:outline-[#5A2E1A]"
+                                className="rounded-lg bg-black px-9 py-3.5 text-lg font-bold text-white shadow-[0_4px_12px_rgba(0,0,0,0.22)] ring-4 ring-white/70 transition-colors hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[6px] focus-visible:outline-black"
                             >
                                 Send message
                             </button>

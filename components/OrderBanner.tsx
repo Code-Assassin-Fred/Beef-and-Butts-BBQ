@@ -51,7 +51,7 @@ export default function OrderBanner({
                         className={`${displayFont.className} text-[clamp(2.2rem,5.2vw,4.5rem)] uppercase leading-[1.05] tracking-[0.03em]`}
                         style={{ filter: "url(#banner-stamp)" }}
                     >
-                        Hot off the pit.{" "}
+                        Hot off the smoker.{" "}
                         <span className="inline-block -skew-x-12 text-[#FFD9B8]">At your door.</span>
                     </h2>
 
