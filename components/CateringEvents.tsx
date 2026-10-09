@@ -40,7 +40,7 @@ const CATEGORIES: Category[] = [
             "Conferences & trade shows",
             "Grand openings",
         ],
-        // image: { src: "/images/catering/corporate.jpg", alt: "Smoked BBQ trays set up for an office lunch" },
+        image: { src: "/Assets/sliced-brisket-with-greens.jpg", alt: "Sliced smoked brisket with fresh greens" },
     },
     {
         id: "weddings",
@@ -55,6 +55,7 @@ const CATEGORIES: Category[] = [
             "Anniversaries",
             "Graduations",
         ],
+        image: { src: "/Assets/glazed-bbq-chicken.jpg", alt: "Glazed BBQ chicken platter" },
     },
     {
         id: "family",
@@ -68,6 +69,7 @@ const CATEGORIES: Category[] = [
             "Holiday gatherings",
             "Game day & watch parties",
         ],
+        image: { src: "/Assets/bbq-ribs-with-bhajia.jpg", alt: "BBQ ribs with bhajia" },
     },
     {
         id: "community",
@@ -75,6 +77,7 @@ const CATEGORIES: Category[] = [
         description:
             "School and church events, charity fundraisers, festivals and markets. Outdoor-ready BBQ that feeds a crowd and keeps the line moving.",
         groups: ["School & church events", "Charity fundraisers", "Festivals & markets"],
+        image: { src: "/Assets/seasoned-rib-racks-raw.jpg", alt: "Seasoned rib racks ready for the smoker" },
     },
 ];
 
@@ -205,7 +208,7 @@ export default function CateringEvents({ quoteHref = "/quote" }: Props) {
                                 >
                                     {/* Photo with torn, grimy edges */}
                                     <div
-                                        className={`relative aspect-[4/3] sm:aspect-[16/10] lg:col-span-8 lg:row-start-1 ${flip ? "lg:col-start-5" : "lg:col-start-1"
+                                        className={`relative aspect-[4/3] sm:aspect-[16/10] lg:col-span-7 lg:row-start-1 ${flip ? "lg:col-start-6" : "lg:col-start-1"
                                             }`}
                                     >
                                         <div className="absolute inset-0" style={{ filter: "url(#cat-torn)" }}>
@@ -238,7 +241,7 @@ export default function CateringEvents({ quoteHref = "/quote" }: Props) {
 
                                     {/* Description card */}
                                     <div
-                                        className={`relative z-10 -mt-12 mx-4 bg-[#0f0f0f] p-7 text-white sm:mx-8 sm:p-10 lg:mx-0 lg:mt-0 lg:col-span-6 lg:row-start-1 lg:p-12 ${flip ? "lg:col-start-1 lg:-translate-y-8" : "lg:col-start-7 lg:translate-y-10"
+                                        className={`relative z-10 -mt-12 mx-4 bg-[#0f0f0f] p-6 text-white sm:mx-8 sm:p-8 lg:mx-0 lg:mt-0 lg:col-span-7 lg:row-start-1 lg:p-9 ${flip ? "lg:col-start-1 lg:translate-y-6" : "lg:col-start-6 lg:translate-y-6"
                                             }`}
                                     >
                                         <h3
@@ -261,10 +264,10 @@ export default function CateringEvents({ quoteHref = "/quote" }: Props) {
 
                                         <Link
                                             href={{ pathname: quoteHref, query: { event: cat.id } }}
-                                            className={`${displayFont.className} mt-9 inline-flex items-center gap-3 bg-[#D42F16] px-7 py-4 text-xl uppercase tracking-[0.06em] text-white transition-colors hover:bg-[#B72511] ${focusRing}`}
+                                            className={`${displayFont.className} mt-7 inline-flex items-center gap-2 bg-[#D42F16] px-5 py-2.5 text-base uppercase tracking-[0.06em] text-white transition-colors hover:bg-[#B72511] ${focusRing}`}
                                         >
                                             Get a Quote
-                                            <Arrow className="h-4 w-3" />
+                                            <Arrow className="h-3.5 w-2.5" />
                                         </Link>
                                     </div>
                                 </article>
