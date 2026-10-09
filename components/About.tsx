@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { Anton, Jost } from "next/font/google";
 
 const displayFont = Anton({ subsets: ["latin"], weight: "400", display: "swap" });
@@ -122,24 +123,35 @@ export default function About({
                     <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-black/80" />
                 </div>
 
-                <div className="mx-auto w-full max-w-7xl px-6 pt-14 pb-20 text-center sm:px-10 md:pt-20 md:pb-28">
-                    <h1
+                <div className="mx-auto w-full max-w-7xl px-4 pt-12 pb-16 text-center sm:px-10 md:pt-20 md:pb-28">
+                    <motion.h1
                         id="about-heading"
-                        className={`${displayFont.className} text-[clamp(1.9rem,4.2vw,4rem)] uppercase leading-[1.05] tracking-[0.02em] md:whitespace-nowrap`}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7 }}
+                        className={`${displayFont.className} text-[clamp(1.75rem,4.2vw,4rem)] uppercase leading-[1.08] sm:leading-[1.05] tracking-[0.02em] md:whitespace-nowrap`}
                         style={{ filter: "url(#about-stamp)" }}
                     >
                         Smoked slow. Served with{" "}
-                        <span className="relative inline-block text-[#FF8A3D] after:absolute after:inset-x-0 after:-bottom-2 after:h-[3px] after:bg-[#FF8A3D]">
+                        <span className="relative inline-block text-[#FF8A3D] after:absolute after:inset-x-0 after:-bottom-1.5 sm:after:-bottom-2 after:h-[3px] after:bg-[#FF8A3D]">
                             swagger
                         </span>
                         .
-                    </h1>
+                    </motion.h1>
 
-                    <div className="mt-14 space-y-8 text-[clamp(1.1rem,1.8vw,1.6rem)] leading-[1.6] [text-shadow:0_2px_14px_rgba(0,0,0,0.7)] md:mt-16 md:space-y-10">
-                        {PARAGRAPHS.map((p) => (
-                            <p key={p} className="mx-auto max-w-6xl text-white/95">
+                    <div className="mt-10 sm:mt-14 space-y-6 sm:space-y-8 text-[clamp(1rem,1.8vw,1.6rem)] leading-[1.65] [text-shadow:0_2px_14px_rgba(0,0,0,0.7)] md:mt-16 md:space-y-10">
+                        {PARAGRAPHS.map((p, i) => (
+                            <motion.p
+                                key={p}
+                                initial={{ opacity: 0, y: 25 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, delay: i * 0.15 }}
+                                className="mx-auto max-w-6xl text-white/95"
+                            >
                                 {p}
-                            </p>
+                            </motion.p>
                         ))}
                     </div>
                 </div>
@@ -159,40 +171,52 @@ export default function About({
                     }}
                 />
 
-                <div className="mx-auto max-w-7xl px-5 pt-10 pb-16 sm:px-8 md:pt-14 md:pb-24">
-                    <header className="mx-auto max-w-2xl text-center">
+                <div className="mx-auto max-w-7xl px-4 pt-10 pb-16 sm:px-8 md:pt-14 md:pb-24">
+                    <motion.header
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7 }}
+                        className="mx-auto max-w-2xl text-center"
+                    >
                         <h2
                             id="gallery-heading"
-                            className={`${displayFont.className} text-[clamp(2.2rem,5vw,4rem)] uppercase leading-[1.05] tracking-[0.02em] text-[#0f0f0f]`}
+                            className={`${displayFont.className} text-[clamp(2rem,5vw,4rem)] uppercase leading-[1.05] tracking-[0.02em] text-[#0f0f0f]`}
                             style={{ filter: "url(#about-stamp)" }}
                         >
                             {GALLERY_TITLE}
                         </h2>
-                        <p className="mt-5 text-lg leading-relaxed text-neutral-700 md:text-xl">{GALLERY_TEXT}</p>
-                    </header>
+                        <p className="mt-4 sm:mt-5 text-base sm:text-lg leading-relaxed text-neutral-700 md:text-xl">{GALLERY_TEXT}</p>
+                    </motion.header>
 
-                    <ul className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 md:mt-16">
+                    <ul className="mt-10 sm:mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 md:mt-16">
                         {gallery.map((item, index) => (
-                            <li key={item.id || `${item.src}-${index}`}>
+                            <motion.li
+                                key={item.id || `${item.src}-${index}`}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, margin: "-40px" }}
+                                transition={{ duration: 0.5, delay: (index % 4) * 0.1 }}
+                            >
                                 <figure className="group relative aspect-[4/5] overflow-hidden rounded-[2px] bg-[#0f0f0f] shadow-[0_10px_30px_-12px_rgba(0,0,0,0.45)] ring-1 ring-black/10">
                                     <Image
                                         src={item.src}
                                         alt={item.alt}
                                         fill
                                         sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-                                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-300 group-hover:opacity-90" />
 
-                                    <figcaption className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+                                    <figcaption className="absolute inset-x-0 bottom-0 p-4 sm:p-6">
                                         <span
-                                            className={`${displayFont.className} block text-[1.6rem] uppercase leading-tight tracking-[0.04em] text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.7)] sm:text-[1.75rem]`}
+                                            className={`${displayFont.className} block text-[1.4rem] sm:text-[1.6rem] uppercase leading-tight tracking-[0.04em] text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.7)] lg:text-[1.75rem]`}
                                         >
                                             {item.name}
                                         </span>
                                     </figcaption>
                                 </figure>
-                            </li>
+                            </motion.li>
                         ))}
                     </ul>
                 </div>

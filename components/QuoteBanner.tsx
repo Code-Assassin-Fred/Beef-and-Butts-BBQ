@@ -1,4 +1,7 @@
+"use client";
+
 import { Anton } from "next/font/google";
+import { motion } from "framer-motion";
 
 // Condensed, heavy stamp-style display face (self-hosted by next/font)
 const anton = Anton({ subsets: ["latin"], weight: "400", display: "swap" });
@@ -70,8 +73,13 @@ export default function QuoteBanner() {
                 />
             </div>
 
-            <div className="mx-auto max-w-6xl px-6 pb-20 pt-28 text-center sm:pb-24 sm:pt-32 md:pb-28">
-                <blockquote>
+            <div className="mx-auto max-w-6xl px-4 sm:px-6 pb-16 pt-20 sm:pb-24 sm:pt-32 md:pb-28 text-center">
+                <motion.blockquote
+                    initial={{ opacity: 0, scale: 0.95, y: 25 }}
+                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                >
                     <p
                         className={`${anton.className} text-balance uppercase leading-[1.08] tracking-[0.04em] text-[#EEEBDC] text-[clamp(1.9rem,5.6vw,4.4rem)]`}
                         style={{ filter: "url(#stamp-rough)" }}
@@ -79,7 +87,7 @@ export default function QuoteBanner() {
                         &ldquo;Fire, smoke, and zero apologies.
                         <br className="hidden sm:block" /> Welcome to the pit.&rdquo;
                     </p>
-                </blockquote>
+                </motion.blockquote>
             </div>
         </section>
     );

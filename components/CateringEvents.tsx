@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import {
     Anton,
     Jost,
@@ -175,65 +176,82 @@ export default function CateringEvents() {
                     }}
                 />
 
-                <div className="mx-auto max-w-6xl px-5 pb-20 pt-16 sm:px-8 md:pb-28 md:pt-24">
-                    <header className="mx-auto max-w-3xl text-center">
+                <div className="mx-auto max-w-6xl px-4 sm:px-8 pb-16 pt-12 sm:pb-20 sm:pt-16 md:pb-28 md:pt-24">
+                    <motion.header
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7 }}
+                        className="mx-auto max-w-3xl text-center"
+                    >
                         <h2
-                            className={`${displayFont.className} text-[clamp(2.4rem,5.5vw,4.5rem)] uppercase leading-[1.05] tracking-[0.02em]`}
+                            className={`${displayFont.className} text-[clamp(2.2rem,5.5vw,4.5rem)] uppercase leading-[1.05] tracking-[0.02em]`}
                             style={{ filter: "url(#cat-stamp)" }}
                         >
                             We bring the smoke to your table.
                         </h2>
 
-                        <p className={`${scriptFont.className} mt-3 text-[clamp(2rem,3.8vw,3.2rem)] leading-none text-[#D42F16]`}>
+                        <p className={`${scriptFont.className} mt-3 text-[clamp(1.8rem,3.8vw,3.2rem)] leading-none text-[#D42F16]`}>
                             Smoked slow. Served loud.
                         </p>
 
-                        <p className="mt-6 text-lg leading-relaxed text-neutral-700 md:text-xl">
+                        <p className="mt-5 sm:mt-6 text-base sm:text-lg leading-relaxed text-neutral-700 md:text-xl">
                             From intimate backyard cookouts to full-scale corporate feasts, we slow-smoke barbecue over live hardwood fire and serve it fresh for any crowd.
                         </p>
-                    </header>
+                    </motion.header>
 
                     {/* How it works */}
-                    <div className="mt-14 border-y border-neutral-300 py-10 md:mt-20 md:py-14">
-                        <h3 className={`${displayFont.className} text-center text-xl uppercase tracking-[0.15em] text-neutral-500`}>
+                    <div className="mt-12 sm:mt-14 border-y border-neutral-300 py-8 sm:py-10 md:mt-20 md:py-14">
+                        <h3 className={`${displayFont.className} text-center text-lg sm:text-xl uppercase tracking-[0.15em] text-neutral-500`}>
                             How Catering Works
                         </h3>
-                        <ol className="mt-8 grid gap-8 sm:grid-cols-3 md:mt-10 md:gap-12">
-                            {STEPS.map((s) => (
-                                <li key={s.n} className="flex flex-col items-center text-center">
-                                    <span className={`${headingFont.className} text-5xl leading-none text-[#D42F16] md:text-6xl`}>
+                        <ol className="mt-6 sm:mt-8 grid gap-8 sm:grid-cols-3 md:mt-10 md:gap-12">
+                            {STEPS.map((s, idx) => (
+                                <motion.li
+                                    key={s.n}
+                                    initial={{ opacity: 0, y: 25 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: idx * 0.15 }}
+                                    className="flex flex-col items-center text-center"
+                                >
+                                    <span className={`${headingFont.className} text-4xl sm:text-5xl leading-none text-[#D42F16] md:text-6xl`}>
                                         {s.n}
                                     </span>
-                                    <h4 className={`${displayFont.className} mt-2 text-xl uppercase tracking-[0.04em]`}>
+                                    <h4 className={`${displayFont.className} mt-2 text-lg sm:text-xl uppercase tracking-[0.04em]`}>
                                         {s.title}
                                     </h4>
-                                    <p className="mt-2 text-sm leading-relaxed text-neutral-600">{s.text}</p>
-                                </li>
+                                    <p className="mt-2 text-xs sm:text-sm leading-relaxed text-neutral-600">{s.text}</p>
+                                </motion.li>
                             ))}
                         </ol>
                     </div>
 
                     {/* Category List */}
-                    <div className="mt-14 md:mt-20">
+                    <div className="mt-12 sm:mt-14 md:mt-20">
                         {CATEGORIES.map((cat, i) => {
                             const flip = i % 2 === 1;
                             return (
-                                <article
+                                <motion.article
                                     key={cat.id}
-                                    className="relative mb-16 grid items-center last:mb-0 lg:mb-28 lg:grid-cols-12 lg:last:mb-0"
+                                    initial={{ opacity: 0, y: 40 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, margin: "-60px" }}
+                                    transition={{ duration: 0.75, ease: "easeOut" }}
+                                    className="relative mb-12 sm:mb-16 grid items-center last:mb-0 lg:mb-28 lg:grid-cols-12 lg:last:mb-0"
                                 >
                                     <div
                                         className={`relative aspect-[4/3] sm:aspect-[16/10] lg:col-span-8 lg:row-start-1 ${flip ? "lg:col-start-5" : "lg:col-start-1"
                                             }`}
                                     >
-                                        <div className="absolute inset-0" style={{ filter: "url(#cat-torn)" }}>
+                                        <div className="absolute inset-0 overflow-hidden" style={{ filter: "url(#cat-torn)" }}>
                                             {cat.image && (
                                                 <Image
                                                     src={cat.image.src}
                                                     alt={cat.image.alt}
                                                     fill
                                                     sizes="(min-width: 1024px) 66vw, 100vw"
-                                                    className="object-cover"
+                                                    className="object-cover transition-transform duration-700 hover:scale-105"
                                                 />
                                             )}
                                             <div
@@ -244,37 +262,39 @@ export default function CateringEvents() {
                                     </div>
 
                                     <div
-                                        className={`relative z-10 -mt-12 mx-4 bg-[#0f0f0f] p-6 text-white sm:mx-8 sm:p-8 lg:mx-0 lg:mt-0 lg:col-span-7 lg:row-start-1 lg:p-9 ${flip ? "lg:col-start-1" : "lg:col-start-6"
+                                        className={`relative z-10 -mt-8 sm:-mt-12 mx-3 sm:mx-8 bg-[#0f0f0f] p-5 sm:p-8 text-white lg:mx-0 lg:mt-0 lg:col-span-7 lg:row-start-1 lg:p-9 rounded-sm shadow-xl ${flip ? "lg:col-start-1" : "lg:col-start-6"
                                             }`}
                                     >
                                         <h3
-                                            className={`${displayFont.className} text-[clamp(2rem,3.6vw,3.25rem)] uppercase leading-[1.05] tracking-[0.02em]`}
+                                            className={`${displayFont.className} text-[clamp(1.75rem,3.6vw,3.25rem)] uppercase leading-[1.05] tracking-[0.02em]`}
                                             style={{ filter: "url(#cat-stamp)" }}
                                         >
                                             {cat.title}
                                         </h3>
 
-                                        <p className="mt-5 text-lg leading-relaxed text-neutral-200">{cat.description}</p>
+                                        <p className="mt-4 sm:mt-5 text-base sm:text-lg leading-relaxed text-neutral-200">{cat.description}</p>
 
-                                        <ul className="mt-6 grid gap-x-8 gap-y-2 text-[0.95rem] text-neutral-400 sm:grid-cols-2">
+                                        <ul className="mt-5 sm:mt-6 grid gap-x-8 gap-y-2 text-xs sm:text-[0.95rem] text-neutral-400 sm:grid-cols-2">
                                             {cat.groups.map((g) => (
-                                                <li key={g} className="flex items-start gap-3">
-                                                    <span aria-hidden="true" className="mt-[0.6rem] h-[3px] w-3 shrink-0 bg-[#D42F16]" />
+                                                <li key={g} className="flex items-start gap-2.5 sm:gap-3">
+                                                    <span aria-hidden="true" className="mt-[0.5rem] h-[3px] w-2.5 sm:w-3 shrink-0 bg-[#D42F16]" />
                                                     {g}
                                                 </li>
                                             ))}
                                         </ul>
 
-                                        <button
+                                        <motion.button
+                                            whileHover={{ scale: 1.03 }}
+                                            whileTap={{ scale: 0.97 }}
                                             type="button"
                                             onClick={() => openQuote(cat.title)}
-                                            className={`${displayFont.className} mt-7 inline-flex items-center gap-2 bg-[#D42F16] px-5 py-2.5 text-base uppercase tracking-[0.06em] text-white transition-colors hover:bg-[#B72511] ${focusRing}`}
+                                            className={`${displayFont.className} mt-6 sm:mt-7 inline-flex items-center gap-2 bg-[#D42F16] px-4 sm:px-5 py-2.5 text-sm sm:text-base uppercase tracking-[0.06em] text-white transition-colors hover:bg-[#B72511] ${focusRing}`}
                                         >
                                             Get a Quote
                                             <Arrow className="h-3.5 w-2.5" />
-                                        </button>
+                                        </motion.button>
                                     </div>
-                                </article>
+                                </motion.article>
                             );
                         })}
                     </div>
@@ -282,14 +302,20 @@ export default function CateringEvents() {
             </div>
 
             {/* ============ Part 2: "Choose Your Service" Card ============ */}
-            <div className={`${darkBodyFont.className} relative z-10 mx-auto max-w-6xl px-4 pb-20 pt-8 sm:px-6 md:pb-28`}>
-                <div className="relative rounded-sm bg-[#141414] p-4 text-white shadow-2xl sm:p-6 md:p-8">
-                    <div className="relative rounded-sm border border-[#D42F16]/70 p-5 sm:p-8 md:p-10">
-                        <div className="relative -mt-10 mb-8 sm:-mt-13 text-center">
-                            <div className="flex items-center justify-center gap-4">
+            <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className={`${darkBodyFont.className} relative z-10 mx-auto max-w-6xl px-4 pb-16 pt-6 sm:px-6 md:pb-28`}
+            >
+                <div className="relative rounded-sm bg-[#141414] p-3 sm:p-6 md:p-8 text-white shadow-2xl">
+                    <div className="relative rounded-sm border border-[#D42F16]/70 p-4 sm:p-8 md:p-10">
+                        <div className="relative -mt-8 sm:-mt-13 mb-6 sm:mb-8 text-center">
+                            <div className="flex items-center justify-center gap-2 sm:gap-4">
                                 <span className="hidden h-[1px] w-12 bg-[#D42F16]/60 sm:block sm:w-24 md:w-32" />
                                 <span
-                                    className={`${ampFont.className} italic bg-[#141414] px-4 text-xl font-bold uppercase tracking-[0.15em] text-white sm:text-2xl md:text-3xl`}
+                                    className={`${ampFont.className} italic bg-[#141414] px-3 sm:px-4 text-lg font-bold uppercase tracking-[0.12em] sm:tracking-[0.15em] text-white sm:text-2xl md:text-3xl`}
                                 >
                                     CHOOSE YOUR SERVICE
                                 </span>
@@ -297,39 +323,39 @@ export default function CateringEvents() {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-0">
+                        <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-3 md:gap-0">
                             <div className="flex flex-col items-center text-center md:px-6 lg:px-8">
-                                <span className={`${displayFont.className} text-2xl font-bold text-[#D42F16] sm:text-3xl`}>
+                                <span className={`${displayFont.className} text-xl sm:text-2xl font-bold text-[#D42F16]`}>
                                     1.
                                 </span>
-                                <h4 className={`${displayFont.className} text-2xl uppercase tracking-[0.05em] text-[#D42F16] sm:text-3xl`}>
+                                <h4 className={`${displayFont.className} text-xl sm:text-2xl uppercase tracking-[0.05em] text-[#D42F16]`}>
                                     Pick-Up
                                 </h4>
-                                <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-neutral-200 sm:text-sm">
+                                <p className="mt-2 sm:mt-3 text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-200">
                                     Order and pick up from any of our locations.
                                 </p>
                             </div>
 
                             <div className="flex flex-col items-center text-center md:border-x md:border-white/15 md:px-6 lg:px-8">
-                                <span className={`${displayFont.className} text-2xl font-bold text-[#D42F16] sm:text-3xl`}>
+                                <span className={`${displayFont.className} text-xl sm:text-2xl font-bold text-[#D42F16]`}>
                                     2.
                                 </span>
-                                <h4 className={`${displayFont.className} text-2xl uppercase tracking-[0.05em] text-[#D42F16] sm:text-3xl`}>
+                                <h4 className={`${displayFont.className} text-xl sm:text-2xl uppercase tracking-[0.05em] text-[#D42F16]`}>
                                     Drop-Off
                                 </h4>
-                                <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-neutral-200 sm:text-sm">
+                                <p className="mt-2 sm:mt-3 text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-200">
                                     Our team will deliver and setup your order.
                                 </p>
                             </div>
 
                             <div className="flex flex-col items-center text-center md:px-6 lg:px-8">
-                                <span className={`${displayFont.className} text-2xl font-bold text-[#D42F16] sm:text-3xl`}>
+                                <span className={`${displayFont.className} text-xl sm:text-2xl font-bold text-[#D42F16]`}>
                                     3.
                                 </span>
-                                <h4 className={`${displayFont.className} text-2xl uppercase tracking-[0.05em] text-[#D42F16] sm:text-3xl`}>
+                                <h4 className={`${displayFont.className} text-xl sm:text-2xl uppercase tracking-[0.05em] text-[#D42F16]`}>
                                     Catered
                                 </h4>
-                                <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-neutral-200 sm:text-sm">
+                                <p className="mt-2 sm:mt-3 text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-200">
                                     Our full service catering. Our team will set up, serve and clean up.
                                 </p>
                             </div>
@@ -339,29 +365,31 @@ export default function CateringEvents() {
                             <div className="flex flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
                                 <div className="flex items-center gap-3">
                                     <svg
-                                        className="h-6 w-6 text-[#D42F16]"
+                                        className="h-6 w-6 text-[#D42F16] shrink-0"
                                         fill="currentColor"
                                         viewBox="0 0 24 24"
                                         aria-hidden="true"
                                     >
                                         <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
                                     </svg>
-                                    <span className="text-sm font-bold text-white sm:text-base md:text-lg">
+                                    <span className="text-xs sm:text-sm font-bold text-white md:text-base">
                                         Order Catering by phone at <a href="tel:+16478898033" className="hover:text-[#D42F16] transition-colors">(647) 889-8033</a>
                                     </span>
                                 </div>
-                                <button
+                                <motion.button
+                                    whileHover={{ scale: 1.04 }}
+                                    whileTap={{ scale: 0.96 }}
                                     type="button"
                                     onClick={() => openQuote("Catering Inquiry")}
-                                    className={`${displayFont.className} rounded bg-[#D42F16] px-6 py-3 text-base uppercase tracking-[0.06em] text-white transition-colors hover:bg-[#B72511] ${focusRing}`}
+                                    className={`${displayFont.className} w-full sm:w-auto rounded bg-[#D42F16] px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base uppercase tracking-[0.06em] text-white transition-colors hover:bg-[#B72511] ${focusRing}`}
                                 >
                                     Inquire for Catering
-                                </button>
+                                </motion.button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </section>
     );
 }

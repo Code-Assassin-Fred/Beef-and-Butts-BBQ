@@ -2,6 +2,7 @@
 
 import { useId, useMemo, useState, useEffect } from "react";
 import { Anton, Montserrat, Great_Vibes } from "next/font/google";
+import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "./CartContext";
 
 const displayFont = Anton({ subsets: ["latin"], weight: "400", display: "swap" });
@@ -108,8 +109,6 @@ const money = (n: number | string) => {
     const num = parseNumericPrice(n);
     return Number.isInteger(num) ? `$${num}` : `$${num.toFixed(2)}`;
 };
-
-const total = (n: number) => `$${n.toFixed(2)}`;
 
 const GRAIN =
     "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")";
@@ -235,11 +234,17 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
                 />
             </div>
 
-            <div className="mx-auto max-w-6xl px-5 pb-24 pt-14 sm:px-8 sm:pt-16 md:pb-28">
+            <div className="mx-auto max-w-6xl px-4 sm:px-8 pb-20 pt-12 sm:pb-24 sm:pt-16 md:pb-28">
                 <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-14">
-                    <div className="flex flex-col justify-center text-center lg:text-left">
+                    <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7 }}
+                        className="flex flex-col justify-center text-center lg:text-left"
+                    >
                         <h2
-                            className={`${scriptFont.className} py-2 text-[clamp(2.5rem,4.6vw,4rem)] leading-[1.1] text-[#E5391C] lg:whitespace-nowrap`}
+                            className={`${scriptFont.className} py-2 text-[clamp(2.3rem,4.6vw,4rem)] leading-[1.15] text-[#E5391C] lg:whitespace-nowrap`}
                         >
                             Catch the Flavor.
                             <br />
@@ -248,30 +253,43 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
                         <p className="mx-auto mt-3 max-w-md text-[0.95rem] leading-relaxed tracking-wide text-neutral-300 lg:mx-0">
                             Smoked low and slow, served hot. Pick what you want and we&rsquo;ll get it on the pit.
                         </p>
-                    </div>
+                    </motion.div>
 
-                    <ul className="mx-auto grid w-full max-w-lg gap-8 text-center sm:grid-cols-2 sm:text-left lg:mr-0">
+                    <motion.ul
+                        initial={{ opacity: 0, x: 30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7 }}
+                        className="mx-auto grid w-full max-w-lg gap-6 sm:gap-8 text-center sm:grid-cols-2 sm:text-left lg:mr-0"
+                    >
                         {SERVICE_OPTIONS.map((o) => (
                             <li key={o.label}>
-                                <p className={`${displayFont.className} text-2xl uppercase tracking-[0.06em]`}>
+                                <p className={`${displayFont.className} text-xl sm:text-2xl uppercase tracking-[0.06em]`}>
                                     {o.label}
                                 </p>
-                                <p className="mt-3 text-sm leading-relaxed tracking-wide text-neutral-400">
+                                <p className="mt-2 sm:mt-3 text-xs sm:text-sm leading-relaxed tracking-wide text-neutral-400">
                                     {o.text}
                                 </p>
                             </li>
                         ))}
-                    </ul>
+                    </motion.ul>
                 </div>
 
-                <div className="mt-14 space-y-5">
-                    {categories.map((cat) => {
+                <div className="mt-10 sm:mt-14 space-y-5">
+                    {categories.map((cat, cIdx) => {
                         const isOpen = open.has(cat.id);
                         const panelId = `${baseId}-${cat.id}-panel`;
                         const buttonId = `${baseId}-${cat.id}-btn`;
 
                         return (
-                            <div key={cat.id} className="border-2 border-[#EEEBDC]">
+                            <motion.div
+                                key={cat.id}
+                                initial={{ opacity: 0, y: 25 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: cIdx * 0.1 }}
+                                className="border-2 border-[#EEEBDC]"
+                            >
                                 <h3>
                                     <button
                                         id={buttonId}
@@ -279,15 +297,15 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
                                         aria-expanded={isOpen}
                                         aria-controls={panelId}
                                         onClick={() => toggle(cat.id)}
-                                        className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left transition-colors hover:bg-white/5 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-[#EEEBDC] sm:px-8 sm:py-7"
+                                        className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left transition-colors hover:bg-white/5 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-[#EEEBDC] sm:px-8 sm:py-7"
                                     >
                                         <span
-                                            className={`${displayFont.className} text-[clamp(1.6rem,3.6vw,2.6rem)] uppercase leading-tight tracking-[0.05em]`}
+                                            className={`${displayFont.className} text-[clamp(1.4rem,3.6vw,2.6rem)] uppercase leading-tight tracking-[0.05em]`}
                                         >
                                             {cat.title}
                                         </span>
 
-                                        <span aria-hidden="true" className="relative block h-6 w-6 shrink-0">
+                                        <span aria-hidden="true" className="relative block h-5 w-5 sm:h-6 sm:w-6 shrink-0">
                                             <span className="absolute left-0 top-1/2 h-[3px] w-full -translate-y-1/2 bg-[#EEEBDC]" />
                                             <span
                                                 className={`absolute left-1/2 top-0 h-full w-[3px] -translate-x-1/2 bg-[#EEEBDC] transition-transform duration-200 motion-reduce:transition-none ${isOpen ? "scale-y-0" : "scale-y-100"
@@ -297,90 +315,102 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
                                     </button>
                                 </h3>
 
-                                <div
-                                    id={panelId}
-                                    role="region"
-                                    aria-labelledby={buttonId}
-                                    className={`grid transition-[grid-template-rows,visibility] duration-300 motion-reduce:transition-none ${isOpen ? "visible grid-rows-[1fr]" : "invisible grid-rows-[0fr]"
-                                        }`}
-                                >
-                                    <div className="overflow-hidden">
-                                        <ul className="grid gap-x-12 px-5 pb-8 pt-2 sm:px-8 lg:grid-cols-2">
-                                            {cat.items.map((item) => {
-                                                const qty = getItemQty(item.name);
-                                                return (
-                                                    <li
-                                                        key={item.id}
-                                                        className="flex items-start justify-between gap-4 border-b border-white/10 py-5"
-                                                    >
-                                                        <div className="min-w-0">
-                                                            <p className="text-[0.95rem] font-bold uppercase leading-snug tracking-[0.1em] sm:text-base">
-                                                                {item.name}
-                                                            </p>
-                                                            {item.description && (
-                                                                <p className="mt-1.5 text-sm leading-relaxed tracking-wide text-neutral-400">
-                                                                    {item.description}
+                                <AnimatePresence initial={false}>
+                                    {isOpen && (
+                                        <motion.div
+                                            id={panelId}
+                                            role="region"
+                                            aria-labelledby={buttonId}
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: "auto", opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            transition={{ duration: 0.35, ease: "easeInOut" }}
+                                            className="overflow-hidden"
+                                        >
+                                            <ul className="grid gap-x-12 px-4 pb-6 pt-1 sm:px-8 sm:pb-8 sm:pt-2 lg:grid-cols-2">
+                                                {cat.items.map((item, itemIdx) => {
+                                                    const qty = getItemQty(item.name);
+                                                    return (
+                                                        <motion.li
+                                                            key={item.id}
+                                                            initial={{ opacity: 0, y: 10 }}
+                                                            animate={{ opacity: 1, y: 0 }}
+                                                            transition={{ duration: 0.3, delay: itemIdx * 0.04 }}
+                                                            className="flex items-start justify-between gap-3 sm:gap-4 border-b border-white/10 py-4 sm:py-5"
+                                                        >
+                                                            <div className="min-w-0 pr-2">
+                                                                <p className="text-[0.9rem] sm:text-[0.95rem] font-bold uppercase leading-snug tracking-[0.08em] sm:tracking-[0.1em]">
+                                                                    {item.name}
                                                                 </p>
-                                                            )}
-                                                        </div>
+                                                                {item.description && (
+                                                                    <p className="mt-1 text-xs sm:text-sm leading-relaxed tracking-wide text-neutral-400">
+                                                                        {item.description}
+                                                                    </p>
+                                                                )}
+                                                            </div>
 
-                                                        <div className="flex shrink-0 flex-col items-end gap-1">
-                                                            <span className="text-lg font-medium tabular-nums tracking-wide">
-                                                                {money(item.price)}
-                                                            </span>
+                                                            <div className="flex shrink-0 flex-col items-end gap-1">
+                                                                <span className="text-base sm:text-lg font-medium tabular-nums tracking-wide">
+                                                                    {money(item.price)}
+                                                                </span>
 
-                                                            {qty === 0 ? (
-                                                                <button
-                                                                    type="button"
-                                                                    onClick={() =>
-                                                                        addToCart({
-                                                                            name: item.name,
-                                                                            price: typeof item.price === "number" ? `$${item.price}` : item.price,
-                                                                        })
-                                                                    }
-                                                                    aria-label={`Add ${item.name} to cart`}
-                                                                    className={`${ORANGE} py-1 text-sm font-semibold uppercase tracking-[0.1em] underline-offset-4 hover:underline ${focusRing}`}
-                                                                >
-                                                                    Add to cart
-                                                                </button>
-                                                            ) : (
-                                                                <div
-                                                                    role="group"
-                                                                    aria-label={`${item.name} quantity`}
-                                                                    className={`${ORANGE} flex items-center`}
-                                                                >
-                                                                    <button
+                                                                {qty === 0 ? (
+                                                                    <motion.button
+                                                                        whileHover={{ scale: 1.05 }}
+                                                                        whileTap={{ scale: 0.93 }}
                                                                         type="button"
-                                                                        onClick={() => updateGlobalQty(item.name, -1)}
-                                                                        aria-label={`Remove one ${item.name}`}
-                                                                        className={`px-2 py-1 text-xl leading-none ${focusRing}`}
+                                                                        onClick={() =>
+                                                                            addToCart({
+                                                                                name: item.name,
+                                                                                price: typeof item.price === "number" ? `$${item.price}` : item.price,
+                                                                            })
+                                                                        }
+                                                                        aria-label={`Add ${item.name} to cart`}
+                                                                        className={`${ORANGE} py-1 text-xs sm:text-sm font-semibold uppercase tracking-[0.08em] sm:tracking-[0.1em] underline-offset-4 hover:underline ${focusRing}`}
                                                                     >
-                                                                        &minus;
-                                                                    </button>
-                                                                    <span
-                                                                        aria-live="polite"
-                                                                        className="min-w-6 text-center text-sm font-bold tabular-nums text-[#EEEBDC]"
+                                                                        Add to cart
+                                                                    </motion.button>
+                                                                ) : (
+                                                                    <div
+                                                                        role="group"
+                                                                        aria-label={`${item.name} quantity`}
+                                                                        className={`${ORANGE} flex items-center bg-white/5 rounded-md px-1`}
                                                                     >
-                                                                        {qty}
-                                                                    </span>
-                                                                    <button
-                                                                        type="button"
-                                                                        onClick={() => updateGlobalQty(item.name, 1)}
-                                                                        aria-label={`Add another ${item.name}`}
-                                                                        className={`px-2 py-1 text-xl leading-none ${focusRing}`}
-                                                                    >
-                                                                        +
-                                                                    </button>
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    </li>
-                                                );
-                                            })}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+                                                                        <motion.button
+                                                                            whileTap={{ scale: 0.85 }}
+                                                                            type="button"
+                                                                            onClick={() => updateGlobalQty(item.name, -1)}
+                                                                            aria-label={`Remove one ${item.name}`}
+                                                                            className={`px-2 py-1 text-lg sm:text-xl leading-none ${focusRing}`}
+                                                                        >
+                                                                            &minus;
+                                                                        </motion.button>
+                                                                        <span
+                                                                            aria-live="polite"
+                                                                            className="min-w-5 sm:min-w-6 text-center text-xs sm:text-sm font-bold tabular-nums text-[#EEEBDC]"
+                                                                        >
+                                                                            {qty}
+                                                                        </span>
+                                                                        <motion.button
+                                                                            whileTap={{ scale: 0.85 }}
+                                                                            type="button"
+                                                                            onClick={() => updateGlobalQty(item.name, 1)}
+                                                                            aria-label={`Add another ${item.name}`}
+                                                                            className={`px-2 py-1 text-lg sm:text-xl leading-none ${focusRing}`}
+                                                                        >
+                                                                            +
+                                                                        </motion.button>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        </motion.li>
+                                                    );
+                                                })}
+                                            </ul>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </motion.div>
                         );
                     })}
                 </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 /* ------------------------------ Content ------------------------------ */
 
@@ -96,7 +97,13 @@ export default function Contact({ whatsappHref = DEFAULT_WHATSAPP }: Props) {
     return (
         <section aria-label="Contact">
             <div className="grid bg-white lg:grid-cols-[20%_80%]">
-                <div className="flex flex-col justify-center gap-7 px-6 py-10 sm:px-10 lg:px-8 lg:py-0">
+                <motion.div
+                    initial={{ opacity: 0, x: -30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="flex flex-col justify-center gap-6 sm:gap-7 px-5 py-8 sm:px-10 lg:px-8 lg:py-0"
+                >
                     <div>
                         <h3 className="text-base font-bold text-black">Email Us</h3>
                         <a
@@ -119,10 +126,10 @@ export default function Contact({ whatsappHref = DEFAULT_WHATSAPP }: Props) {
                         <h3 className="text-base font-bold text-black">Our Location</h3>
                         <p className="mt-1.5 text-sm leading-relaxed text-neutral-700">{LOCATION}</p>
                     </div>
-                </div>
+                </motion.div>
 
                 <div
-                    className="relative h-[280px] w-full overflow-hidden bg-neutral-200 sm:h-[340px] lg:h-[400px]"
+                    className="relative h-[250px] sm:h-[340px] w-full overflow-hidden bg-neutral-200 lg:h-[400px]"
                     onMouseLeave={() => setMapActive(false)}
                 >
                     <iframe
@@ -141,7 +148,7 @@ export default function Contact({ whatsappHref = DEFAULT_WHATSAPP }: Props) {
                             aria-label="Click to interact with the map"
                             className="group absolute inset-0 flex items-center justify-center bg-transparent transition-colors hover:bg-black/55 focus-visible:bg-black/55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-white"
                         >
-                            <span className="px-6 text-center text-xl text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                            <span className="px-5 text-center text-lg sm:text-xl text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 font-semibold">
                                 Click to explore the map
                             </span>
                         </button>
@@ -150,23 +157,28 @@ export default function Contact({ whatsappHref = DEFAULT_WHATSAPP }: Props) {
             </div>
 
             <div className="bg-[#F1F1EF] text-black">
-                <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 md:px-10 md:py-16 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.6fr)] lg:gap-14">
-                    <div>
-                        <h2 className="text-[clamp(2rem,3.2vw,2.75rem)] font-bold leading-[1.05] tracking-tight">
+                <div className="mx-auto grid max-w-7xl gap-8 sm:gap-10 px-4 py-10 sm:px-8 sm:py-14 md:px-10 md:py-16 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.6fr)] lg:gap-14">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        <h2 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold leading-[1.05] tracking-tight">
                             Get in Touch
                         </h2>
-                        <p className="mt-5 max-w-sm text-base leading-[1.6] text-neutral-800">
+                        <p className="mt-4 sm:mt-5 max-w-sm text-sm sm:text-base leading-[1.6] text-neutral-800">
                             Have questions, or want to talk through an order or a catering booking? Drop us a line.
                         </p>
 
-                        <ul className="mt-8 space-y-4 text-[#1B3A4B]">
+                        <ul className="mt-6 sm:mt-8 space-y-3.5 sm:space-y-4 text-[#1B3A4B]">
                             <li className="flex items-center gap-3.5">
                                 <ClockIcon />
-                                <span className="text-base font-bold text-black">24 hour reply time</span>
+                                <span className="text-sm sm:text-base font-bold text-black">24 hour reply time</span>
                             </li>
                             <li className="flex items-center gap-3.5">
                                 <HeadsetIcon />
-                                <span className="text-base font-bold text-black">Personal assistance</span>
+                                <span className="text-sm sm:text-base font-bold text-black">Personal assistance</span>
                             </li>
                         </ul>
 
@@ -174,67 +186,76 @@ export default function Contact({ whatsappHref = DEFAULT_WHATSAPP }: Props) {
                             href={whatsappHref}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="mt-7 inline-flex items-center gap-2 text-base font-bold text-[#25D366] transition-colors hover:text-[#1FB858] hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]"
+                            className="mt-6 sm:mt-7 inline-flex items-center gap-2 text-sm sm:text-base font-bold text-[#25D366] transition-colors hover:text-[#1FB858] hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]"
                         >
                             <ChatIcon />
                             Chat with us on WhatsApp
                         </a>
-                    </div>
+                    </motion.div>
 
-                    <form className="flex flex-col" onSubmit={handleSubmit}>
-                        <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
+                    <motion.form
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.15 }}
+                        className="flex flex-col"
+                        onSubmit={handleSubmit}
+                    >
+                        <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                             <label className="block">
-                                <span className="text-sm font-bold">Name</span>
+                                <span className="text-xs sm:text-sm font-bold">Name</span>
                                 <input
                                     type="text"
                                     name="name"
                                     required
                                     placeholder="Your name"
                                     autoComplete="name"
-                                    className="mt-2 block w-full rounded-xl border-0 bg-[#F6F6F4] px-4 py-3 text-base text-black placeholder:text-neutral-500 focus:outline focus:outline-2 focus:outline-[#1B3A4B]"
+                                    className="mt-1.5 sm:mt-2 block w-full rounded-xl border-0 bg-[#F6F6F4] px-4 py-2.5 sm:py-3 text-sm sm:text-base text-black placeholder:text-neutral-500 focus:outline focus:outline-2 focus:outline-[#1B3A4B]"
                                 />
                             </label>
                             <label className="block">
-                                <span className="text-sm font-bold">Email</span>
+                                <span className="text-xs sm:text-sm font-bold">Email</span>
                                 <input
                                     type="email"
                                     name="email"
                                     required
                                     placeholder="you@example.com"
                                     autoComplete="email"
-                                    className="mt-2 block w-full rounded-xl border-0 bg-[#F6F6F4] px-4 py-3 text-base text-black placeholder:text-neutral-500 focus:outline focus:outline-2 focus:outline-[#1B3A4B]"
+                                    className="mt-1.5 sm:mt-2 block w-full rounded-xl border-0 bg-[#F6F6F4] px-4 py-2.5 sm:py-3 text-sm sm:text-base text-black placeholder:text-neutral-500 focus:outline focus:outline-2 focus:outline-[#1B3A4B]"
                                 />
                             </label>
                         </div>
 
-                        <label className="mt-5 block">
-                            <span className="text-sm font-bold">Message</span>
+                        <label className="mt-4 sm:mt-5 block">
+                            <span className="text-xs sm:text-sm font-bold">Message</span>
                             <textarea
                                 name="message"
                                 required
                                 rows={4}
                                 placeholder="Hello, I'd like to ask about..."
-                                className="mt-2 block min-h-[130px] w-full resize-y rounded-xl border-0 bg-[#F6F6F4] px-4 py-3 text-base text-black placeholder:text-neutral-500 focus:outline focus:outline-2 focus:outline-[#1B3A4B]"
+                                className="mt-1.5 sm:mt-2 block min-h-[110px] sm:min-h-[130px] w-full resize-y rounded-xl border-0 bg-[#F6F6F4] px-4 py-2.5 sm:py-3 text-sm sm:text-base text-black placeholder:text-neutral-500 focus:outline focus:outline-2 focus:outline-[#1B3A4B]"
                             />
                         </label>
 
                         {status === "error" && (
-                            <p className="mt-3 text-sm text-red-600 font-semibold">{errorMessage}</p>
+                            <p className="mt-3 text-xs sm:text-sm text-red-600 font-semibold">{errorMessage}</p>
                         )}
 
-                        <div className="mt-6 flex flex-col items-end gap-3">
-                            <button
+                        <div className="mt-6 flex flex-col items-stretch sm:items-end gap-3">
+                            <motion.button
+                                whileHover={{ scale: 1.03 }}
+                                whileTap={{ scale: 0.97 }}
                                 type="submit"
                                 disabled={status === "sending"}
-                                className="rounded-lg bg-black px-9 py-3.5 text-lg font-bold text-white shadow-[0_4px_12px_rgba(0,0,0,0.22)] ring-4 ring-white/70 transition-colors hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[6px] focus-visible:outline-black disabled:opacity-50"
+                                className="rounded-lg bg-black px-7 sm:px-9 py-3 sm:py-3.5 text-base sm:text-lg font-bold text-white shadow-[0_4px_12px_rgba(0,0,0,0.22)] ring-4 ring-white/70 transition-colors hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[6px] focus-visible:outline-black disabled:opacity-50"
                             >
                                 {status === "sending" ? "Sending..." : "Send message"}
-                            </button>
-                            <p role="status" aria-live="polite" className="min-h-5 text-sm text-neutral-700 font-medium">
+                            </motion.button>
+                            <p role="status" aria-live="polite" className="min-h-5 text-xs sm:text-sm text-neutral-700 font-medium text-center sm:text-right">
                                 {status === "sent" ? "Thanks! Your message has been sent." : ""}
                             </p>
                         </div>
-                    </form>
+                    </motion.form>
                 </div>
             </div>
         </section>

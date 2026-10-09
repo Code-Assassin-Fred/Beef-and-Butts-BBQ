@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Anton, Jost } from "next/font/google";
+import { motion } from "framer-motion";
 
 const displayFont = Anton({ subsets: ["latin"], weight: "400", display: "swap" });
 const bodyFont = Jost({ subsets: ["latin"], weight: ["400", "500", "600"], display: "swap" });
@@ -43,30 +46,42 @@ export default function OrderBanner({
             />
             <div aria-hidden="true" className="absolute inset-0 -z-10 bg-black/25" />
 
-            <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 md:py-28">
+            <div className="mx-auto max-w-6xl px-4 sm:px-8 py-12 sm:py-16 md:py-28">
                 {/* Translucent rust box */}
-                <div className="bg-[#C73A17]/90 px-6 py-14 text-center shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)] sm:px-12 md:px-20 md:py-20">
+                <motion.div
+                    initial={{ opacity: 0, y: 35 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7 }}
+                    className="bg-[#C73A17]/90 px-5 sm:px-12 py-10 sm:py-14 text-center shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)] md:px-20 md:py-20 rounded-sm"
+                >
                     <h2
                         id="order-banner-heading"
-                        className={`${displayFont.className} text-[clamp(2.2rem,5.2vw,4.5rem)] uppercase leading-[1.05] tracking-[0.03em]`}
+                        className={`${displayFont.className} text-[clamp(1.9rem,5.2vw,4.5rem)] uppercase leading-[1.05] tracking-[0.03em]`}
                         style={{ filter: "url(#banner-stamp)" }}
                     >
                         Hot off the smoker.{" "}
                         <span className="inline-block -skew-x-12 text-[#FFD9B8]">At your door.</span>
                     </h2>
 
-                    <p className="mx-auto mt-7 max-w-3xl text-[clamp(1.1rem,1.7vw,1.5rem)] leading-[1.6] text-white/95">
+                    <p className="mx-auto mt-5 sm:mt-7 max-w-3xl text-[clamp(1rem,1.7vw,1.5rem)] leading-[1.6] text-white/95">
                         Brisket with a proper bark, ribs that slide off the bone, bhajia fried to a crackle. Order for
                         pickup or delivery and we&apos;ll bring the smokehouse to your table.
                     </p>
 
-                    <Link
-                        href={orderHref}
-                        className={`${displayFont.className} mt-10 inline-block bg-[#1c1c1c] px-9 py-4 text-xl uppercase tracking-[0.06em] text-white transition-colors hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white`}
+                    <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="mt-8 sm:mt-10 inline-block"
                     >
-                        Order now
-                    </Link>
-                </div>
+                        <Link
+                            href={orderHref}
+                            className={`${displayFont.className} inline-block bg-[#1c1c1c] px-7 sm:px-9 py-3.5 sm:py-4 text-lg sm:text-xl uppercase tracking-[0.06em] text-white transition-colors hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white shadow-lg`}
+                        >
+                            Order now
+                        </Link>
+                    </motion.div>
+                </motion.div>
             </div>
         </section>
     );

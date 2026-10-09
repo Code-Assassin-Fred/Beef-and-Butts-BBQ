@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { League_Gothic, Jost, Playfair_Display } from "next/font/google";
+import { motion } from "framer-motion";
 
 const headingFont = League_Gothic({ subsets: ["latin"], weight: "400", display: "swap" });
 const bodyFont = Jost({ subsets: ["latin"], weight: ["400", "500", "600", "700"], display: "swap" });
@@ -11,7 +14,6 @@ type Column = {
     cta: { label: string; href: string };
 };
 
-// TODO: swap the hrefs for the real ordering / delivery / inquiry links
 const columns: Column[] = [
     {
         title: "Pickup",
@@ -56,8 +58,7 @@ const columns: Column[] = [
     },
 ];
 
-// Rough paper texture, built from three inline SVG noise layers (no image files):
-// fine grain, soft mottling, and sparse dark flecks.
+// Rough paper texture
 const svg = (inner: string, size: number) =>
     `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='${size}' height='${size}'>${inner}</svg>")`;
 
@@ -90,26 +91,39 @@ export default function ServiceColumns() {
                 }}
             />
 
-            <div className="mx-auto grid max-w-7xl gap-14 px-6 py-16 text-center md:grid-cols-3 md:gap-10 md:py-20 lg:gap-16">
+            <div className="mx-auto grid max-w-7xl gap-12 px-5 py-14 text-center sm:px-8 sm:py-16 md:grid-cols-3 md:gap-10 md:py-20 lg:gap-16">
                 {columns.map((col, i) => (
-                    <div key={i} className="flex flex-col items-center">
+                    <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 35 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 0.6, delay: i * 0.15, ease: "easeOut" }}
+                        className="flex flex-col items-center"
+                    >
                         <h2
-                            className={`${headingFont.className} uppercase leading-none tracking-[0.01em] text-[#D42F16] text-[clamp(3rem,5.2vw,4.25rem)]`}
+                            className={`${headingFont.className} uppercase leading-none tracking-[0.01em] text-[#D42F16] text-[clamp(2.8rem,5.2vw,4.25rem)]`}
                         >
                             {col.title}
                         </h2>
 
-                        <p className="mt-6 max-w-[28rem] text-[1.2rem] leading-[1.85] md:text-[1.25rem]">
+                        <p className="mt-4 sm:mt-6 max-w-[28rem] text-[1.1rem] sm:text-[1.2rem] leading-[1.8] sm:leading-[1.85] md:text-[1.25rem]">
                             {col.body}
                         </p>
 
-                        <Link
-                            href={col.cta.href}
-                            className="mt-auto inline-block border-b-[3px] border-[#D9541A] pb-1 pt-10 text-[0.95rem] font-medium uppercase tracking-[0.12em] text-neutral-900 transition-colors hover:text-[#D42F16] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D42F16]"
+                        <motion.div
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="mt-auto pt-8 sm:pt-10"
                         >
-                            {col.cta.label}
-                        </Link>
-                    </div>
+                            <Link
+                                href={col.cta.href}
+                                className="inline-block border-b-[3px] border-[#D9541A] pb-1 text-[0.95rem] font-semibold uppercase tracking-[0.12em] text-neutral-900 transition-colors hover:text-[#D42F16] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D42F16]"
+                            >
+                                {col.cta.label}
+                            </Link>
+                        </motion.div>
+                    </motion.div>
                 ))}
             </div>
         </section>

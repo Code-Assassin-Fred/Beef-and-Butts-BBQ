@@ -6,6 +6,7 @@ import Image from "next/image";
 import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "@/lib/firebase";
 import { Anton, Great_Vibes, Montserrat } from "next/font/google";
+import { motion } from "framer-motion";
 
 const scriptFont = Great_Vibes({ subsets: ["latin"], weight: "400" });
 const displayFont = Anton({ subsets: ["latin"], weight: "400" });
@@ -35,7 +36,12 @@ export default function AdminLogin() {
     return (
         <div className={`${bodyFont.className} min-h-screen w-screen bg-[#0b0f19] text-white flex flex-col md:flex-row overflow-hidden`}>
             {/* Left 40% Width: Login Form */}
-            <div className="w-full md:w-[40%] flex flex-col justify-between p-6 sm:p-10 lg:p-14 min-h-screen z-10 bg-[#0b0f19]">
+            <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                className="w-full md:w-[40%] flex flex-col justify-between p-5 sm:p-10 lg:p-14 min-h-screen z-10 bg-[#0b0f19]"
+            >
                 {/* Header Branding */}
                 <div className="flex items-center gap-3">
                     <div className="flex items-baseline leading-none">
@@ -50,14 +56,19 @@ export default function AdminLogin() {
 
                 {/* Login Button Section */}
                 <div className="my-auto py-6 sm:py-8 max-w-sm w-full mx-auto">
-                    <div className="mb-6 sm:mb-8">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2, duration: 0.5 }}
+                        className="mb-6 sm:mb-8"
+                    >
                         <h1 className={`${displayFont.className} text-3xl sm:text-5xl tracking-wide uppercase text-white`}>
                             Welcome Back
                         </h1>
                         <p className="text-slate-400 text-xs sm:text-sm mt-2 leading-relaxed">
                             Sign in with your admin Google account to manage menu items, categories, photo gallery, orders, and catering quotes.
                         </p>
-                    </div>
+                    </motion.div>
 
                     {error && (
                         <div className="mb-6 p-3.5 bg-red-950/80 border border-red-800 text-red-200 text-xs sm:text-sm rounded-lg">
@@ -65,11 +76,13 @@ export default function AdminLogin() {
                         </div>
                     )}
 
-                    <button
+                    <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                         type="button"
                         onClick={handleGoogleSignIn}
                         disabled={loading}
-                        className="w-full py-3.5 sm:py-4 px-4 sm:px-5 bg-white hover:bg-slate-100 text-slate-900 font-bold rounded-xl flex items-center justify-center gap-3 transition-all shadow-lg cursor-pointer disabled:opacity-60 hover:scale-[1.01] active:scale-[0.99]"
+                        className="w-full py-3.5 sm:py-4 px-4 sm:px-5 bg-white hover:bg-slate-100 text-slate-900 font-bold rounded-xl flex items-center justify-center gap-3 transition-all shadow-lg cursor-pointer disabled:opacity-60"
                     >
                         <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
                             <path
@@ -90,7 +103,7 @@ export default function AdminLogin() {
                             />
                         </svg>
                         <span>{loading ? "Signing in..." : "Sign in with Google"}</span>
-                    </button>
+                    </motion.button>
                 </div>
 
                 {/* Back to main site */}
@@ -102,10 +115,15 @@ export default function AdminLogin() {
                         <span>← Back to Beef N' Butts BBQ</span>
                     </a>
                 </div>
-            </div>
+            </motion.div>
 
             {/* Right 60% Width: Featured Hero Image */}
-            <div className="hidden md:block md:w-[60%] relative h-full min-h-screen overflow-hidden">
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8 }}
+                className="hidden md:block md:w-[60%] relative h-full min-h-screen overflow-hidden"
+            >
                 <Image
                     src="/Assets/glazed-bbq-chicken.jpg"
                     alt="Beef N' Butts BBQ Glazed Chicken"
@@ -116,15 +134,20 @@ export default function AdminLogin() {
                 <div className="absolute inset-0 bg-gradient-to-r from-[#0b0f19] via-transparent to-black/50" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f19] via-transparent to-transparent opacity-80" />
 
-                <div className="absolute bottom-12 left-12 right-12 text-white max-w-lg">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4, duration: 0.6 }}
+                    className="absolute bottom-12 left-12 right-12 text-white max-w-lg"
+                >
                     <span className="bg-[#FF8A3D] text-black text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-md">
                         Beef N' Butts BBQ
                     </span>
                     <h2 className={`${displayFont.className} text-4xl lg:text-5xl tracking-wide uppercase mt-3 drop-shadow-md`}>
                         Authentic Slow-Smoked Barbecue
                     </h2>
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
         </div>
     );
 }

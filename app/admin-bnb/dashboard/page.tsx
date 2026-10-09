@@ -7,6 +7,7 @@ import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { compressImageToBase64 } from "@/lib/imageUtils";
 import { Anton, Great_Vibes, Montserrat } from "next/font/google";
+import { motion, AnimatePresence } from "framer-motion";
 
 const scriptFont = Great_Vibes({ subsets: ["latin"], weight: "400" });
 const displayFont = Anton({ subsets: ["latin"], weight: "400" });
@@ -343,14 +344,14 @@ export default function AdminDashboard() {
                 </aside>
 
                 {/* Main Content Area */}
-                <main className="flex-1 p-6 overflow-y-auto">
+                <main className="flex-1 p-4 sm:p-6 overflow-y-auto">
                     {/* Top Mobile Bar Tabs */}
-                    <div className="md:hidden flex overflow-x-auto gap-2 pb-4 mb-4 border-b border-slate-800">
+                    <div className="md:hidden flex overflow-x-auto gap-2 pb-3 mb-4 border-b border-slate-800 no-scrollbar">
                         {["overview", "orders", "menu", "categories", "gallery", "inquiries", "quotes"].map((tab) => (
                             <button
                                 key={tab}
                                 onClick={() => setActiveTab(tab as TabType)}
-                                className={`px-3 py-1.5 rounded text-xs uppercase font-bold whitespace-nowrap ${
+                                className={`px-3.5 py-2 rounded-lg text-xs uppercase font-bold whitespace-nowrap transition-colors ${
                                     activeTab === tab ? "bg-[#FF8A3D] text-black" : "bg-slate-800 text-slate-300"
                                 }`}
                             >
@@ -359,24 +360,32 @@ export default function AdminDashboard() {
                         ))}
                     </div>
 
-                    {/* OVERVIEW TAB */}
-                    {activeTab === "overview" && (
-                        <div className="space-y-6">
-                            <h2 className={`${displayFont.className} text-2xl uppercase text-white tracking-wide`}>Overview</h2>
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={activeTab}
+                            initial={{ opacity: 0, y: 15 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -15 }}
+                            transition={{ duration: 0.25 }}
+                        >
+                            {/* OVERVIEW TAB */}
+                            {activeTab === "overview" && (
+                                <div className="space-y-6">
+                                    <h2 className={`${displayFont.className} text-2xl uppercase text-white tracking-wide`}>Overview</h2>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                                <div className="bg-[#161e2e] p-5 rounded-xl border border-slate-800">
-                                    <p className="text-xs uppercase text-slate-400 font-bold">Total Revenue</p>
-                                    <p className="text-2xl font-bold text-[#FF8A3D] mt-2">${totalRevenue.toFixed(2)}</p>
-                                </div>
-                                <div className="bg-[#161e2e] p-5 rounded-xl border border-slate-800">
-                                    <p className="text-xs uppercase text-slate-400 font-bold">Pending Orders</p>
-                                    <p className="text-2xl font-bold text-yellow-400 mt-2">{pendingOrders}</p>
-                                </div>
-                                <div className="bg-[#161e2e] p-5 rounded-xl border border-slate-800">
-                                    <p className="text-xs uppercase text-slate-400 font-bold">Unread Inquiries</p>
-                                    <p className="text-2xl font-bold text-blue-400 mt-2">{unreadInquiries}</p>
-                                </div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                        <div className="bg-[#161e2e] p-5 rounded-xl border border-slate-800">
+                                            <p className="text-xs uppercase text-slate-400 font-bold">Total Revenue</p>
+                                            <p className="text-2xl font-bold text-[#FF8A3D] mt-2">${totalRevenue.toFixed(2)}</p>
+                                        </div>
+                                        <div className="bg-[#161e2e] p-5 rounded-xl border border-slate-800">
+                                            <p className="text-xs uppercase text-slate-400 font-bold">Pending Orders</p>
+                                            <p className="text-2xl font-bold text-yellow-400 mt-2">{pendingOrders}</p>
+                                        </div>
+                                        <div className="bg-[#161e2e] p-5 rounded-xl border border-slate-800">
+                                            <p className="text-xs uppercase text-slate-400 font-bold">Unread Inquiries</p>
+                                            <p className="text-2xl font-bold text-blue-400 mt-2">{unreadInquiries}</p>
+                                        </div>
                                 <div className="bg-[#161e2e] p-5 rounded-xl border border-slate-800">
                                     <p className="text-xs uppercase text-slate-400 font-bold">Catering Quotes</p>
                                     <p className="text-2xl font-bold text-purple-400 mt-2">{quotes.length}</p>
@@ -655,6 +664,8 @@ export default function AdminDashboard() {
                             </div>
                         </div>
                     )}
+                        </motion.div>
+                    </AnimatePresence>
                 </main>
             </div>
 

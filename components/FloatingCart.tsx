@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { Anton, Montserrat } from "next/font/google";
+import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "./CartContext";
 
 const displayFont = Anton({ subsets: ["latin"], weight: "400" });
@@ -40,7 +41,7 @@ export default function FloatingCart() {
     // Set initial position on mount (upper-right desktop/mobile)
     useEffect(() => {
         if (!position) {
-            const initialX = Math.max(16, window.innerWidth - 360);
+            const initialX = Math.max(12, window.innerWidth - 340);
             setPosition({
                 x: initialX,
                 y: 100,
@@ -51,7 +52,7 @@ export default function FloatingCart() {
     const clamp = useCallback(
         (x: number, y: number) => {
             const el = containerRef.current;
-            const w = el ? el.offsetWidth : 320;
+            const w = el ? el.offsetWidth : 300;
             const h = el ? el.offsetHeight : 48;
             return {
                 x: Math.max(0, Math.min(x, window.innerWidth - w)),
@@ -183,39 +184,49 @@ export default function FloatingCart() {
     if (totalItems === 0 && !expanded) return null;
 
     return (
-        <div
+        <motion.div
             ref={containerRef}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.3 }}
             style={
                 position
                     ? { left: position.x, top: position.y, position: "fixed", zIndex: 9999 }
                     : { right: 16, top: 100, position: "fixed", zIndex: 9999 }
             }
-            className={`${bodyFont.className} select-none transition-shadow duration-300`}
+            className={`${bodyFont.className} select-none`}
         >
             {/* Floating Pill Trigger */}
-            <div
+            <motion.div
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
                 onMouseDown={handleMouseDown}
                 onTouchStart={handleTouchStart}
                 onClick={handleHeaderClick}
-                className="group flex cursor-grab active:cursor-grabbing items-center gap-3 rounded-full bg-[#0a0a0a] px-5 py-3 text-white shadow-2xl ring-2 ring-[#FF8A3D]/40 transition-all hover:ring-[#FF8A3D]"
+                className="group flex cursor-grab active:cursor-grabbing items-center gap-2.5 sm:gap-3 rounded-full bg-[#0a0a0a]/95 px-4 sm:px-5 py-2.5 sm:py-3 text-white shadow-2xl ring-2 ring-[#FF8A3D]/40 backdrop-blur-md transition-all hover:ring-[#FF8A3D]"
             >
                 <div className="relative flex items-center justify-center">
-                    <svg className="h-6 w-6 text-[#FF8A3D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="h-5 w-5 sm:h-6 sm:w-6 text-[#FF8A3D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
                     </svg>
                     {totalItems > 0 && (
-                        <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#FF8A3D] text-xs font-bold text-black">
+                        <motion.span
+                            key={totalItems}
+                            initial={{ scale: 0.5 }}
+                            animate={{ scale: 1 }}
+                            className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#FF8A3D] text-[11px] sm:text-xs font-bold text-black shadow-md"
+                        >
                             {totalItems}
-                        </span>
+                        </motion.span>
                     )}
                 </div>
 
                 <div className="flex flex-col text-left">
-                    <span className={`${displayFont.className} text-base tracking-wider uppercase text-white`}>
+                    <span className={`${displayFont.className} text-sm sm:text-base tracking-wider uppercase text-white leading-tight`}>
                         {totalItems > 0 ? `${totalItems} Items` : "Cart Empty"}
                     </span>
                     {totalItems > 0 && (
-                        <span className="text-xs text-[#FF8A3D] font-bold">
+                        <span className="text-[11px] sm:text-xs text-[#FF8A3D] font-bold">
                             ${totalPrice.toFixed(2)}
                         </span>
                     )}
@@ -228,181 +239,187 @@ export default function FloatingCart() {
                         e.stopPropagation();
                         setExpanded((p) => !p);
                     }}
-                    className="ml-2 rounded-full p-1 text-neutral-400 hover:text-white"
+                    className="ml-1 sm:ml-2 rounded-full p-1 text-neutral-400 hover:text-white"
                 >
                     <svg className={`h-4 w-4 transform transition-transform ${expanded ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                 </button>
-            </div>
+            </motion.div>
 
             {/* Cart Modal Dropdown */}
-            {expanded && (
-                <div
-                    data-no-drag
-                    className="mt-3 w-80 max-w-[90vw] rounded-xl bg-[#121212] p-4 text-white shadow-2xl ring-1 ring-white/10"
-                >
-                    {view === "cart" && (
-                        <div>
-                            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                                <h3 className={`${displayFont.className} text-lg uppercase tracking-wider text-[#FF8A3D]`}>Your BBQ Order</h3>
-                                <button
-                                    onClick={() => setExpanded(false)}
-                                    className="text-xs text-neutral-400 hover:text-white"
-                                >
-                                    Close
-                                </button>
-                            </div>
+            <AnimatePresence>
+                {expanded && (
+                    <motion.div
+                        data-no-drag
+                        initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                        transition={{ duration: 0.2 }}
+                        className="mt-3 w-80 max-w-[92vw] rounded-xl bg-[#121212]/95 backdrop-blur-md p-4 text-white shadow-2xl ring-1 ring-white/10"
+                    >
+                        {view === "cart" && (
+                            <div>
+                                <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                                    <h3 className={`${displayFont.className} text-lg uppercase tracking-wider text-[#FF8A3D]`}>Your BBQ Order</h3>
+                                    <button
+                                        onClick={() => setExpanded(false)}
+                                        className="text-xs text-neutral-400 hover:text-white"
+                                    >
+                                        Close
+                                    </button>
+                                </div>
 
-                            {cart.length === 0 ? (
-                                <p className="py-6 text-center text-sm text-neutral-400">Your cart is empty.</p>
-                            ) : (
-                                <div className="mt-3 max-h-60 overflow-y-auto space-y-3 pr-1">
-                                    {cart.map((item) => (
-                                        <div key={item.name} className="flex items-center justify-between text-sm">
-                                            <div className="flex-1">
-                                                <p className="font-semibold text-white">{item.name}</p>
-                                                <p className="text-xs text-[#FF8A3D]">{item.price}</p>
-                                            </div>
+                                {cart.length === 0 ? (
+                                    <p className="py-6 text-center text-sm text-neutral-400">Your cart is empty.</p>
+                                ) : (
+                                    <div className="mt-3 max-h-60 overflow-y-auto space-y-3 pr-1">
+                                        {cart.map((item) => (
+                                            <div key={item.name} className="flex items-center justify-between text-sm">
+                                                <div className="flex-1 pr-2">
+                                                    <p className="font-semibold text-white text-xs sm:text-sm">{item.name}</p>
+                                                    <p className="text-xs text-[#FF8A3D]">{item.price}</p>
+                                                </div>
 
-                                            <div className="flex items-center gap-2">
-                                                <button
-                                                    onClick={() => updateQty(item.name, -1)}
-                                                    className="h-6 w-6 rounded bg-white/10 text-center font-bold text-white hover:bg-white/20"
-                                                >
-                                                    -
-                                                </button>
-                                                <span className="w-4 text-center text-xs font-bold">{item.qty}</span>
-                                                <button
-                                                    onClick={() => updateQty(item.name, 1)}
-                                                    className="h-6 w-6 rounded bg-white/10 text-center font-bold text-white hover:bg-white/20"
-                                                >
-                                                    +
-                                                </button>
-                                                <button
-                                                    onClick={() => removeItem(item.name)}
-                                                    className="ml-1 text-red-400 hover:text-red-300"
-                                                >
-                                                    ✕
-                                                </button>
+                                                <div className="flex items-center gap-1.5 sm:gap-2">
+                                                    <button
+                                                        onClick={() => updateQty(item.name, -1)}
+                                                        className="h-6 w-6 rounded bg-white/10 text-center font-bold text-white hover:bg-white/20 active:scale-95"
+                                                    >
+                                                        -
+                                                    </button>
+                                                    <span className="w-4 text-center text-xs font-bold">{item.qty}</span>
+                                                    <button
+                                                        onClick={() => updateQty(item.name, 1)}
+                                                        className="h-6 w-6 rounded bg-white/10 text-center font-bold text-white hover:bg-white/20 active:scale-95"
+                                                    >
+                                                        +
+                                                    </button>
+                                                    <button
+                                                        onClick={() => removeItem(item.name)}
+                                                        className="ml-1 text-red-400 hover:text-red-300 text-xs"
+                                                    >
+                                                        ✕
+                                                    </button>
+                                                </div>
                                             </div>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {cart.length > 0 && (
+                                    <div className="mt-4 border-t border-white/10 pt-3">
+                                        <div className="flex justify-between font-bold text-sm mb-3">
+                                            <span>Total:</span>
+                                            <span className="text-[#FF8A3D]">${totalPrice.toFixed(2)}</span>
                                         </div>
+                                        <button
+                                            onClick={() => setView("checkout")}
+                                            className="w-full rounded bg-[#FF8A3D] py-2.5 font-bold uppercase tracking-wider text-black transition-colors hover:bg-[#e0762a] active:scale-[0.98]"
+                                        >
+                                            Proceed to Checkout
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        {view === "checkout" && (
+                            <form onSubmit={handleSubmitOrder} className="space-y-3 text-xs">
+                                <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                                    <h3 className={`${displayFont.className} text-base uppercase text-[#FF8A3D]`}>Checkout</h3>
+                                    <button type="button" onClick={() => setView("cart")} className="text-neutral-400 hover:text-white">Back</button>
+                                </div>
+
+                                <div className="grid grid-cols-3 gap-1 rounded bg-white/5 p-1 text-center font-semibold">
+                                    {(["delivery", "pickup", "dinein"] as OrderType[]).map((t) => (
+                                        <button
+                                            key={t}
+                                            type="button"
+                                            onClick={() => setOrderType(t)}
+                                            className={`rounded py-1 capitalize transition-colors ${orderType === t ? "bg-[#FF8A3D] text-black" : "text-neutral-300"}`}
+                                        >
+                                            {t}
+                                        </button>
                                     ))}
                                 </div>
-                            )}
 
-                            {cart.length > 0 && (
-                                <div className="mt-4 border-t border-white/10 pt-3">
-                                    <div className="flex justify-between font-bold text-sm mb-3">
-                                        <span>Total:</span>
-                                        <span className="text-[#FF8A3D]">${totalPrice.toFixed(2)}</span>
-                                    </div>
-                                    <button
-                                        onClick={() => setView("checkout")}
-                                        className="w-full rounded bg-[#FF8A3D] py-2.5 font-bold uppercase tracking-wider text-black transition-colors hover:bg-[#e0762a]"
-                                    >
-                                        Proceed to Checkout
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    )}
-
-                    {view === "checkout" && (
-                        <form onSubmit={handleSubmitOrder} className="space-y-3 text-xs">
-                            <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                                <h3 className={`${displayFont.className} text-base uppercase text-[#FF8A3D]`}>Checkout</h3>
-                                <button type="button" onClick={() => setView("cart")} className="text-neutral-400 hover:text-white">Back</button>
-                            </div>
-
-                            <div className="grid grid-cols-3 gap-1 rounded bg-white/5 p-1 text-center font-semibold">
-                                {(["delivery", "pickup", "dinein"] as OrderType[]).map((t) => (
-                                    <button
-                                        key={t}
-                                        type="button"
-                                        onClick={() => setOrderType(t)}
-                                        className={`rounded py-1 capitalize ${orderType === t ? "bg-[#FF8A3D] text-black" : "text-neutral-300"}`}
-                                    >
-                                        {t}
-                                    </button>
-                                ))}
-                            </div>
-
-                            <input
-                                type="text"
-                                placeholder="Your Full Name *"
-                                value={customerName}
-                                onChange={(e) => setCustomerName(e.target.value)}
-                                required
-                                className="w-full rounded bg-white/10 px-3 py-2 text-white placeholder-neutral-400 focus:outline-none focus:ring-1 focus:ring-[#FF8A3D]"
-                            />
-
-                            <input
-                                type="tel"
-                                placeholder="Phone Number *"
-                                value={customerPhone}
-                                onChange={(e) => setCustomerPhone(e.target.value)}
-                                required
-                                className="w-full rounded bg-white/10 px-3 py-2 text-white placeholder-neutral-400 focus:outline-none focus:ring-1 focus:ring-[#FF8A3D]"
-                            />
-
-                            {orderType === "delivery" && (
                                 <input
                                     type="text"
-                                    placeholder="Delivery Address *"
-                                    value={location}
-                                    onChange={(e) => setLocation(e.target.value)}
+                                    placeholder="Your Full Name *"
+                                    value={customerName}
+                                    onChange={(e) => setCustomerName(e.target.value)}
                                     required
                                     className="w-full rounded bg-white/10 px-3 py-2 text-white placeholder-neutral-400 focus:outline-none focus:ring-1 focus:ring-[#FF8A3D]"
                                 />
-                            )}
 
-                            <div className="grid grid-cols-2 gap-2">
                                 <input
-                                    type="date"
-                                    value={date}
-                                    onChange={(e) => setDate(e.target.value)}
-                                    className="w-full rounded bg-white/10 px-2 py-1.5 text-white focus:outline-none focus:ring-1 focus:ring-[#FF8A3D]"
+                                    type="tel"
+                                    placeholder="Phone Number *"
+                                    value={customerPhone}
+                                    onChange={(e) => setCustomerPhone(e.target.value)}
+                                    required
+                                    className="w-full rounded bg-white/10 px-3 py-2 text-white placeholder-neutral-400 focus:outline-none focus:ring-1 focus:ring-[#FF8A3D]"
                                 />
-                                <input
-                                    type="time"
-                                    value={time}
-                                    onChange={(e) => setTime(e.target.value)}
-                                    className="w-full rounded bg-white/10 px-2 py-1.5 text-white focus:outline-none focus:ring-1 focus:ring-[#FF8A3D]"
-                                />
-                            </div>
 
-                            <button
-                                type="submit"
-                                className="mt-2 w-full rounded bg-[#FF8A3D] py-2.5 font-bold uppercase tracking-wider text-black hover:bg-[#e0762a]"
-                            >
-                                Submit Order (${totalPrice.toFixed(2)})
-                            </button>
-                        </form>
-                    )}
+                                {orderType === "delivery" && (
+                                    <input
+                                        type="text"
+                                        placeholder="Delivery Address *"
+                                        value={location}
+                                        onChange={(e) => setLocation(e.target.value)}
+                                        required
+                                        className="w-full rounded bg-white/10 px-3 py-2 text-white placeholder-neutral-400 focus:outline-none focus:ring-1 focus:ring-[#FF8A3D]"
+                                    />
+                                )}
 
-                    {view === "success" && (
-                        <div className="py-4 text-center space-y-3">
-                            <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-green-500/20 text-green-400">
-                                ✓
+                                <div className="grid grid-cols-2 gap-2">
+                                    <input
+                                        type="date"
+                                        value={date}
+                                        onChange={(e) => setDate(e.target.value)}
+                                        className="w-full rounded bg-white/10 px-2 py-1.5 text-white focus:outline-none focus:ring-1 focus:ring-[#FF8A3D]"
+                                    />
+                                    <input
+                                        type="time"
+                                        value={time}
+                                        onChange={(e) => setTime(e.target.value)}
+                                        className="w-full rounded bg-white/10 px-2 py-1.5 text-white focus:outline-none focus:ring-1 focus:ring-[#FF8A3D]"
+                                    />
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    className="mt-2 w-full rounded bg-[#FF8A3D] py-2.5 font-bold uppercase tracking-wider text-black hover:bg-[#e0762a] active:scale-[0.98]"
+                                >
+                                    Submit Order (${totalPrice.toFixed(2)})
+                                </button>
+                            </form>
+                        )}
+
+                        {view === "success" && (
+                            <div className="py-4 text-center space-y-3">
+                                <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-green-500/20 text-green-400">
+                                    ✓
+                                </div>
+                                <h3 className={`${displayFont.className} text-lg text-white uppercase`}>Order Placed!</h3>
+                                <p className="text-xs text-neutral-300">
+                                    Thank you {customerName}! We have received your order and will contact you shortly at {customerPhone}.
+                                </p>
+                                <button
+                                    onClick={() => {
+                                        setExpanded(false);
+                                        setView("cart");
+                                    }}
+                                    className="w-full rounded bg-[#FF8A3D] py-2 text-xs font-bold uppercase text-black"
+                                >
+                                    Done
+                                </button>
                             </div>
-                            <h3 className={`${displayFont.className} text-lg text-white uppercase`}>Order Placed!</h3>
-                            <p className="text-xs text-neutral-300">
-                                Thank you {customerName}! We have received your order and will contact you shortly at {customerPhone}.
-                            </p>
-                            <button
-                                onClick={() => {
-                                    setExpanded(false);
-                                    setView("cart");
-                                }}
-                                className="w-full rounded bg-[#FF8A3D] py-2 text-xs font-bold uppercase text-black"
-                            >
-                                Done
-                            </button>
-                        </div>
-                    )}
-                </div>
-            )}
-        </div>
+                        )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </motion.div>
     );
 }
