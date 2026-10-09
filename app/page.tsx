@@ -5,6 +5,7 @@ import ServiceColumns from "@/components/ServiceColumns";
 import Menu from "@/components/Menu";
 import CateringEvents from "@/components/CateringEvents";
 import About from "@/components/About";
+import OrderBanner from "@/components/OrderBanner";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <Menu />
       <CateringEvents />
       <About />
+      <OrderBanner />
     </main>
   );
 }
