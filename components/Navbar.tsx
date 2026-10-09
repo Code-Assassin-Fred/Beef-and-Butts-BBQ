@@ -65,17 +65,17 @@ function Logo() {
         <Link
             href="/"
             aria-label="Beef and Butts BBQ home"
-            className="relative flex shrink-0 flex-col items-center leading-none"
+            className="relative -ml-6 flex shrink-0 flex-col items-center leading-none"
             style={{ color: BRAND_RED }}
         >
             <span
-                className={`${script.className} -rotate-[4deg] text-[40px] lg:text-[50px]`}
+                className={`${script.className} -rotate-[4deg] text-[36px] lg:text-[42px]`}
                 style={{ textShadow: "0 2px 0 rgba(0,0,0,0.25)" }}
             >
                 Beef &amp; Butts
             </span>
             <span
-                className={`${jost.className} -mt-1 ml-6 self-start text-[22px] font-extrabold tracking-[0.04em] lg:text-[28px]`}
+                className={`${jost.className} -mt-1 ml-6 self-start text-[18px] font-extrabold tracking-[0.04em] lg:text-[22px]`}
             >
                 BAR-B-Q
             </span>
@@ -97,13 +97,13 @@ export default function Navbar() {
                 className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-black/80 via-black/40 to-transparent"
             />
 
-            <div className="mx-auto flex h-[110px] items-center px-6 lg:h-[178px] lg:px-[5.7vw]">
+            <div className="mx-auto flex h-[90px] items-center px-6 lg:h-[120px] lg:px-[5.7vw]">
                 <Logo />
 
                 {/* Desktop links */}
                 <nav
                     aria-label="Primary"
-                    className="ml-8 hidden items-center gap-[2.2vw] lg:flex xl:ml-10"
+                    className="ml-8 hidden items-center gap-[1.6vw] lg:flex xl:ml-10"
                 >
                     {links.map((link) =>
                         link.children ? (
@@ -118,7 +118,7 @@ export default function Navbar() {
                                     aria-haspopup="true"
                                     aria-expanded={dropdownOpen}
                                     onClick={() => setDropdownOpen((v) => !v)}
-                                    className="flex items-center gap-2 py-2 text-[18px] font-semibold uppercase tracking-[0.02em] xl:text-[20px]"
+                                    className="flex items-center gap-1.5 py-2 text-[14px] font-semibold uppercase tracking-[0.02em] xl:text-[15px]"
                                 >
                                     {link.label}
                                     <Chevron open={dropdownOpen} />
@@ -143,7 +143,7 @@ export default function Navbar() {
                             <Link
                                 key={link.label}
                                 href={link.href}
-                                className="relative py-2 text-[18px] font-semibold uppercase tracking-[0.02em] xl:text-[20px]"
+                                className="relative py-2 text-[14px] font-semibold uppercase tracking-[0.02em] xl:text-[15px]"
                             >
                                 {link.label}
                                 {link.active && (
@@ -161,7 +161,7 @@ export default function Navbar() {
                 {/* Order Now */}
                 <Link
                     href="/order"
-                    className="ml-auto hidden h-[63px] items-center px-[45px] text-[20px] font-semibold uppercase tracking-[0.02em] lg:flex"
+                    className="ml-auto hidden h-[48px] items-center px-[30px] text-[15px] font-semibold uppercase tracking-[0.02em] lg:flex"
                     style={{ backgroundColor: "#ff0000", color: "#1f8a7d" }}
                 >
                     Order Now
