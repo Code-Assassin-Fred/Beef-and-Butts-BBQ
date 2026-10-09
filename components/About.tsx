@@ -149,7 +149,7 @@ export default function About({
                     <ul className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 md:mt-16">
                         {GALLERY.map((item) => (
                             <li key={item.src}>
-                                <figure className="group relative aspect-[4/5] overflow-hidden rounded-2xl bg-[#0f0f0f] shadow-[0_10px_30px_-12px_rgba(0,0,0,0.45)] ring-1 ring-black/10">
+                                <figure className="group relative aspect-[4/5] overflow-hidden rounded-[2px] bg-[#0f0f0f] shadow-[0_10px_30px_-12px_rgba(0,0,0,0.45)] ring-1 ring-black/10">
                                     <Image
                                         src={item.src}
                                         alt={item.alt}
@@ -157,13 +157,12 @@ export default function About({
                                         sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                                         className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                                     />
-                                    {/* Base shade so the glass plate always reads */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                                    {/* Shade so the name reads on any photo */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
-                                    {/* Glass name plate */}
-                                    <figcaption className="absolute inset-x-3 bottom-3 rounded-xl border border-white/25 bg-white/[0.12] px-4 py-3.5 shadow-[0_8px_24px_-8px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.3)] backdrop-blur-md backdrop-saturate-150 sm:inset-x-4 sm:bottom-4">
+                                    <figcaption className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
                                         <span
-                                            className={`${displayFont.className} block text-[1.35rem] uppercase leading-tight tracking-[0.04em] text-white [text-shadow:0_1px_8px_rgba(0,0,0,0.5)] sm:text-[1.5rem]`}
+                                            className={`${displayFont.className} block text-[1.6rem] uppercase leading-tight tracking-[0.04em] text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.7)] sm:text-[1.75rem]`}
                                         >
                                             {item.name}
                                         </span>
