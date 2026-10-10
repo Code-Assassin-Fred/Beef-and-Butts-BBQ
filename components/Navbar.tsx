@@ -131,20 +131,22 @@ export default function Navbar() {
                 />
             )}
 
-            <div className="mx-auto flex h-[105px] sm:h-[90px] items-center px-4 sm:px-6 lg:h-[120px] lg:px-[5.7vw]">
-                <Logo />
+            <div className="mx-auto flex h-[125px] sm:h-[90px] items-center px-4 sm:px-6 lg:h-[120px] lg:px-[5.7vw] justify-between">
+                <div className="flex shrink-0 items-center justify-start min-w-[200px] xl:min-w-[240px]">
+                    <Logo />
+                </div>
 
                 {/* Desktop links */}
                 <nav
                     aria-label="Primary"
-                    className="ml-8 hidden items-center gap-[1.6vw] lg:flex xl:ml-10"
+                    className="hidden items-center justify-center gap-7 lg:flex flex-1 mx-4 xl:gap-11"
                 >
                     {links.map((link) => (
                         <a
                             key={link.label}
                             href={link.href}
                             onClick={(e) => handleNavClick(e, link.href)}
-                            className="relative py-2 text-[14px] font-semibold uppercase tracking-[0.02em] xl:text-[15px] hover:text-[#e8742a] transition-colors cursor-pointer"
+                            className="relative py-2 text-[14px] font-semibold uppercase tracking-[0.02em] xl:text-[15px] hover:text-[#e4202b] transition-colors cursor-pointer"
                         >
                             {link.label}
                             {activeSection === link.id && (
@@ -152,7 +154,7 @@ export default function Navbar() {
                                     layoutId="activeNavIndicator"
                                     aria-hidden="true"
                                     className="absolute inset-x-0 -bottom-[2px] h-[2px]"
-                                    style={{ backgroundColor: ACCENT_ORANGE }}
+                                    style={{ backgroundColor: BRAND_RED }}
                                 />
                             )}
                         </a>
@@ -160,19 +162,20 @@ export default function Navbar() {
                 </nav>
 
                 {/* Order Now */}
-                <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="ml-auto hidden lg:block"
-                >
-                    <Link
-                        href="/order"
-                        className="flex h-[48px] items-center px-[30px] text-[15px] font-semibold uppercase tracking-[0.02em] shadow-md transition-shadow hover:shadow-lg"
-                        style={{ backgroundColor: "#ff0000", color: "#1f8a7d" }}
+                <div className="hidden lg:flex shrink-0 items-center justify-end min-w-[200px] xl:min-w-[240px]">
+                    <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                     >
-                        Order Now
-                    </Link>
-                </motion.div>
+                        <Link
+                            href="/order"
+                            className="flex h-[48px] items-center px-[30px] text-[15px] font-semibold uppercase tracking-[0.02em] shadow-md transition-shadow hover:shadow-lg"
+                            style={{ backgroundColor: "#ff0000", color: "#ffffff" }}
+                        >
+                            Order Now
+                        </Link>
+                    </motion.div>
+                </div>
 
                 {/* Mobile toggle */}
                 <button
@@ -236,8 +239,8 @@ export default function Navbar() {
                                             handleNavClick(e, item.href);
                                             setMobileOpen(false);
                                         }}
-                                        className="block py-3.5 sm:py-4 text-base sm:text-lg font-semibold uppercase tracking-wider transition-colors hover:text-[#e8742a] cursor-pointer"
-                                        style={activeSection === item.id ? { color: ACCENT_ORANGE } : undefined}
+                                        className="block py-3.5 sm:py-4 text-base sm:text-lg font-semibold uppercase tracking-wider transition-colors hover:text-[#e4202b] cursor-pointer"
+                                        style={activeSection === item.id ? { color: BRAND_RED } : undefined}
                                     >
                                         {item.label}
                                     </a>
@@ -254,7 +257,7 @@ export default function Navbar() {
                                 href="/order"
                                 onClick={() => setMobileOpen(false)}
                                 className="mt-5 flex h-12 sm:h-14 items-center justify-center text-base sm:text-lg font-semibold uppercase tracking-wider rounded shadow-lg active:scale-[0.98] transition-transform"
-                                style={{ backgroundColor: "#ff0000", color: "#1f8a7d" }}
+                                style={{ backgroundColor: "#ff0000", color: "#ffffff" }}
                             >
                                 Order Now
                             </Link>
