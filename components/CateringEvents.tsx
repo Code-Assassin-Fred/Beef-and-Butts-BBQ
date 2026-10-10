@@ -78,6 +78,7 @@ const CATEGORIES: Category[] = [
         description:
             "School and church events, charity fundraisers, festivals and markets. Outdoor-ready BBQ that feeds a crowd and keeps the line moving.",
         groups: ["School & church events", "Charity fundraisers", "Festivals & markets"],
+        image: { src: "/Assets/bhajia-with-chilli-sauce.jpg", alt: "Crispy bhajia with chilli sauce for community events" },
     },
 ];
 
