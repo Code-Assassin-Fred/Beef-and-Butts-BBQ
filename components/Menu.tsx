@@ -244,7 +244,7 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
                         className="flex flex-col justify-center text-center lg:text-left"
                     >
                         <h2
-                            className={`${scriptFont.className} py-2 text-[clamp(2.3rem,4.6vw,4rem)] leading-[1.15] text-[#e4202b] lg:whitespace-nowrap`}
+                            className={`${scriptFont.className} py-2 text-[clamp(2.3rem,4.6vw,4rem)] leading-[1.15] text-[#ff0000] lg:whitespace-nowrap`}
                         >
                             Catch the Flavor.
                             <br />

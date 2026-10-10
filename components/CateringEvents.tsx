@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import {
     Anton,
     Jost,
-    League_Gothic,
     Montserrat,
     Great_Vibes,
     Playfair_Display,
@@ -14,7 +13,6 @@ import {
 import QuoteModal from "./QuoteModal";
 
 const displayFont = Anton({ subsets: ["latin"], weight: "400", display: "swap" });
-const headingFont = League_Gothic({ subsets: ["latin"], weight: "400", display: "swap" });
 const bodyFont = Jost({ subsets: ["latin"], weight: ["400", "500", "600", "700"], display: "swap" });
 const darkBodyFont = Montserrat({ subsets: ["latin"], weight: ["400", "500", "600", "700"], display: "swap" });
 const scriptFont = Great_Vibes({ subsets: ["latin"], weight: "400", display: "swap" });
@@ -80,25 +78,6 @@ const CATEGORIES: Category[] = [
         description:
             "School and church events, charity fundraisers, festivals and markets. Outdoor-ready BBQ that feeds a crowd and keeps the line moving.",
         groups: ["School & church events", "Charity fundraisers", "Festivals & markets"],
-        image: { src: "/Assets/seasoned-rib-racks-raw.jpg", alt: "Seasoned rib racks ready for the smoker" },
-    },
-];
-
-const STEPS = [
-    {
-        n: "01",
-        title: "Inquire",
-        text: "Send us your event date, guest count, and vision. No strings attached.",
-    },
-    {
-        n: "02",
-        title: "Custom Menu & Quote",
-        text: "We build a menu around your event and send over a clear, itemized quote.",
-    },
-    {
-        n: "03",
-        title: "Confirm & Serve",
-        text: "Lock in your date and leave the cooking, setup, and service to us.",
     },
 ];
 
@@ -182,10 +161,10 @@ export default function CateringEvents() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.7 }}
-                        className="mx-auto max-w-3xl text-center"
+                        className="mx-auto max-w-5xl text-center"
                     >
                         <h2
-                            className={`${displayFont.className} text-[clamp(2.2rem,5.5vw,4.5rem)] uppercase leading-[1.05] tracking-[0.02em]`}
+                            className={`${displayFont.className} text-[clamp(1.1rem,4.2vw,4.2rem)] uppercase leading-[1.05] tracking-[0.02em] whitespace-nowrap`}
                             style={{ filter: "url(#cat-stamp)" }}
                         >
                             We bring the smoke to your table.
@@ -195,37 +174,10 @@ export default function CateringEvents() {
                             Smoked slow. Served loud.
                         </p>
 
-                        <p className="mt-5 sm:mt-6 text-base sm:text-lg leading-relaxed text-neutral-700 md:text-xl">
+                        <p className="mt-5 sm:mt-6 text-base sm:text-lg leading-relaxed text-neutral-700 md:text-xl max-w-3xl mx-auto">
                             From intimate backyard cookouts to full-scale corporate feasts, we slow-smoke barbecue over live hardwood fire and serve it fresh for any crowd.
                         </p>
                     </motion.header>
-
-                    {/* How it works */}
-                    <div className="mt-12 sm:mt-14 border-y border-neutral-300 py-8 sm:py-10 md:mt-20 md:py-14">
-                        <h3 className={`${displayFont.className} text-center text-lg sm:text-xl uppercase tracking-[0.15em] text-neutral-500`}>
-                            How Catering Works
-                        </h3>
-                        <ol className="mt-6 sm:mt-8 grid gap-8 sm:grid-cols-3 md:mt-10 md:gap-12">
-                            {STEPS.map((s, idx) => (
-                                <motion.li
-                                    key={s.n}
-                                    initial={{ opacity: 0, y: 25 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.5, delay: idx * 0.15 }}
-                                    className="flex flex-col items-center text-center"
-                                >
-                                    <span className={`${headingFont.className} text-4xl sm:text-5xl leading-none text-[#D42F16] md:text-6xl`}>
-                                        {s.n}
-                                    </span>
-                                    <h4 className={`${displayFont.className} mt-2 text-lg sm:text-xl uppercase tracking-[0.04em]`}>
-                                        {s.title}
-                                    </h4>
-                                    <p className="mt-2 text-xs sm:text-sm leading-relaxed text-neutral-600">{s.text}</p>
-                                </motion.li>
-                            ))}
-                        </ol>
-                    </div>
 
                     {/* Category List */}
                     <div className="mt-12 sm:mt-14 md:mt-20">

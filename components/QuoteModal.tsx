@@ -94,18 +94,18 @@ export default function QuoteModal({ isOpen, onClose, initialCategory }: QuoteMo
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.25 }}
-                    className={`${bodyFont.className} fixed inset-0 z-[10000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md overflow-y-auto`}
+                    className={`${bodyFont.className} fixed inset-0 z-[10000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden`}
                 >
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 20 }}
                         transition={{ duration: 0.3, ease: "easeOut" }}
-                        className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-[#0f0f0f] border border-white/10 p-5 sm:p-8 shadow-2xl text-white my-auto"
+                        className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden rounded-sm bg-[#0f0f0f] border border-white/10 p-5 sm:p-8 shadow-2xl text-white my-auto"
                     >
                         <button
                             onClick={onClose}
-                            className="absolute top-4 right-4 h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-white/10 text-neutral-400 hover:text-white flex items-center justify-center transition-colors"
+                            className="absolute top-4 right-4 h-8 w-8 sm:h-9 sm:w-9 rounded-sm bg-white/10 text-neutral-400 hover:text-white flex items-center justify-center transition-colors"
                         >
                             ✕
                         </button>
@@ -133,7 +133,7 @@ export default function QuoteModal({ isOpen, onClose, initialCategory }: QuoteMo
                                         setStatus("idle");
                                         onClose();
                                     }}
-                                    className="mt-4 rounded-lg bg-[#e4202b] px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#c81b24]"
+                                    className="mt-4 rounded-sm bg-[#e4202b] px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#c81b24]"
                                 >
                                     Close Window
                                 </button>
@@ -141,7 +141,7 @@ export default function QuoteModal({ isOpen, onClose, initialCategory }: QuoteMo
                         ) : (
                             <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4 text-xs sm:text-sm">
                                 {status === "error" && (
-                                    <div className="rounded-lg bg-red-500/20 border border-red-500/40 p-3 text-red-300 text-xs">
+                                    <div className="rounded-sm bg-red-500/20 border border-red-500/40 p-3 text-red-300 text-xs">
                                         {errorMessage}
                                     </div>
                                 )}
@@ -153,7 +153,7 @@ export default function QuoteModal({ isOpen, onClose, initialCategory }: QuoteMo
                                             name="eventType"
                                             value={form.eventType}
                                             onChange={handleChange}
-                                            className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2.5 text-white focus:outline-none focus:border-[#e4202b]"
+                                            className="w-full rounded-sm bg-white/5 border border-white/10 px-3 py-2.5 text-white focus:outline-none focus:border-[#e4202b]"
                                         >
                                             <option value="Weddings & Receptions" className="bg-[#0f0f0f]">Weddings & Receptions</option>
                                             <option value="Corporate Events" className="bg-[#0f0f0f]">Corporate Events</option>
@@ -169,7 +169,7 @@ export default function QuoteModal({ isOpen, onClose, initialCategory }: QuoteMo
                                             name="guestCount"
                                             value={form.guestCount}
                                             onChange={handleChange}
-                                            className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2.5 text-white focus:outline-none focus:border-[#e4202b]"
+                                            className="w-full rounded-sm bg-white/5 border border-white/10 px-3 py-2.5 text-white focus:outline-none focus:border-[#e4202b]"
                                         >
                                             <option value="20-50 guests" className="bg-[#0f0f0f]">20-50 guests</option>
                                             <option value="50-100 guests" className="bg-[#0f0f0f]">50-100 guests</option>
@@ -189,7 +189,7 @@ export default function QuoteModal({ isOpen, onClose, initialCategory }: QuoteMo
                                             onChange={handleChange}
                                             required
                                             placeholder="John Doe"
-                                            className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2.5 text-white placeholder-neutral-400 focus:outline-none focus:border-[#e4202b]"
+                                            className="w-full rounded-sm bg-white/5 border border-white/10 px-3 py-2.5 text-white placeholder-neutral-400 focus:outline-none focus:border-[#e4202b]"
                                         />
                                     </div>
 
@@ -202,7 +202,7 @@ export default function QuoteModal({ isOpen, onClose, initialCategory }: QuoteMo
                                             onChange={handleChange}
                                             required
                                             placeholder="john@example.com"
-                                            className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2.5 text-white placeholder-neutral-400 focus:outline-none focus:border-[#e4202b]"
+                                            className="w-full rounded-sm bg-white/5 border border-white/10 px-3 py-2.5 text-white placeholder-neutral-400 focus:outline-none focus:border-[#e4202b]"
                                         />
                                     </div>
                                 </div>
@@ -217,7 +217,7 @@ export default function QuoteModal({ isOpen, onClose, initialCategory }: QuoteMo
                                             onChange={handleChange}
                                             required
                                             placeholder="(555) 000-0000"
-                                            className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2.5 text-white placeholder-neutral-400 focus:outline-none focus:border-[#e4202b]"
+                                            className="w-full rounded-sm bg-white/5 border border-white/10 px-3 py-2.5 text-white placeholder-neutral-400 focus:outline-none focus:border-[#e4202b]"
                                         />
                                     </div>
 
@@ -228,7 +228,7 @@ export default function QuoteModal({ isOpen, onClose, initialCategory }: QuoteMo
                                             name="eventDate"
                                             value={form.eventDate}
                                             onChange={handleChange}
-                                            className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2.5 text-white focus:outline-none focus:border-[#e4202b]"
+                                            className="w-full rounded-sm bg-white/5 border border-white/10 px-3 py-2.5 text-white focus:outline-none focus:border-[#e4202b]"
                                         />
                                     </div>
                                 </div>
@@ -241,19 +241,21 @@ export default function QuoteModal({ isOpen, onClose, initialCategory }: QuoteMo
                                         onChange={handleChange}
                                         rows={3}
                                         placeholder="Tell us about location, preferred meats, dietary restrictions..."
-                                        className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2.5 text-white placeholder-neutral-400 focus:outline-none focus:border-[#e4202b]"
+                                        className="w-full rounded-sm bg-white/5 border border-white/10 px-3 py-2.5 text-white placeholder-neutral-400 focus:outline-none focus:border-[#e4202b]"
                                     />
                                 </div>
 
-                                <motion.button
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
-                                    type="submit"
-                                    disabled={status === "sending"}
-                                    className="w-full rounded-lg bg-[#e4202b] py-3 text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-[#c81b24] disabled:opacity-50"
-                                >
-                                    {status === "sending" ? "Submitting Request..." : "Submit Quote Request"}
-                                </motion.button>
+                                <div className="flex justify-end pt-2">
+                                    <motion.button
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.98 }}
+                                        type="submit"
+                                        disabled={status === "sending"}
+                                        className="w-fit rounded-sm bg-[#e4202b] px-6 py-3 text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-[#c81b24] disabled:opacity-50"
+                                    >
+                                        {status === "sending" ? "Submitting Request..." : "Submit Quote Request"}
+                                    </motion.button>
+                                </div>
                             </form>
                         )}
                     </motion.div>
