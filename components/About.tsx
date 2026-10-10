@@ -190,7 +190,7 @@ export default function About({
                         <p className="mt-4 sm:mt-5 text-base sm:text-lg leading-relaxed text-neutral-700 md:text-xl">{GALLERY_TEXT}</p>
                     </motion.header>
 
-                    <ul className="mt-10 sm:mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 md:mt-16">
+                    <ul className="mt-10 sm:mt-12 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4 md:mt-16">
                         {gallery.map((item, index) => (
                             <motion.li
                                 key={item.id || `${item.src}-${index}`}
@@ -199,7 +199,7 @@ export default function About({
                                 viewport={{ once: true, margin: "-40px" }}
                                 transition={{ duration: 0.5, delay: (index % 4) * 0.1 }}
                             >
-                                <figure className="group relative aspect-[4/5] overflow-hidden rounded-[2px] bg-[#0f0f0f] shadow-[0_10px_30px_-12px_rgba(0,0,0,0.45)] ring-1 ring-black/10">
+                                <figure className="group relative aspect-[3/4] sm:aspect-[4/5] overflow-hidden rounded-[2px] bg-[#0f0f0f] shadow-[0_10px_30px_-12px_rgba(0,0,0,0.45)] ring-1 ring-black/10">
                                     <Image
                                         src={item.src}
                                         alt={item.alt}

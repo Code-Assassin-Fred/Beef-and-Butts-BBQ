@@ -102,7 +102,7 @@ export default function Contact({ whatsappHref = DEFAULT_WHATSAPP }: Props) {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="flex flex-col justify-center gap-6 sm:gap-7 px-5 py-8 sm:px-10 lg:px-8 lg:py-0"
+                    className="grid grid-cols-3 gap-4 lg:grid-cols-1 lg:flex lg:flex-col justify-center lg:gap-7 px-5 py-8 sm:px-10 lg:px-8 lg:py-0"
                 >
                     <div>
                         <h3 className="text-base font-bold text-black">Email Us</h3>
@@ -164,7 +164,7 @@ export default function Contact({ whatsappHref = DEFAULT_WHATSAPP }: Props) {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <h2 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold leading-[1.05] tracking-tight">
+                        <h2 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold leading-[1.05] tracking-tight text-center lg:text-left">
                             Get in Touch
                         </h2>
                         <p className="mt-4 sm:mt-5 max-w-sm text-sm sm:text-base leading-[1.6] text-neutral-800">
@@ -241,13 +241,13 @@ export default function Contact({ whatsappHref = DEFAULT_WHATSAPP }: Props) {
                             <p className="mt-3 text-xs sm:text-sm text-red-600 font-semibold">{errorMessage}</p>
                         )}
 
-                        <div className="mt-6 flex flex-col items-stretch sm:items-end gap-3">
+                        <div className="mt-6 flex flex-col items-end gap-3">
                             <motion.button
                                 whileHover={{ scale: 1.03 }}
                                 whileTap={{ scale: 0.97 }}
                                 type="submit"
                                 disabled={status === "sending"}
-                                className="rounded-lg bg-black px-7 sm:px-9 py-3 sm:py-3.5 text-base sm:text-lg font-bold text-white shadow-[0_4px_12px_rgba(0,0,0,0.22)] ring-4 ring-white/70 transition-colors hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[6px] focus-visible:outline-black disabled:opacity-50"
+                                className="w-auto rounded-lg bg-black px-7 sm:px-9 py-3 sm:py-3.5 text-base sm:text-lg font-bold text-white shadow-[0_4px_12px_rgba(0,0,0,0.22)] ring-4 ring-white/70 transition-colors hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[6px] focus-visible:outline-black disabled:opacity-50"
                             >
                                 {status === "sending" ? "Sending..." : "Send message"}
                             </motion.button>

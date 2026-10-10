@@ -251,7 +251,7 @@ export default function CateringEvents() {
                         })}
                 </div>
 
-                {/* ============ Part 2: "Choose Your Service" Card ============ */}
+                {/* ============ Part 2: Catering & Events – How It Works ============ */}
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -267,7 +267,7 @@ export default function CateringEvents() {
                                     <span
                                         className={`${ampFont.className} italic bg-[#141414] px-3 sm:px-4 text-lg font-bold uppercase tracking-[0.12em] sm:tracking-[0.15em] text-white sm:text-2xl md:text-3xl`}
                                     >
-                                        CHOOSE YOUR SERVICE
+                                        CATERING &amp; EVENTS
                                     </span>
                                     <span className="hidden h-[1px] w-12 bg-[#D42F16]/60 sm:block sm:w-24 md:w-32" />
                                 </div>
@@ -279,10 +279,10 @@ export default function CateringEvents() {
                                         1.
                                     </span>
                                     <h4 className={`${displayFont.className} text-xl sm:text-2xl uppercase tracking-[0.05em] text-[#D42F16]`}>
-                                        Pick-Up
+                                        Tell Us Your Vision
                                     </h4>
                                     <p className="mt-2 sm:mt-3 text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-200">
-                                        Order and pick up from any of our locations.
+                                        Share your event details, guest count and menu preferences with our team.
                                     </p>
                                 </div>
 
@@ -291,10 +291,10 @@ export default function CateringEvents() {
                                         2.
                                     </span>
                                     <h4 className={`${displayFont.className} text-xl sm:text-2xl uppercase tracking-[0.05em] text-[#D42F16]`}>
-                                        Drop-Off
+                                        We Plan the Feast
                                     </h4>
                                     <p className="mt-2 sm:mt-3 text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-200">
-                                        Our team will deliver and setup your order.
+                                        We build a custom menu, handle logistics, and lock everything in.
                                     </p>
                                 </div>
 
@@ -303,15 +303,19 @@ export default function CateringEvents() {
                                         3.
                                     </span>
                                     <h4 className={`${displayFont.className} text-xl sm:text-2xl uppercase tracking-[0.05em] text-[#D42F16]`}>
-                                        Catered
+                                        We Show Up &amp; Serve
                                     </h4>
                                     <p className="mt-2 sm:mt-3 text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-200">
-                                        Our full service catering. Our team will set up, serve and clean up.
+                                        Our crew arrives, sets up, serves your guests, and cleans up. You just enjoy.
                                     </p>
                                 </div>
                             </div>
 
-                            <div className="mt-8 border-t border-[#D42F16]/50 pt-6">
+                            <p className={`${scriptFont.className} mt-8 text-center text-[clamp(1.4rem,3vw,2.2rem)] leading-snug text-[#D42F16]`}>
+                                You bring the people. We bring the smoke.
+                            </p>
+
+                            <div className="mt-6 border-t border-[#D42F16]/50 pt-6">
                                 <div className="flex flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
                                     <div className="flex items-center gap-3">
                                         <svg
@@ -331,7 +335,7 @@ export default function CateringEvents() {
                                         whileTap={{ scale: 0.96 }}
                                         type="button"
                                         onClick={() => openQuote("Catering Inquiry")}
-                                        className={`${displayFont.className} w-full sm:w-auto rounded bg-[#D42F16] px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base uppercase tracking-[0.06em] text-white transition-colors hover:bg-[#B72511] ${focusRing}`}
+                                        className={`${displayFont.className} w-auto rounded bg-[#D42F16] px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base uppercase tracking-[0.06em] text-white transition-colors hover:bg-[#B72511] ${focusRing}`}
                                     >
                                         Inquire for Catering
                                     </motion.button>

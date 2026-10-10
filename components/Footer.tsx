@@ -67,8 +67,8 @@ export default function Footer() {
                     className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 pb-10 sm:pb-12 border-b border-white/20"
                 >
                     {/* Brand Column */}
-                    <div className="sm:col-span-2 lg:col-span-2">
-                        <Link href="/" aria-label="Beef and Butts BBQ home" className="inline-flex flex-col leading-none" style={{ color: BRAND_RED }}>
+                    <div className="sm:col-span-2 lg:col-span-2 text-center sm:text-left">
+                        <Link href="/" aria-label="Beef and Butts BBQ home" className="inline-flex flex-col leading-none mx-auto sm:mx-0" style={{ color: BRAND_RED }}>
                             <span className={`${script.className} -rotate-[3deg] text-[30px] sm:text-[40px]`} style={{ textShadow: "0 2px 0 rgba(0,0,0,0.4)" }}>
                                 Beef &amp; Butts
                             </span>
@@ -76,7 +76,7 @@ export default function Footer() {
                                 BAR-B-Q
                             </span>
                         </Link>
-                        <p className="mt-4 sm:mt-5 text-neutral-300 text-sm sm:text-base leading-relaxed max-w-sm">
+                        <p className="mt-4 sm:mt-5 text-neutral-300 text-sm sm:text-base leading-relaxed max-w-sm mx-auto sm:mx-0">
                             Real barbecue takes time, and it&rsquo;s worth every minute. Slow-smoked brisket, rack ribs, glazed chicken, and crispy bhajia made fresh daily.
                         </p>
                         <div className="mt-5 sm:mt-6 space-y-2 text-sm sm:text-base text-white font-medium">

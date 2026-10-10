@@ -260,7 +260,7 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.7 }}
-                        className="mx-auto grid w-full max-w-lg gap-6 sm:gap-8 text-center sm:grid-cols-2 sm:text-left lg:mr-0"
+                        className="mx-auto grid w-full max-w-lg gap-6 sm:gap-8 text-center grid-cols-2 sm:text-left lg:mr-0"
                     >
                         {SERVICE_OPTIONS.map((o) => (
                             <li key={o.label}>

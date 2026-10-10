@@ -213,7 +213,7 @@ export default function Navbar() {
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.35, ease: "easeInOut" }}
                         aria-label="Mobile"
-                        className="overflow-hidden border-t border-white/10 bg-black/95 px-5 sm:px-6 pb-6 backdrop-blur-lg lg:hidden"
+                        className="overflow-hidden border-t border-white/10 bg-black/95 px-5 sm:px-6 pb-6 backdrop-blur-lg lg:hidden ml-auto w-[55%] sm:w-full"
                     >
                         <motion.ul
                             initial="closed"
