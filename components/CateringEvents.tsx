@@ -155,7 +155,7 @@ export default function CateringEvents() {
                     }}
                 />
 
-                <div className="mx-auto max-w-6xl px-4 sm:px-8 pb-16 pt-12 sm:pb-20 sm:pt-16 md:pb-28 md:pt-24">
+                <div className="mx-auto max-w-6xl px-4 sm:px-8 pt-12 sm:pt-16 md:pt-24 pb-12 sm:pb-16 md:pb-24">
                     <motion.header
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -249,99 +249,99 @@ export default function CateringEvents() {
                                 </motion.article>
                             );
                         })}
-                    </div>
                 </div>
-            </div>
 
-            {/* ============ Part 2: "Choose Your Service" Card ============ */}
-            <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                className={`${darkBodyFont.className} relative z-10 mx-auto max-w-6xl px-4 pb-16 pt-6 sm:px-6 md:pb-28`}
-            >
-                <div className="relative rounded-sm bg-[#141414] p-3 sm:p-6 md:p-8 text-white shadow-2xl">
-                    <div className="relative rounded-sm border border-[#D42F16]/70 p-4 sm:p-8 md:p-10">
-                        <div className="relative -mt-8 sm:-mt-13 mb-6 sm:mb-8 text-center">
-                            <div className="flex items-center justify-center gap-2 sm:gap-4">
-                                <span className="hidden h-[1px] w-12 bg-[#D42F16]/60 sm:block sm:w-24 md:w-32" />
-                                <span
-                                    className={`${ampFont.className} italic bg-[#141414] px-3 sm:px-4 text-lg font-bold uppercase tracking-[0.12em] sm:tracking-[0.15em] text-white sm:text-2xl md:text-3xl`}
-                                >
-                                    CHOOSE YOUR SERVICE
-                                </span>
-                                <span className="hidden h-[1px] w-12 bg-[#D42F16]/60 sm:block sm:w-24 md:w-32" />
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-3 md:gap-0">
-                            <div className="flex flex-col items-center text-center md:px-6 lg:px-8">
-                                <span className={`${displayFont.className} text-xl sm:text-2xl font-bold text-[#D42F16]`}>
-                                    1.
-                                </span>
-                                <h4 className={`${displayFont.className} text-xl sm:text-2xl uppercase tracking-[0.05em] text-[#D42F16]`}>
-                                    Pick-Up
-                                </h4>
-                                <p className="mt-2 sm:mt-3 text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-200">
-                                    Order and pick up from any of our locations.
-                                </p>
-                            </div>
-
-                            <div className="flex flex-col items-center text-center md:border-x md:border-white/15 md:px-6 lg:px-8">
-                                <span className={`${displayFont.className} text-xl sm:text-2xl font-bold text-[#D42F16]`}>
-                                    2.
-                                </span>
-                                <h4 className={`${displayFont.className} text-xl sm:text-2xl uppercase tracking-[0.05em] text-[#D42F16]`}>
-                                    Drop-Off
-                                </h4>
-                                <p className="mt-2 sm:mt-3 text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-200">
-                                    Our team will deliver and setup your order.
-                                </p>
-                            </div>
-
-                            <div className="flex flex-col items-center text-center md:px-6 lg:px-8">
-                                <span className={`${displayFont.className} text-xl sm:text-2xl font-bold text-[#D42F16]`}>
-                                    3.
-                                </span>
-                                <h4 className={`${displayFont.className} text-xl sm:text-2xl uppercase tracking-[0.05em] text-[#D42F16]`}>
-                                    Catered
-                                </h4>
-                                <p className="mt-2 sm:mt-3 text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-200">
-                                    Our full service catering. Our team will set up, serve and clean up.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="mt-8 border-t border-[#D42F16]/50 pt-6">
-                            <div className="flex flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
-                                <div className="flex items-center gap-3">
-                                    <svg
-                                        className="h-6 w-6 text-[#D42F16] shrink-0"
-                                        fill="currentColor"
-                                        viewBox="0 0 24 24"
-                                        aria-hidden="true"
+                {/* ============ Part 2: "Choose Your Service" Card ============ */}
+                <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8 }}
+                    className={`${darkBodyFont.className} relative z-10 mt-16 sm:mt-20 md:mt-24`}
+                >
+                    <div className="relative rounded-sm bg-[#141414] p-3 sm:p-6 md:p-8 text-white shadow-2xl">
+                        <div className="relative rounded-sm border border-[#D42F16]/70 p-4 sm:p-8 md:p-10">
+                            <div className="relative -mt-8 sm:-mt-13 mb-6 sm:mb-8 text-center">
+                                <div className="flex items-center justify-center gap-2 sm:gap-4">
+                                    <span className="hidden h-[1px] w-12 bg-[#D42F16]/60 sm:block sm:w-24 md:w-32" />
+                                    <span
+                                        className={`${ampFont.className} italic bg-[#141414] px-3 sm:px-4 text-lg font-bold uppercase tracking-[0.12em] sm:tracking-[0.15em] text-white sm:text-2xl md:text-3xl`}
                                     >
-                                        <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
-                                    </svg>
-                                    <span className="text-xs sm:text-sm font-bold text-white md:text-base">
-                                        Order Catering by phone at <a href="tel:+16478898033" className="hover:text-[#D42F16] transition-colors">(647) 889-8033</a>
+                                        CHOOSE YOUR SERVICE
                                     </span>
+                                    <span className="hidden h-[1px] w-12 bg-[#D42F16]/60 sm:block sm:w-24 md:w-32" />
                                 </div>
-                                <motion.button
-                                    whileHover={{ scale: 1.04 }}
-                                    whileTap={{ scale: 0.96 }}
-                                    type="button"
-                                    onClick={() => openQuote("Catering Inquiry")}
-                                    className={`${displayFont.className} w-full sm:w-auto rounded bg-[#D42F16] px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base uppercase tracking-[0.06em] text-white transition-colors hover:bg-[#B72511] ${focusRing}`}
-                                >
-                                    Inquire for Catering
-                                </motion.button>
+                            </div>
+
+                            <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-3 md:gap-0">
+                                <div className="flex flex-col items-center text-center md:px-6 lg:px-8">
+                                    <span className={`${displayFont.className} text-xl sm:text-2xl font-bold text-[#D42F16]`}>
+                                        1.
+                                    </span>
+                                    <h4 className={`${displayFont.className} text-xl sm:text-2xl uppercase tracking-[0.05em] text-[#D42F16]`}>
+                                        Pick-Up
+                                    </h4>
+                                    <p className="mt-2 sm:mt-3 text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-200">
+                                        Order and pick up from any of our locations.
+                                    </p>
+                                </div>
+
+                                <div className="flex flex-col items-center text-center md:border-x md:border-white/15 md:px-6 lg:px-8">
+                                    <span className={`${displayFont.className} text-xl sm:text-2xl font-bold text-[#D42F16]`}>
+                                        2.
+                                    </span>
+                                    <h4 className={`${displayFont.className} text-xl sm:text-2xl uppercase tracking-[0.05em] text-[#D42F16]`}>
+                                        Drop-Off
+                                    </h4>
+                                    <p className="mt-2 sm:mt-3 text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-200">
+                                        Our team will deliver and setup your order.
+                                    </p>
+                                </div>
+
+                                <div className="flex flex-col items-center text-center md:px-6 lg:px-8">
+                                    <span className={`${displayFont.className} text-xl sm:text-2xl font-bold text-[#D42F16]`}>
+                                        3.
+                                    </span>
+                                    <h4 className={`${displayFont.className} text-xl sm:text-2xl uppercase tracking-[0.05em] text-[#D42F16]`}>
+                                        Catered
+                                    </h4>
+                                    <p className="mt-2 sm:mt-3 text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-200">
+                                        Our full service catering. Our team will set up, serve and clean up.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="mt-8 border-t border-[#D42F16]/50 pt-6">
+                                <div className="flex flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
+                                    <div className="flex items-center gap-3">
+                                        <svg
+                                            className="h-6 w-6 text-[#D42F16] shrink-0"
+                                            fill="currentColor"
+                                            viewBox="0 0 24 24"
+                                            aria-hidden="true"
+                                        >
+                                            <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                                        </svg>
+                                        <span className="text-xs sm:text-sm font-bold text-white md:text-base">
+                                            Order Catering by phone at <a href="tel:+16478898033" className="hover:text-[#D42F16] transition-colors">(647) 889-8033</a>
+                                        </span>
+                                    </div>
+                                    <motion.button
+                                        whileHover={{ scale: 1.04 }}
+                                        whileTap={{ scale: 0.96 }}
+                                        type="button"
+                                        onClick={() => openQuote("Catering Inquiry")}
+                                        className={`${displayFont.className} w-full sm:w-auto rounded bg-[#D42F16] px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base uppercase tracking-[0.06em] text-white transition-colors hover:bg-[#B72511] ${focusRing}`}
+                                    >
+                                        Inquire for Catering
+                                    </motion.button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </motion.div>
+                </motion.div>
+            </div>
+        </div>
         </section>
     );
 }
