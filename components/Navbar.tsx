@@ -29,6 +29,7 @@ const links: NavItem[] = [
     { label: "Menus", href: "#menu", id: "menu" },
     { label: "Catering", href: "#catering", id: "catering" },
     { label: "About", href: "#about", id: "about" },
+    { label: "From Our Kitchen", href: "#gallery", id: "gallery" },
     { label: "Contact", href: "#contact", id: "contact" },
 ];
 
@@ -70,7 +71,7 @@ export default function Navbar() {
         const handleScroll = () => {
             setScrolled(window.scrollY > 50);
 
-            const sectionIds = ["home", "menu", "catering", "about", "contact"];
+            const sectionIds = ["home", "menu", "catering", "about", "gallery", "contact"];
             const scrollPos = window.scrollY + 150;
 
             for (const id of sectionIds) {
@@ -208,12 +209,12 @@ export default function Navbar() {
             <AnimatePresence>
                 {mobileOpen && (
                     <motion.nav
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.35, ease: "easeInOut" }}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
                         aria-label="Mobile"
-                        className="overflow-hidden border-t border-white/10 bg-black/95 px-5 sm:px-6 pb-6 backdrop-blur-lg lg:hidden ml-auto w-[55%] sm:w-full"
+                        className="absolute top-full right-0 w-[65%] overflow-hidden border-t border-l border-white/10 bg-black/95 px-5 pb-6 backdrop-blur-lg shadow-2xl lg:hidden z-50"
                     >
                         <motion.ul
                             initial="closed"

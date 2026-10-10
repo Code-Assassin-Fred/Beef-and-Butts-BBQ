@@ -160,6 +160,7 @@ export default function About({
 
             {/* ===== Gallery: fetched from Firestore database ===== */}
             <section
+                id="gallery"
                 aria-labelledby="gallery-heading"
                 className={`${bodyFont.className} relative z-10 isolate bg-white`}
             >

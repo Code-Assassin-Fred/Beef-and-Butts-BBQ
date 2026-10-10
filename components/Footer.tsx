@@ -104,6 +104,7 @@ export default function Footer() {
                             <li><a href="#menu" onClick={(e) => handleNavClick(e, "#menu")} className="hover:text-[#e8742a] transition-colors cursor-pointer">Menus</a></li>
                             <li><a href="#catering" onClick={(e) => handleNavClick(e, "#catering")} className="hover:text-[#e8742a] transition-colors cursor-pointer">Catering</a></li>
                             <li><a href="#about" onClick={(e) => handleNavClick(e, "#about")} className="hover:text-[#e8742a] transition-colors cursor-pointer">About</a></li>
+                            <li><a href="#gallery" onClick={(e) => handleNavClick(e, "#gallery")} className="hover:text-[#e8742a] transition-colors cursor-pointer">From Our Kitchen</a></li>
                             <li><a href="#contact" onClick={(e) => handleNavClick(e, "#contact")} className="hover:text-[#e8742a] transition-colors cursor-pointer">Contact Us</a></li>
                         </ul>
                     </div>
