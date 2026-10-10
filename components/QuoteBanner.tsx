@@ -85,7 +85,7 @@ export default function QuoteBanner() {
                         style={{ filter: "url(#stamp-rough)" }}
                     >
                         &ldquo;Fire, smoke, and zero apologies.
-                        <br className="hidden sm:block" /> Welcome to the pit.&rdquo;
+                        <br className="hidden sm:block" /> Welcome to the smokehouse.&rdquo;
                     </p>
                 </motion.blockquote>
             </div>

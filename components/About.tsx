@@ -12,11 +12,11 @@ const bodyFont = Jost({ subsets: ["latin"], weight: ["400", "500", "600", "700"]
 
 const PARAGRAPHS = [
     "Beef N Butts BBQ was built on a simple idea: real barbecue takes time, and it is worth every minute. We cook over fire and slow smoke until the brisket gives up, the ribs wear a deep, sticky bark, and the chicken comes off the grill glazed and a little bit charred.",
-    "We also like to play with our food. Crispy bhajia with chilli sauce, curry chip dip, and smoked ribs share the same table here, classic pit flavor with a twist you won't find at the next smokehouse.",
-    "Pick it up, have it delivered, or let us bring the pit to your next event. However it reaches you, it leaves our fire hot and loud.",
+    "We also like to play with our food. Crispy bhajia with chilli sauce, curry chip dip, and smoked ribs share the same table here, classic smoker flavor with a twist you won't find at the next smokehouse.",
+    "Pick it up, have it delivered, or let us bring the feast to your next event. However it reaches you, it leaves our fire hot and loud.",
 ];
 
-const GALLERY_TITLE = "Pit-Fired. Plate-Ready.";
+const GALLERY_TITLE = "Fire-Smoked. Plate-Ready.";
 const GALLERY_TEXT =
     "Bark-crusted ribs, glazed chicken and bhajia with a kick of chilli: a look at what leaves our smoker and fryer every day.";
 
@@ -135,7 +135,7 @@ export default function About({
                         style={{ filter: "url(#about-stamp)" }}
                     >
                         Smoked slow. Served with{" "}
-                        <span className="relative inline-block text-[#FF8A3D] after:absolute after:inset-x-0 after:-bottom-1.5 sm:after:-bottom-2 after:h-[3px] after:bg-[#FF8A3D]">
+                        <span className="relative inline-block text-[#e4202b] after:absolute after:inset-x-0 after:-bottom-1.5 sm:after:-bottom-2 after:h-[3px] after:bg-[#e4202b]">
                             swagger
                         </span>
                         .

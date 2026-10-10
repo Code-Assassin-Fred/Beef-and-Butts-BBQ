@@ -50,7 +50,7 @@ const columns: Column[] = [
         body: (
             <>
                 Backyard cookouts, office lunches, big celebrations.{" "}
-                <strong className="font-bold">We bring the pit to your party</strong>{" "}
+                <strong className="font-bold">We bring the feast to your party</strong>{" "}
                 with platters, party trays and full-service spreads.
             </>
         ),

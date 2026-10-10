@@ -12,7 +12,7 @@ const defaultCategories = [
             { name: "Full Rack Pork Ribs", price: "$35" },
             { name: "Pulled Pork Sandwich", price: "$16" },
             { name: "Smoked Farmers Sausage", price: "$14" },
-            { name: "The Pitmaster Combo", price: "$55" },
+            { name: "The Master Combo", price: "$55" },
             { name: "The Feast Platter", price: "$90" },
         ],
     },

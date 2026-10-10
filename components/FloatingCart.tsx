@@ -8,7 +8,7 @@ import { useCart } from "./CartContext";
 const displayFont = Anton({ subsets: ["latin"], weight: "400" });
 const bodyFont = Montserrat({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
-type OrderType = "delivery" | "pickup" | "dinein";
+type OrderType = "delivery" | "pickup";
 
 export default function FloatingCart() {
     const {
@@ -160,6 +160,7 @@ export default function FloatingCart() {
                 body: JSON.stringify({
                     items: cart,
                     total: totalPrice,
+                    totalPrice: totalPrice,
                     orderType,
                     date,
                     time,
@@ -203,10 +204,10 @@ export default function FloatingCart() {
                 onMouseDown={handleMouseDown}
                 onTouchStart={handleTouchStart}
                 onClick={handleHeaderClick}
-                className="group flex cursor-grab active:cursor-grabbing items-center gap-2.5 sm:gap-3 rounded-full bg-[#0a0a0a]/95 px-4 sm:px-5 py-2.5 sm:py-3 text-white shadow-2xl ring-2 ring-[#FF8A3D]/40 backdrop-blur-md transition-all hover:ring-[#FF8A3D]"
+                className="group flex cursor-grab active:cursor-grabbing items-center gap-2.5 sm:gap-3 rounded-full bg-[#0a0a0a]/95 px-4 sm:px-5 py-2.5 sm:py-3 text-white shadow-2xl ring-2 ring-[#e4202b]/60 backdrop-blur-md transition-all hover:ring-[#e4202b]"
             >
                 <div className="relative flex items-center justify-center">
-                    <svg className="h-5 w-5 sm:h-6 sm:w-6 text-[#FF8A3D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="h-5 w-5 sm:h-6 sm:w-6 text-[#e4202b]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
                     </svg>
                     {totalItems > 0 && (
@@ -214,7 +215,7 @@ export default function FloatingCart() {
                             key={totalItems}
                             initial={{ scale: 0.5 }}
                             animate={{ scale: 1 }}
-                            className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#FF8A3D] text-[11px] sm:text-xs font-bold text-black shadow-md"
+                            className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#e4202b] text-[11px] sm:text-xs font-bold text-white shadow-md"
                         >
                             {totalItems}
                         </motion.span>
@@ -226,7 +227,7 @@ export default function FloatingCart() {
                         {totalItems > 0 ? `${totalItems} Items` : "Cart Empty"}
                     </span>
                     {totalItems > 0 && (
-                        <span className="text-[11px] sm:text-xs text-[#FF8A3D] font-bold">
+                        <span className="text-[11px] sm:text-xs text-white font-bold">
                             ${totalPrice.toFixed(2)}
                         </span>
                     )}
@@ -239,7 +240,7 @@ export default function FloatingCart() {
                         e.stopPropagation();
                         setExpanded((p) => !p);
                     }}
-                    className="ml-1 sm:ml-2 rounded-full p-1 text-neutral-400 hover:text-white"
+                    className="ml-1 sm:ml-2 rounded-full p-1 text-white/80 hover:text-white"
                 >
                     <svg className={`h-4 w-4 transform transition-transform ${expanded ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -256,42 +257,42 @@ export default function FloatingCart() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -10, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="mt-3 w-80 max-w-[92vw] rounded-xl bg-[#121212]/95 backdrop-blur-md p-4 text-white shadow-2xl ring-1 ring-white/10"
+                        className="mt-3 w-80 max-w-[92vw] rounded-sm bg-[#121212]/98 backdrop-blur-md p-4 text-white shadow-2xl ring-1 ring-white/20 border border-white/10"
                     >
                         {view === "cart" && (
                             <div>
                                 <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                                    <h3 className={`${displayFont.className} text-lg uppercase tracking-wider text-[#FF8A3D]`}>Your BBQ Order</h3>
+                                    <h3 className={`${displayFont.className} text-base uppercase tracking-wider text-white`}>Your BBQ Order</h3>
                                     <button
                                         onClick={() => setExpanded(false)}
-                                        className="text-xs text-neutral-400 hover:text-white"
+                                        className="text-xs text-neutral-300 hover:text-white font-medium"
                                     >
                                         Close
                                     </button>
                                 </div>
 
                                 {cart.length === 0 ? (
-                                    <p className="py-6 text-center text-sm text-neutral-400">Your cart is empty.</p>
+                                    <p className="py-6 text-center text-xs text-neutral-200">Your cart is empty.</p>
                                 ) : (
                                     <div className="mt-3 max-h-60 overflow-y-auto space-y-3 pr-1">
                                         {cart.map((item) => (
                                             <div key={item.name} className="flex items-center justify-between text-sm">
                                                 <div className="flex-1 pr-2">
                                                     <p className="font-semibold text-white text-xs sm:text-sm">{item.name}</p>
-                                                    <p className="text-xs text-[#FF8A3D]">{item.price}</p>
+                                                    <p className="text-xs text-neutral-200 font-medium">{item.price}</p>
                                                 </div>
 
                                                 <div className="flex items-center gap-1.5 sm:gap-2">
                                                     <button
                                                         onClick={() => updateQty(item.name, -1)}
-                                                        className="h-6 w-6 rounded bg-white/10 text-center font-bold text-white hover:bg-white/20 active:scale-95"
+                                                        className="h-6 w-6 rounded-sm bg-white/10 text-center font-bold text-white hover:bg-white/20 active:scale-95"
                                                     >
                                                         -
                                                     </button>
-                                                    <span className="w-4 text-center text-xs font-bold">{item.qty}</span>
+                                                    <span className="w-4 text-center text-xs font-bold text-white">{item.qty}</span>
                                                     <button
                                                         onClick={() => updateQty(item.name, 1)}
-                                                        className="h-6 w-6 rounded bg-white/10 text-center font-bold text-white hover:bg-white/20 active:scale-95"
+                                                        className="h-6 w-6 rounded-sm bg-white/10 text-center font-bold text-white hover:bg-white/20 active:scale-95"
                                                     >
                                                         +
                                                     </button>
@@ -309,16 +310,18 @@ export default function FloatingCart() {
 
                                 {cart.length > 0 && (
                                     <div className="mt-4 border-t border-white/10 pt-3">
-                                        <div className="flex justify-between font-bold text-sm mb-3">
+                                        <div className="flex justify-between font-bold text-sm mb-3 text-white">
                                             <span>Total:</span>
-                                            <span className="text-[#FF8A3D]">${totalPrice.toFixed(2)}</span>
+                                            <span className="text-white">${totalPrice.toFixed(2)}</span>
                                         </div>
-                                        <button
-                                            onClick={() => setView("checkout")}
-                                            className="w-full rounded bg-[#FF8A3D] py-2.5 font-bold uppercase tracking-wider text-black transition-colors hover:bg-[#e0762a] active:scale-[0.98]"
-                                        >
-                                            Proceed to Checkout
-                                        </button>
+                                        <div className="flex justify-end">
+                                            <button
+                                                onClick={() => setView("checkout")}
+                                                className="w-auto rounded-sm bg-[#e4202b] px-4 py-1.5 text-[11px] font-bold uppercase tracking-wider text-white transition-colors hover:bg-[#c81b24] active:scale-[0.98]"
+                                            >
+                                                Proceed to Checkout
+                                            </button>
+                                        </div>
                                     </div>
                                 )}
                             </div>
@@ -327,17 +330,17 @@ export default function FloatingCart() {
                         {view === "checkout" && (
                             <form onSubmit={handleSubmitOrder} className="space-y-3 text-xs">
                                 <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                                    <h3 className={`${displayFont.className} text-base uppercase text-[#FF8A3D]`}>Checkout</h3>
-                                    <button type="button" onClick={() => setView("cart")} className="text-neutral-400 hover:text-white">Back</button>
+                                    <h3 className={`${displayFont.className} text-base uppercase text-white`}>Checkout</h3>
+                                    <button type="button" onClick={() => setView("cart")} className="text-neutral-300 hover:text-white font-medium">Back</button>
                                 </div>
 
-                                <div className="grid grid-cols-3 gap-1 rounded bg-white/5 p-1 text-center font-semibold">
-                                    {(["delivery", "pickup", "dinein"] as OrderType[]).map((t) => (
+                                <div className="grid grid-cols-2 gap-1 rounded-sm bg-white/5 p-1 text-center font-semibold">
+                                    {(["delivery", "pickup"] as OrderType[]).map((t) => (
                                         <button
                                             key={t}
                                             type="button"
                                             onClick={() => setOrderType(t)}
-                                            className={`rounded py-1 capitalize transition-colors ${orderType === t ? "bg-[#FF8A3D] text-black" : "text-neutral-300"}`}
+                                            className={`rounded-sm py-1 capitalize transition-colors ${orderType === t ? "bg-[#e4202b] text-white" : "text-neutral-200 hover:text-white"}`}
                                         >
                                             {t}
                                         </button>
@@ -350,7 +353,7 @@ export default function FloatingCart() {
                                     value={customerName}
                                     onChange={(e) => setCustomerName(e.target.value)}
                                     required
-                                    className="w-full rounded bg-white/10 px-3 py-2 text-white placeholder-neutral-400 focus:outline-none focus:ring-1 focus:ring-[#FF8A3D]"
+                                    className="w-full rounded-sm bg-white/10 px-3 py-2 text-white placeholder-neutral-300 focus:outline-none focus:ring-1 focus:ring-[#e4202b]"
                                 />
 
                                 <input
@@ -359,7 +362,7 @@ export default function FloatingCart() {
                                     value={customerPhone}
                                     onChange={(e) => setCustomerPhone(e.target.value)}
                                     required
-                                    className="w-full rounded bg-white/10 px-3 py-2 text-white placeholder-neutral-400 focus:outline-none focus:ring-1 focus:ring-[#FF8A3D]"
+                                    className="w-full rounded-sm bg-white/10 px-3 py-2 text-white placeholder-neutral-300 focus:outline-none focus:ring-1 focus:ring-[#e4202b]"
                                 />
 
                                 {orderType === "delivery" && (
@@ -369,7 +372,7 @@ export default function FloatingCart() {
                                         value={location}
                                         onChange={(e) => setLocation(e.target.value)}
                                         required
-                                        className="w-full rounded bg-white/10 px-3 py-2 text-white placeholder-neutral-400 focus:outline-none focus:ring-1 focus:ring-[#FF8A3D]"
+                                        className="w-full rounded-sm bg-white/10 px-3 py-2 text-white placeholder-neutral-300 focus:outline-none focus:ring-1 focus:ring-[#e4202b]"
                                     />
                                 )}
 
@@ -378,43 +381,62 @@ export default function FloatingCart() {
                                         type="date"
                                         value={date}
                                         onChange={(e) => setDate(e.target.value)}
-                                        className="w-full rounded bg-white/10 px-2 py-1.5 text-white focus:outline-none focus:ring-1 focus:ring-[#FF8A3D]"
+                                        className="w-full rounded-sm bg-white/10 px-2 py-1.5 text-white focus:outline-none focus:ring-1 focus:ring-[#e4202b]"
                                     />
                                     <input
                                         type="time"
                                         value={time}
                                         onChange={(e) => setTime(e.target.value)}
-                                        className="w-full rounded bg-white/10 px-2 py-1.5 text-white focus:outline-none focus:ring-1 focus:ring-[#FF8A3D]"
+                                        className="w-full rounded-sm bg-white/10 px-2 py-1.5 text-white focus:outline-none focus:ring-1 focus:ring-[#e4202b]"
                                     />
                                 </div>
 
-                                <button
-                                    type="submit"
-                                    className="mt-2 w-full rounded bg-[#FF8A3D] py-2.5 font-bold uppercase tracking-wider text-black hover:bg-[#e0762a] active:scale-[0.98]"
-                                >
-                                    Submit Order (${totalPrice.toFixed(2)})
-                                </button>
+                                <div className="flex justify-end pt-1">
+                                    <button
+                                        type="submit"
+                                        className="w-auto rounded-sm bg-[#e4202b] px-4 py-1.5 text-[11px] font-bold uppercase tracking-wider text-white transition-colors hover:bg-[#c81b24] active:scale-[0.98]"
+                                    >
+                                        Submit Order (${totalPrice.toFixed(2)})
+                                    </button>
+                                </div>
                             </form>
                         )}
 
                         {view === "success" && (
-                            <div className="py-4 text-center space-y-3">
-                                <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-green-500/20 text-green-400">
-                                    ✓
+                            <div className="py-2 space-y-3">
+                                <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                                    <h3 className={`${displayFont.className} text-base uppercase text-white`}>Order Placed!</h3>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setExpanded(false);
+                                            setView("cart");
+                                        }}
+                                        className="text-xs text-neutral-300 hover:text-white"
+                                    >
+                                        ✕
+                                    </button>
                                 </div>
-                                <h3 className={`${displayFont.className} text-lg text-white uppercase`}>Order Placed!</h3>
-                                <p className="text-xs text-neutral-300">
-                                    Thank you {customerName}! We have received your order and will contact you shortly at {customerPhone}.
-                                </p>
-                                <button
-                                    onClick={() => {
-                                        setExpanded(false);
-                                        setView("cart");
-                                    }}
-                                    className="w-full rounded bg-[#FF8A3D] py-2 text-xs font-bold uppercase text-black"
-                                >
-                                    Done
-                                </button>
+                                <div className="py-2 text-center space-y-3">
+                                    <svg className="mx-auto h-8 w-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <p className="text-xs text-neutral-200">
+                                        Thank you {customerName}! We have received your order and will contact you shortly at {customerPhone}.
+                                    </p>
+                                    <div className="flex justify-end pt-2">
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                setExpanded(false);
+                                                setView("cart");
+                                            }}
+                                            className="text-xs font-semibold uppercase text-white underline underline-offset-4 hover:text-[#e4202b]"
+                                        >
+                                            Done
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         )}
                     </motion.div>

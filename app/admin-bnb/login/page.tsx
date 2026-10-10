@@ -45,7 +45,7 @@ export default function AdminLogin() {
                 {/* Header Branding */}
                 <div className="flex items-center gap-3">
                     <div className="flex items-baseline leading-none">
-                        <span className={`${scriptFont.className} text-[#FF8A3D] text-3xl sm:text-4xl drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)]`}>
+                        <span className={`${scriptFont.className} text-[#e4202b] text-3xl sm:text-4xl drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)]`}>
                             Beef N' Butts
                         </span>
                         <span className={`${displayFont.className} text-white text-base sm:text-lg tracking-[0.2em] uppercase ml-2.5`}>
@@ -140,7 +140,7 @@ export default function AdminLogin() {
                     transition={{ delay: 0.4, duration: 0.6 }}
                     className="absolute bottom-12 left-12 right-12 text-white max-w-lg"
                 >
-                    <span className="bg-[#FF8A3D] text-black text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-md">
+                    <span className="bg-[#e4202b] text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-md">
                         Beef N' Butts BBQ
                     </span>
                     <h2 className={`${displayFont.className} text-4xl lg:text-5xl tracking-wide uppercase mt-3 drop-shadow-md`}>

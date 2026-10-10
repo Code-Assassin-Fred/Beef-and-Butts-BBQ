@@ -42,7 +42,7 @@ const DEFAULT_CATEGORIES: Category[] = [
             },
             {
                 id: "pitmaster-combo",
-                name: "The Pitmaster Combo",
+                name: "The Master Combo",
                 price: 55,
                 description: "Feeds 2. Brisket, pork ribs and two small sides.",
             },
@@ -61,7 +61,7 @@ const DEFAULT_CATEGORIES: Category[] = [
             { id: "coleslaw", name: "Coleslaw", price: 6, description: "Fresh and crunchy house coleslaw." },
             {
                 id: "pit-beans",
-                name: "Baked Pit Beans",
+                name: "Baked BBQ Beans",
                 price: 5,
                 description: "Slow-cooked with brisket burnt ends.",
             },
@@ -91,7 +91,7 @@ const DEFAULT_CATEGORIES: Category[] = [
 ];
 
 const SERVICE_OPTIONS = [
-    { label: "Pickup", text: "Swing by and grab it hot off the pit." },
+    { label: "Pickup", text: "Swing by and grab it hot off the smoker." },
     { label: "Delivery", text: "We'll bring the smoke to your door." },
 ];
 
@@ -113,7 +113,7 @@ const money = (n: number | string) => {
 const GRAIN =
     "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")";
 
-const ORANGE = "text-[#FF8A3D]";
+const BRAND_RED = "text-[#e4202b]";
 const focusRing =
     "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#EEEBDC]";
 
@@ -187,7 +187,7 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
         <section
             id="menu"
             aria-label="Menu"
-            className={`${bodyFont.className} relative isolate overflow-hidden bg-gradient-to-b from-[#0a0a0a] via-[#131313] to-[#1c1c1c] text-[#EEEBDC]`}
+            className={`${bodyFont.className} relative isolate overflow-hidden bg-gradient-to-b from-[#0a0a0a] via-[#131313] to-[#1c1c1c] text-white`}
         >
             <svg width="0" height="0" aria-hidden="true" focusable="false" className="absolute">
                 <filter id="menu-torn" x="-5%" y="-50%" width="110%" height="200%">
@@ -244,14 +244,14 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
                         className="flex flex-col justify-center text-center lg:text-left"
                     >
                         <h2
-                            className={`${scriptFont.className} py-2 text-[clamp(2.3rem,4.6vw,4rem)] leading-[1.15] text-[#E5391C] lg:whitespace-nowrap`}
+                            className={`${scriptFont.className} py-2 text-[clamp(2.3rem,4.6vw,4rem)] leading-[1.15] text-[#e4202b] lg:whitespace-nowrap`}
                         >
                             Catch the Flavor.
                             <br />
                             Own the Craving.
                         </h2>
-                        <p className="mx-auto mt-3 max-w-md text-[0.95rem] leading-relaxed tracking-wide text-neutral-300 lg:mx-0">
-                            Smoked low and slow, served hot. Pick what you want and we&rsquo;ll get it on the pit.
+                        <p className="mx-auto mt-3 max-w-md text-[0.95rem] leading-relaxed tracking-wide text-neutral-100 font-medium lg:mx-0">
+                            Smoked low and slow, served hot. Pick what you want and we&rsquo;ll get it on the smoker.
                         </p>
                     </motion.div>
 
@@ -264,10 +264,10 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
                     >
                         {SERVICE_OPTIONS.map((o) => (
                             <li key={o.label}>
-                                <p className={`${displayFont.className} text-xl sm:text-2xl uppercase tracking-[0.06em]`}>
+                                <p className={`${displayFont.className} text-xl sm:text-2xl uppercase tracking-[0.06em] text-white`}>
                                     {o.label}
                                 </p>
-                                <p className="mt-2 sm:mt-3 text-xs sm:text-sm leading-relaxed tracking-wide text-neutral-400">
+                                <p className="mt-2 sm:mt-3 text-xs sm:text-sm leading-relaxed tracking-wide text-neutral-100 font-medium">
                                     {o.text}
                                 </p>
                             </li>
@@ -339,18 +339,18 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
                                                             className="flex items-start justify-between gap-3 sm:gap-4 border-b border-white/10 py-4 sm:py-5"
                                                         >
                                                             <div className="min-w-0 pr-2">
-                                                                <p className="text-[0.9rem] sm:text-[0.95rem] font-bold uppercase leading-snug tracking-[0.08em] sm:tracking-[0.1em]">
+                                                                <p className="text-[0.9rem] sm:text-[0.95rem] font-bold uppercase leading-snug tracking-[0.08em] sm:tracking-[0.1em] text-white">
                                                                     {item.name}
                                                                 </p>
                                                                 {item.description && (
-                                                                    <p className="mt-1 text-xs sm:text-sm leading-relaxed tracking-wide text-neutral-400">
+                                                                    <p className="mt-1 text-xs sm:text-sm leading-relaxed tracking-wide text-neutral-200">
                                                                         {item.description}
                                                                     </p>
                                                                 )}
                                                             </div>
 
                                                             <div className="flex shrink-0 flex-col items-end gap-1">
-                                                                <span className="text-base sm:text-lg font-medium tabular-nums tracking-wide">
+                                                                <span className="text-base sm:text-lg font-semibold tabular-nums tracking-wide text-white">
                                                                     {money(item.price)}
                                                                 </span>
 
@@ -366,7 +366,7 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
                                                                             })
                                                                         }
                                                                         aria-label={`Add ${item.name} to cart`}
-                                                                        className={`${ORANGE} py-1 text-xs sm:text-sm font-semibold uppercase tracking-[0.08em] sm:tracking-[0.1em] underline-offset-4 hover:underline ${focusRing}`}
+                                                                        className={`${BRAND_RED} py-1 text-xs sm:text-sm font-bold uppercase tracking-[0.08em] sm:tracking-[0.1em] underline-offset-4 hover:underline ${focusRing}`}
                                                                     >
                                                                         Add to cart
                                                                     </motion.button>
@@ -374,7 +374,7 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
                                                                     <div
                                                                         role="group"
                                                                         aria-label={`${item.name} quantity`}
-                                                                        className={`${ORANGE} flex items-center bg-white/5 rounded-md px-1`}
+                                                                        className={`${BRAND_RED} flex items-center bg-white/10 rounded-md px-1`}
                                                                     >
                                                                         <motion.button
                                                                             whileTap={{ scale: 0.85 }}
@@ -387,7 +387,7 @@ export default function Menu({ onCartChange, onCheckout }: MenuProps) {
                                                                         </motion.button>
                                                                         <span
                                                                             aria-live="polite"
-                                                                            className="min-w-5 sm:min-w-6 text-center text-xs sm:text-sm font-bold tabular-nums text-[#EEEBDC]"
+                                                                            className="min-w-5 sm:min-w-6 text-center text-xs sm:text-sm font-bold tabular-nums text-white"
                                                                         >
                                                                             {qty}
                                                                         </span>

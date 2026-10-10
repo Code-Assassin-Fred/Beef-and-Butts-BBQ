@@ -287,14 +287,14 @@ export default function AdminDashboard() {
     if (loadingAuth) {
         return (
             <div className="min-h-screen bg-[#0b0f19] flex items-center justify-center text-white">
-                <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-[#FF8A3D]"></div>
+                <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-[#e4202b]"></div>
             </div>
         );
     }
 
     if (!user) return null;
 
-    const totalRevenue = orders.reduce((sum, o) => sum + (o.total || 0), 0);
+    const totalRevenue = orders.reduce((sum, o) => sum + (o.totalPrice || o.total || 0), 0);
     const pendingOrders = orders.filter((o) => o.status === "pending" || !o.status).length;
     const unreadInquiries = inquiries.filter((i) => !i.isRead).length;
 
@@ -303,7 +303,7 @@ export default function AdminDashboard() {
             {/* Top Navigation */}
             <header className="bg-[#111827] border-b border-slate-800 px-6 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                    <span className={`${scriptFont.className} text-[#FF8A3D] text-3xl`}>Beef N' Butts</span>
+                    <span className={`${scriptFont.className} text-[#e4202b] text-3xl`}>Beef N' Butts</span>
                 </div>
 
                 <div className="flex items-center gap-4">
@@ -334,7 +334,7 @@ export default function AdminDashboard() {
                             onClick={() => setActiveTab(tab.id as TabType)}
                             className={`w-full text-left px-4 py-3 rounded-lg text-xs font-semibold uppercase tracking-wider transition-colors ${
                                 activeTab === tab.id
-                                    ? "bg-[#FF8A3D] text-black font-bold"
+                                    ? "bg-[#e4202b] text-white font-bold"
                                     : "text-slate-400 hover:bg-slate-800 hover:text-white"
                             }`}
                         >
@@ -352,7 +352,7 @@ export default function AdminDashboard() {
                                 key={tab}
                                 onClick={() => setActiveTab(tab as TabType)}
                                 className={`px-3.5 py-2 rounded-lg text-xs uppercase font-bold whitespace-nowrap transition-colors ${
-                                    activeTab === tab ? "bg-[#FF8A3D] text-black" : "bg-slate-800 text-slate-300"
+                                    activeTab === tab ? "bg-[#e4202b] text-white" : "bg-slate-800 text-slate-300"
                                 }`}
                             >
                                 {tab}
@@ -376,7 +376,7 @@ export default function AdminDashboard() {
                                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                                         <div className="bg-[#161e2e] p-5 rounded-xl border border-slate-800">
                                             <p className="text-xs uppercase text-slate-400 font-bold">Total Revenue</p>
-                                            <p className="text-2xl font-bold text-[#FF8A3D] mt-2">${totalRevenue.toFixed(2)}</p>
+                                            <p className="text-2xl font-bold text-[#e4202b] mt-2">${totalRevenue.toFixed(2)}</p>
                                         </div>
                                         <div className="bg-[#161e2e] p-5 rounded-xl border border-slate-800">
                                             <p className="text-xs uppercase text-slate-400 font-bold">Pending Orders</p>
@@ -406,12 +406,14 @@ export default function AdminDashboard() {
                                         <div key={o.id} className="bg-[#161e2e] p-5 rounded-xl border border-slate-800 space-y-3">
                                             <div className="flex justify-between items-start">
                                                 <div>
-                                                    <h3 className="font-bold text-white">{o.customerName || "Guest"}</h3>
-                                                    <p className="text-xs text-slate-400">{o.customerPhone} | {o.orderType?.toUpperCase()}</p>
+                                                    <h3 className="font-bold text-white text-base">{o.customerName || "Guest"}</h3>
+                                                    <p className="text-xs text-slate-300 font-medium">{o.customerPhone} | <span className="uppercase text-[#e4202b] font-bold">{o.orderType}</span></p>
+                                                    {o.location && <p className="text-xs text-slate-400 mt-0.5"><span className="font-semibold text-slate-300">Address:</span> {o.location}</p>}
+                                                    {(o.date || o.time) && <p className="text-xs text-slate-400 mt-0.5"><span className="font-semibold text-slate-300">Scheduled:</span> {o.date} {o.time}</p>}
                                                 </div>
-                                                <span className="text-sm font-bold text-[#FF8A3D]">${o.total?.toFixed(2)}</span>
+                                                <span className="text-base font-bold text-[#e4202b]">${(o.totalPrice || o.total || 0).toFixed(2)}</span>
                                             </div>
-                                            <div className="text-xs text-slate-300 space-y-1">
+                                            <div className="text-xs text-slate-300 space-y-1 bg-slate-900/50 p-2.5 rounded border border-slate-800/80">
                                                 {o.items?.map((it: any, idx: number) => (
                                                     <div key={idx} className="flex justify-between">
                                                         <span>{it.qty}x {it.name}</span>
@@ -453,7 +455,7 @@ export default function AdminDashboard() {
                                         setMenuForm({ id: "", name: "", price: "", category: categories[0]?.title || "Smoked Meats & Platters", description: "" });
                                         setShowMenuModal(true);
                                     }}
-                                    className="bg-[#FF8A3D] text-black font-bold px-4 py-2 rounded-lg text-xs uppercase"
+                                    className="bg-[#e4202b] text-white font-bold px-4 py-2 rounded-lg text-xs uppercase"
                                 >
                                     + Add Menu Item
                                 </button>
@@ -474,7 +476,7 @@ export default function AdminDashboard() {
                                             <tr key={item.id} className="hover:bg-slate-800/50">
                                                 <td className="p-3 font-semibold text-white">{item.name}</td>
                                                 <td className="p-3 text-slate-400">{item.category}</td>
-                                                <td className="p-3 text-[#FF8A3D] font-bold">{item.price}</td>
+                                                <td className="p-3 text-[#e4202b] font-bold">{item.price}</td>
                                                 <td className="p-3 text-right space-x-2">
                                                     <button
                                                         onClick={() => {
@@ -516,7 +518,7 @@ export default function AdminDashboard() {
                                         setCategoryForm({ id: "", oldTitle: "", title: "" });
                                         setShowCategoryModal(true);
                                     }}
-                                    className="bg-[#FF8A3D] text-black font-bold px-4 py-2 rounded-lg text-xs uppercase"
+                                    className="bg-[#e4202b] text-white font-bold px-4 py-2 rounded-lg text-xs uppercase"
                                 >
                                     + Add Category
                                 </button>
@@ -560,7 +562,7 @@ export default function AdminDashboard() {
                                         setGalleryCaption("");
                                         setShowGalleryModal(true);
                                     }}
-                                    className="bg-[#FF8A3D] text-black font-bold px-4 py-2 rounded-lg text-xs uppercase"
+                                    className="bg-[#e4202b] text-white font-bold px-4 py-2 rounded-lg text-xs uppercase"
                                 >
                                     + Upload Photo
                                 </button>
@@ -641,7 +643,7 @@ export default function AdminDashboard() {
                                     <div key={q.id} className="bg-[#161e2e] p-4 rounded-xl border border-slate-800 space-y-2">
                                         <div className="flex justify-between items-start">
                                             <div>
-                                                <span className="font-bold text-[#FF8A3D] text-sm">{q.eventType}</span>
+                                                <span className="font-bold text-[#e4202b] text-sm">{q.eventType}</span>
                                                 <span className="text-xs text-slate-400 ml-2">by {q.name} ({q.email} | {q.phone})</span>
                                             </div>
                                             <select
@@ -693,7 +695,7 @@ export default function AdminDashboard() {
                         <select
                             value={menuForm.category}
                             onChange={(e) => setMenuForm({ ...menuForm, category: e.target.value })}
-                            className="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-xs text-white"
+                            className="w-full bg-[#111827] border border-slate-700 rounded px-3 py-2 text-xs text-white"
                         >
                             {categories.map((c) => (
                                 <option key={c.id} value={c.title}>{c.title}</option>
@@ -707,7 +709,7 @@ export default function AdminDashboard() {
                         />
                         <div className="flex justify-end gap-2 pt-2">
                             <button type="button" onClick={() => setShowMenuModal(false)} className="px-4 py-2 text-xs text-slate-400">Cancel</button>
-                            <button type="submit" className="px-4 py-2 bg-[#FF8A3D] text-black font-bold rounded text-xs">Save</button>
+                            <button type="submit" className="px-4 py-2 bg-[#e4202b] text-white font-bold rounded text-xs">Save</button>
                         </div>
                     </form>
                 </div>
@@ -728,7 +730,7 @@ export default function AdminDashboard() {
                         />
                         <div className="flex justify-end gap-2 pt-2">
                             <button type="button" onClick={() => setShowCategoryModal(false)} className="px-4 py-2 text-xs text-slate-400">Cancel</button>
-                            <button type="submit" className="px-4 py-2 bg-[#FF8A3D] text-black font-bold rounded text-xs">Save</button>
+                            <button type="submit" className="px-4 py-2 bg-[#e4202b] text-white font-bold rounded text-xs">Save</button>
                         </div>
                     </form>
                 </div>
@@ -758,7 +760,7 @@ export default function AdminDashboard() {
                         {uploadError && <p className="text-xs text-red-400">{uploadError}</p>}
                         <div className="flex justify-end gap-2 pt-2">
                             <button type="button" onClick={() => setShowGalleryModal(false)} className="px-4 py-2 text-xs text-slate-400">Cancel</button>
-                            <button type="submit" disabled={!imageBase64} className="px-4 py-2 bg-[#FF8A3D] text-black font-bold rounded text-xs disabled:opacity-50">Upload</button>
+                            <button type="submit" disabled={!imageBase64} className="px-4 py-2 bg-[#e4202b] text-white font-bold rounded text-xs disabled:opacity-50">Upload</button>
                         </div>
                     </form>
                 </div>

@@ -46,7 +46,7 @@ const initialMenuItems = [
         description: "Snap-casing sausage link served with tangy mustard.",
     },
     {
-        name: "The Pitmaster Combo",
+        name: "The Master Combo",
         price: "$55",
         category: "Smoked Meats & Platters",
         description: "Feeds 2. Brisket, pork ribs, sausage link, and two small sides.",
@@ -66,7 +66,7 @@ const initialMenuItems = [
         description: "Crispy cabbage tossed in our creamy house dressing.",
     },
     {
-        name: "Baked Pit Beans",
+        name: "Baked BBQ Beans",
         price: "$5",
         category: "Classic Sides",
         description: "Slow-cooked with brisket burnt ends and sweet molasses.",
@@ -87,7 +87,7 @@ const initialMenuItems = [
         name: "French Fries",
         price: "$5",
         category: "Classic Sides",
-        description: "Golden crispy fries seasoned with pit rub.",
+        description: "Golden crispy fries seasoned with house rub.",
     },
     {
         name: "Smoked BBQ Poutine",
