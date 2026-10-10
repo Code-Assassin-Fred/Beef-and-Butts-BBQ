@@ -167,13 +167,14 @@ export default function Navbar() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        <Link
-                            href="/order"
-                            className="flex h-[48px] items-center px-[30px] text-[15px] font-semibold uppercase tracking-[0.02em] shadow-md transition-shadow hover:shadow-lg"
+                        <a
+                            href="#menu"
+                            onClick={(e) => handleNavClick(e, "#menu")}
+                            className="flex h-[48px] items-center px-[30px] text-[15px] font-semibold uppercase tracking-[0.02em] shadow-md transition-shadow hover:shadow-lg cursor-pointer"
                             style={{ backgroundColor: "#ff0000", color: "#ffffff" }}
                         >
                             Order Now
-                        </Link>
+                        </a>
                     </motion.div>
                 </div>
 
@@ -253,14 +254,17 @@ export default function Navbar() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 }}
                         >
-                            <Link
-                                href="/order"
-                                onClick={() => setMobileOpen(false)}
-                                className="mt-5 flex h-12 sm:h-14 items-center justify-center text-base sm:text-lg font-semibold uppercase tracking-wider rounded shadow-lg active:scale-[0.98] transition-transform"
+                            <a
+                                href="#menu"
+                                onClick={(e) => {
+                                    handleNavClick(e, "#menu");
+                                    setMobileOpen(false);
+                                }}
+                                className="mt-5 flex h-12 sm:h-14 items-center justify-center text-base sm:text-lg font-semibold uppercase tracking-wider rounded shadow-lg active:scale-[0.98] transition-transform cursor-pointer"
                                 style={{ backgroundColor: "#ff0000", color: "#ffffff" }}
                             >
                                 Order Now
-                            </Link>
+                            </a>
                         </motion.div>
                     </motion.nav>
                 )}

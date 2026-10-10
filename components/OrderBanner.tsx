@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { Anton, Jost } from "next/font/google";
 import { motion } from "framer-motion";
 
@@ -18,8 +17,25 @@ export default function OrderBanner({
         src: "/Assets/glazed-bbq-chicken.jpg",
         alt: "Glazed BBQ chicken with a dark, sticky char",
     },
-    orderHref = "/order",
+    orderHref = "#menu",
 }: Props) {
+    const handleScrollToMenu = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (orderHref.startsWith("#") || orderHref.startsWith("/#")) {
+            e.preventDefault();
+            const targetId = orderHref.replace(/^(\/#|#)/, "");
+            const elem = document.getElementById(targetId);
+            if (elem) {
+                const headerOffset = 80;
+                const elementPosition = elem.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth",
+                });
+            }
+        }
+    };
+
     return (
         <section
             aria-labelledby="order-banner-heading"
@@ -74,12 +90,13 @@ export default function OrderBanner({
                         whileTap={{ scale: 0.95 }}
                         className="mt-8 sm:mt-10 inline-block"
                     >
-                        <Link
+                        <a
                             href={orderHref}
-                            className={`${displayFont.className} inline-block bg-[#1c1c1c] px-7 sm:px-9 py-3.5 sm:py-4 text-lg sm:text-xl uppercase tracking-[0.06em] text-white transition-colors hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white shadow-lg`}
+                            onClick={handleScrollToMenu}
+                            className={`${displayFont.className} inline-block bg-[#1c1c1c] px-7 sm:px-9 py-3.5 sm:py-4 text-lg sm:text-xl uppercase tracking-[0.06em] text-white transition-colors hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white shadow-lg cursor-pointer`}
                         >
                             Order now
-                        </Link>
+                        </a>
                     </motion.div>
                 </motion.div>
             </div>

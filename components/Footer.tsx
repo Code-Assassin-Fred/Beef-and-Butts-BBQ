@@ -64,7 +64,7 @@ export default function Footer() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.7 }}
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10 pb-10 sm:pb-12 border-b border-white/20"
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 pb-10 sm:pb-12 border-b border-white/20"
                 >
                     {/* Brand Column */}
                     <div className="sm:col-span-2 lg:col-span-2">
@@ -80,17 +80,13 @@ export default function Footer() {
                             Real barbecue takes time, and it&rsquo;s worth every minute. Slow-smoked brisket, rack ribs, glazed chicken, and crispy bhajia made fresh daily.
                         </p>
                         <div className="mt-5 sm:mt-6 space-y-2 text-sm sm:text-base text-white font-medium">
-                            <p className="flex items-center gap-2">
-                                <span className="text-[#D42F16]">📍</span> Ontario, Canada
-                            </p>
-                            <p className="flex items-center gap-2">
-                                <span className="text-[#D42F16]">📞</span>{" "}
+                            <p>Ontario, Canada</p>
+                            <p>
                                 <a href="tel:+16478898033" className="hover:text-[#D42F16] transition-colors">
                                     +1 (647) 889-8033
                                 </a>
                             </p>
-                            <p className="flex items-center gap-2">
-                                <span className="text-[#D42F16]">✉️</span>{" "}
+                            <p>
                                 <a href="mailto:hello@beefnbuttsbbq.com" className="hover:text-[#D42F16] transition-colors">
                                     hello@beefnbuttsbbq.com
                                 </a>
@@ -123,27 +119,6 @@ export default function Footer() {
                             <li><a href="#catering" onClick={(e) => handleNavClick(e, "#catering")} className="hover:text-[#e8742a] transition-colors cursor-pointer">Family &amp; Social</a></li>
                             <li><a href="#catering" onClick={(e) => handleNavClick(e, "#catering")} className="hover:text-[#e8742a] transition-colors cursor-pointer">Community &amp; Fundraisers</a></li>
                             <li><a href="#catering" onClick={(e) => handleNavClick(e, "#catering")} className="hover:text-[#e8742a] transition-colors cursor-pointer">Request a Quote</a></li>
-                        </ul>
-                    </div>
-
-                    {/* Hours */}
-                    <div>
-                        <h4 className={`${headingFont.className} text-xl sm:text-2xl uppercase tracking-wider text-white mb-3 sm:mb-4`}>
-                            Smoker Hours
-                        </h4>
-                        <ul className="space-y-2.5 sm:space-y-3 text-sm sm:text-base text-neutral-300 font-medium">
-                            <li className="flex justify-between gap-2">
-                                <span>Mon &ndash; Thu:</span>
-                                <span className="text-white font-bold">11am &ndash; 9pm</span>
-                            </li>
-                            <li className="flex justify-between gap-2">
-                                <span>Fri &ndash; Sat:</span>
-                                <span className="text-white font-bold">11am &ndash; 10pm</span>
-                            </li>
-                            <li className="flex justify-between gap-2">
-                                <span>Sunday:</span>
-                                <span className="text-white font-bold">12pm &ndash; 8pm</span>
-                            </li>
                         </ul>
                     </div>
                 </motion.div>
