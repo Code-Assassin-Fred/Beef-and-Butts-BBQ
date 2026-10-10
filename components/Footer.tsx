@@ -25,6 +25,27 @@ const headingFont = League_Gothic({
 const BRAND_RED = "#D42F16";
 
 export default function Footer() {
+    const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        if (href.startsWith("#") || href.startsWith("/#")) {
+            e.preventDefault();
+            const targetId = href.replace(/^(\/#|#)/, "");
+            if (!targetId || targetId === "home") {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            } else {
+                const elem = document.getElementById(targetId);
+                if (elem) {
+                    const headerOffset = 80;
+                    const elementPosition = elem.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            }
+        }
+    };
+
     return (
         <footer className={`${jost.className} relative bg-[#0d0d0d] text-white pt-12 sm:pt-16 pb-10 sm:pb-12 border-t border-white/10 overflow-hidden`}>
             {/* Top Ember Accent Line */}
@@ -83,12 +104,11 @@ export default function Footer() {
                             Navigation
                         </h4>
                         <ul className="space-y-2.5 sm:space-y-3 text-sm sm:text-base text-neutral-300 font-medium">
-                            <li><Link href="/" className="hover:text-[#e8742a] transition-colors">Home</Link></li>
-                            <li><Link href="/catering" className="hover:text-[#e8742a] transition-colors">Catering</Link></li>
-                            <li><Link href="/menu" className="hover:text-[#e8742a] transition-colors">Locations &amp; Menus</Link></li>
-                            <li><Link href="/rewards" className="hover:text-[#e8742a] transition-colors">Rewards</Link></li>
-                            <li><Link href="/gift-cards" className="hover:text-[#e8742a] transition-colors">Gift Cards</Link></li>
-                            <li><Link href="/contact" className="hover:text-[#e8742a] transition-colors">Contact Us</Link></li>
+                            <li><a href="#home" onClick={(e) => handleNavClick(e, "#home")} className="hover:text-[#e8742a] transition-colors cursor-pointer">Home</a></li>
+                            <li><a href="#menu" onClick={(e) => handleNavClick(e, "#menu")} className="hover:text-[#e8742a] transition-colors cursor-pointer">Menus</a></li>
+                            <li><a href="#catering" onClick={(e) => handleNavClick(e, "#catering")} className="hover:text-[#e8742a] transition-colors cursor-pointer">Catering</a></li>
+                            <li><a href="#about" onClick={(e) => handleNavClick(e, "#about")} className="hover:text-[#e8742a] transition-colors cursor-pointer">About</a></li>
+                            <li><a href="#contact" onClick={(e) => handleNavClick(e, "#contact")} className="hover:text-[#e8742a] transition-colors cursor-pointer">Contact Us</a></li>
                         </ul>
                     </div>
 
@@ -98,11 +118,11 @@ export default function Footer() {
                             Catering
                         </h4>
                         <ul className="space-y-2.5 sm:space-y-3 text-sm sm:text-base text-neutral-300 font-medium">
-                            <li><Link href="/catering?event=corporate" className="hover:text-[#e8742a] transition-colors">Corporate &amp; Workplace</Link></li>
-                            <li><Link href="/catering?event=weddings" className="hover:text-[#e8742a] transition-colors">Weddings &amp; Milestones</Link></li>
-                            <li><Link href="/catering?event=family" className="hover:text-[#e8742a] transition-colors">Family &amp; Social</Link></li>
-                            <li><Link href="/catering?event=community" className="hover:text-[#e8742a] transition-colors">Community &amp; Fundraisers</Link></li>
-                            <li><Link href="/catering" className="hover:text-[#e8742a] transition-colors">Request a Quote</Link></li>
+                            <li><a href="#catering" onClick={(e) => handleNavClick(e, "#catering")} className="hover:text-[#e8742a] transition-colors cursor-pointer">Corporate &amp; Workplace</a></li>
+                            <li><a href="#catering" onClick={(e) => handleNavClick(e, "#catering")} className="hover:text-[#e8742a] transition-colors cursor-pointer">Weddings &amp; Milestones</a></li>
+                            <li><a href="#catering" onClick={(e) => handleNavClick(e, "#catering")} className="hover:text-[#e8742a] transition-colors cursor-pointer">Family &amp; Social</a></li>
+                            <li><a href="#catering" onClick={(e) => handleNavClick(e, "#catering")} className="hover:text-[#e8742a] transition-colors cursor-pointer">Community &amp; Fundraisers</a></li>
+                            <li><a href="#catering" onClick={(e) => handleNavClick(e, "#catering")} className="hover:text-[#e8742a] transition-colors cursor-pointer">Request a Quote</a></li>
                         </ul>
                     </div>
 

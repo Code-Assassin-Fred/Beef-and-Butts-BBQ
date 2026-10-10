@@ -32,7 +32,7 @@ export default function Hero() {
     const next = () => setActive((i) => (i + 1) % videos.length);
 
     return (
-        <section className="relative h-screen min-h-[500px] sm:min-h-[600px] w-full overflow-hidden bg-black">
+        <section id="home" className="relative h-screen min-h-[500px] sm:min-h-[600px] w-full overflow-hidden bg-black">
             <h1 className="sr-only">Beef and Butts BBQ</h1>
 
             {/* Video stack: cross-fades from one clip to the next */}

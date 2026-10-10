@@ -95,7 +95,7 @@ export default function Contact({ whatsappHref = DEFAULT_WHATSAPP }: Props) {
     };
 
     return (
-        <section aria-label="Contact">
+        <section id="contact" aria-label="Contact">
             <div className="grid bg-white lg:grid-cols-[20%_80%]">
                 <motion.div
                     initial={{ opacity: 0, x: -30 }}

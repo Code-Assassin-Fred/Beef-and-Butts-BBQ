@@ -22,44 +22,15 @@ const script = Kaushan_Script({
 const BRAND_RED = "#e4202b";
 const ACCENT_ORANGE = "#e8742a";
 
-type NavLink = { label: string; href: string; active: boolean };
-type NavGroup = { label: string; href: string; active: boolean; children?: NavLink[] };
+type NavItem = { label: string; href: string; id: string };
 
-const links: NavGroup[] = [
-    { label: "Home", href: "/", active: true },
-    { label: "Catering", href: "/catering", active: false },
-    {
-        label: "Locations & Menus",
-        href: "#",
-        active: false,
-        children: [
-            { label: "Locations", href: "/locations", active: false },
-            { label: "Menus", href: "/menu", active: false },
-        ],
-    },
-    { label: "Rewards", href: "/rewards", active: false },
-    { label: "Gift Cards", href: "/gift-cards", active: false },
-    { label: "Contact Us", href: "/contact", active: false },
+const links: NavItem[] = [
+    { label: "Home", href: "#home", id: "home" },
+    { label: "Menus", href: "#menu", id: "menu" },
+    { label: "Catering", href: "#catering", id: "catering" },
+    { label: "About", href: "#about", id: "about" },
+    { label: "Contact", href: "#contact", id: "contact" },
 ];
-
-function Chevron({ open }: { open: boolean }) {
-    return (
-        <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-            className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`}
-        >
-            <path d="m6 9 6 6 6-6" />
-        </svg>
-    );
-}
 
 function Logo() {
     return (
@@ -92,21 +63,58 @@ function Logo() {
 
 export default function Navbar() {
     const [mobileOpen, setMobileOpen] = useState(false);
-    const [dropdownOpen, setDropdownOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const [activeSection, setActiveSection] = useState("home");
 
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 50);
+
+            const sectionIds = ["home", "menu", "catering", "about", "contact"];
+            const scrollPos = window.scrollY + 150;
+
+            for (const id of sectionIds) {
+                const el = document.getElementById(id);
+                if (el) {
+                    const top = el.offsetTop;
+                    const height = el.offsetHeight;
+                    if (scrollPos >= top && scrollPos < top + height) {
+                        setActiveSection(id);
+                        break;
+                    }
+                }
+            }
         };
+
         handleScroll();
         window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        if (href.startsWith("#") || href.startsWith("/#")) {
+            e.preventDefault();
+            const targetId = href.replace(/^(\/#|#)/, "");
+            if (!targetId || targetId === "home") {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            } else {
+                const elem = document.getElementById(targetId);
+                if (elem) {
+                    const headerOffset = 80;
+                    const elementPosition = elem.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            }
+        }
+    };
+
     return (
         <motion.header
-            initial={{ y: -80, opacity: 0 }}
+            initial={{ y: -120, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             className={`${jost.className} inset-x-0 top-0 z-50 text-white transition-all duration-300 ${
@@ -123,7 +131,7 @@ export default function Navbar() {
                 />
             )}
 
-            <div className="mx-auto flex h-[76px] sm:h-[90px] items-center px-4 sm:px-6 lg:h-[120px] lg:px-[5.7vw]">
+            <div className="mx-auto flex h-[105px] sm:h-[90px] items-center px-4 sm:px-6 lg:h-[120px] lg:px-[5.7vw]">
                 <Logo />
 
                 {/* Desktop links */}
@@ -131,66 +139,24 @@ export default function Navbar() {
                     aria-label="Primary"
                     className="ml-8 hidden items-center gap-[1.6vw] lg:flex xl:ml-10"
                 >
-                    {links.map((link) =>
-                        link.children ? (
-                            <div
-                                key={link.label}
-                                className="relative"
-                                onMouseEnter={() => setDropdownOpen(true)}
-                                onMouseLeave={() => setDropdownOpen(false)}
-                            >
-                                <button
-                                    type="button"
-                                    aria-haspopup="true"
-                                    aria-expanded={dropdownOpen}
-                                    onClick={() => setDropdownOpen((v) => !v)}
-                                    className="flex items-center gap-1.5 py-2 text-[14px] font-semibold uppercase tracking-[0.02em] xl:text-[15px] hover:text-[#e8742a] transition-colors"
-                                >
-                                    {link.label}
-                                    <Chevron open={dropdownOpen} />
-                                </button>
-
-                                <AnimatePresence>
-                                    {dropdownOpen && (
-                                        <motion.ul
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, y: 10 }}
-                                            transition={{ duration: 0.2 }}
-                                            className="absolute left-0 top-full min-w-[220px] border border-white/10 bg-black/90 py-2 backdrop-blur shadow-xl"
-                                        >
-                                            {link.children.map((child) => (
-                                                <li key={child.label}>
-                                                    <Link
-                                                        href={child.href}
-                                                        className="block px-5 py-3 text-[17px] font-semibold uppercase tracking-[0.02em] hover:bg-white/10 hover:text-[#e8742a] transition-colors"
-                                                    >
-                                                        {child.label}
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                        </motion.ul>
-                                    )}
-                                </AnimatePresence>
-                            </div>
-                        ) : (
-                            <Link
-                                key={link.label}
-                                href={link.href}
-                                className="relative py-2 text-[14px] font-semibold uppercase tracking-[0.02em] xl:text-[15px] hover:text-[#e8742a] transition-colors"
-                            >
-                                {link.label}
-                                {link.active && (
-                                    <motion.span
-                                        layoutId="activeNavIndicator"
-                                        aria-hidden="true"
-                                        className="absolute inset-x-0 -bottom-[2px] h-[2px]"
-                                        style={{ backgroundColor: ACCENT_ORANGE }}
-                                    />
-                                )}
-                            </Link>
-                        )
-                    )}
+                    {links.map((link) => (
+                        <a
+                            key={link.label}
+                            href={link.href}
+                            onClick={(e) => handleNavClick(e, link.href)}
+                            className="relative py-2 text-[14px] font-semibold uppercase tracking-[0.02em] xl:text-[15px] hover:text-[#e8742a] transition-colors cursor-pointer"
+                        >
+                            {link.label}
+                            {activeSection === link.id && (
+                                <motion.span
+                                    layoutId="activeNavIndicator"
+                                    aria-hidden="true"
+                                    className="absolute inset-x-0 -bottom-[2px] h-[2px]"
+                                    style={{ backgroundColor: ACCENT_ORANGE }}
+                                />
+                            )}
+                        </a>
+                    ))}
                 </nav>
 
                 {/* Order Now */}
@@ -255,11 +221,7 @@ export default function Navbar() {
                             }}
                             className="flex flex-col"
                         >
-                            {links.flatMap((link) =>
-                                link.children
-                                    ? link.children.map((c) => ({ ...c, active: false }))
-                                    : [link]
-                            ).map((item) => (
+                            {links.map((item) => (
                                 <motion.li
                                     key={item.label}
                                     variants={{
@@ -268,14 +230,17 @@ export default function Navbar() {
                                     }}
                                     className="border-b border-white/10"
                                 >
-                                    <Link
+                                    <a
                                         href={item.href}
-                                        onClick={() => setMobileOpen(false)}
-                                        className="block py-3.5 sm:py-4 text-base sm:text-lg font-semibold uppercase tracking-wider transition-colors hover:text-[#e8742a]"
-                                        style={item.active ? { color: ACCENT_ORANGE } : undefined}
+                                        onClick={(e) => {
+                                            handleNavClick(e, item.href);
+                                            setMobileOpen(false);
+                                        }}
+                                        className="block py-3.5 sm:py-4 text-base sm:text-lg font-semibold uppercase tracking-wider transition-colors hover:text-[#e8742a] cursor-pointer"
+                                        style={activeSection === item.id ? { color: ACCENT_ORANGE } : undefined}
                                     >
                                         {item.label}
-                                    </Link>
+                                    </a>
                                 </motion.li>
                             ))}
                         </motion.ul>

@@ -107,6 +107,7 @@ export default function About({
             </svg>
 
             <section
+                id="about"
                 aria-labelledby="about-heading"
                 className={`${bodyFont.className} relative isolate bg-[#0a0a0a] text-white`}
                 style={{ clipPath: "inset(0)" }}
