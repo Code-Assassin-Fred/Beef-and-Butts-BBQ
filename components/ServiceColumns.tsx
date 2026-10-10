@@ -11,7 +11,7 @@ const ampFont = Playfair_Display({ subsets: ["latin"], style: "italic", weight: 
 type Column = {
     title: React.ReactNode;
     body: React.ReactNode;
-    cta: { label: string; href: string };
+    cta: { label: string; href: string; targetId: string };
 };
 
 const columns: Column[] = [
@@ -25,7 +25,7 @@ const columns: Column[] = [
                 waiting. Brisket, ribs, wings and all the sides, no guessing.
             </>
         ),
-        cta: { label: "Order for pickup", href: "/order?type=pickup" },
+        cta: { label: "Order for pickup", href: "#menu", targetId: "menu" },
     },
     {
         title: "Delivery",
@@ -37,7 +37,7 @@ const columns: Column[] = [
                 door while they&rsquo;re still hot. Order online and dinner is handled.
             </>
         ),
-        cta: { label: "Order delivery", href: "/order?type=delivery" },
+        cta: { label: "Order delivery", href: "#menu", targetId: "menu" },
     },
     {
         title: (
@@ -54,7 +54,7 @@ const columns: Column[] = [
                 with platters, party trays and full-service spreads.
             </>
         ),
-        cta: { label: "View options", href: "/catering" },
+        cta: { label: "View options", href: "#catering", targetId: "catering" },
     },
 ];
 
@@ -76,6 +76,14 @@ const FLECKS = svg(
 );
 
 export default function ServiceColumns() {
+    const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+        e.preventDefault();
+        const elem = document.getElementById(targetId);
+        if (elem) {
+            elem.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+
     return (
         <section
             aria-label="Pickup, delivery, catering and events"
@@ -116,12 +124,13 @@ export default function ServiceColumns() {
                             whileTap={{ scale: 0.95 }}
                             className="mt-auto pt-8 sm:pt-10"
                         >
-                            <Link
+                            <a
                                 href={col.cta.href}
-                                className="inline-block border-b-[3px] border-[#D9541A] pb-1 text-[0.95rem] font-semibold uppercase tracking-[0.12em] text-neutral-900 transition-colors hover:text-[#D42F16] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D42F16]"
+                                onClick={(e) => handleScroll(e, col.cta.targetId)}
+                                className="inline-block border-b-[3px] border-[#D9541A] pb-1 text-[0.95rem] font-semibold uppercase tracking-[0.12em] text-neutral-900 transition-colors hover:text-[#D42F16] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D42F16] cursor-pointer"
                             >
                                 {col.cta.label}
-                            </Link>
+                            </a>
                         </motion.div>
                     </motion.div>
                 ))}
