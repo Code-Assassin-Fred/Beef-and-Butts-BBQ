@@ -185,7 +185,7 @@ export default function Hero() {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             onClick={handleCtaClick}
-                            className="inline-flex h-11 sm:h-12 items-center justify-center gap-2.5 rounded-lg bg-[#e4202b] px-6 sm:px-7 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white shadow-xl hover:bg-[#b81d24] transition-all cursor-pointer"
+                            className="inline-flex h-11 sm:h-12 items-center justify-center gap-2.5 rounded-none bg-[#e4202b] px-6 sm:px-7 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white shadow-xl hover:bg-[#b81d24] transition-all cursor-pointer"
                         >
                             <span>{currentSlide.ctaText}</span>
                             <svg
