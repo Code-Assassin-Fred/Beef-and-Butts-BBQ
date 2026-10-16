@@ -80,15 +80,24 @@ export default function Footer() {
                             Real barbecue takes time, and it&rsquo;s worth every minute. Slow-smoked brisket, rack ribs, glazed chicken, and crispy bhajia made fresh daily.
                         </p>
                         <div className="mt-5 sm:mt-6 space-y-2 text-sm sm:text-base text-white font-medium">
-                            <p>Ontario, Canada</p>
+                            <p>
+                                <a
+                                    href="https://www.google.com/maps/place/108+Adair+Ave+S,+Hamilton,+ON+L8K+3S5,+Canada/@43.232651,-79.7917752,17z/data=!3m1!4b1!4m6!3m5!1s0x882c991b954b58a3:0x513e9dfef099f98c!8m2!3d43.232651!4d-79.7917752!16s%2Fg%2F11c248_s8b"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:text-[#D42F16] transition-colors"
+                                >
+                                    108 Adair Ave S, Hamilton, ON L8K 3S5
+                                </a>
+                            </p>
                             <p>
                                 <a href="tel:+16478898033" className="hover:text-[#D42F16] transition-colors">
                                     +1 (647) 889-8033
                                 </a>
                             </p>
                             <p>
-                                <a href="mailto:hello@beefnbuttsbbq.com" className="hover:text-[#D42F16] transition-colors">
-                                    hello@beefnbuttsbbq.com
+                                <a href="mailto:beefnbuttsbbq@gmail.com" className="hover:text-[#D42F16] transition-colors">
+                                    beefnbuttsbbq@gmail.com
                                 </a>
                             </p>
                         </div>

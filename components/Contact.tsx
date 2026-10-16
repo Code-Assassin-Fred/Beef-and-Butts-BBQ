@@ -5,13 +5,15 @@ import { motion } from "framer-motion";
 
 /* ------------------------------ Content ------------------------------ */
 
-const MAP_QUERY = "Ontario, Canada";
-const MAP_ZOOM = 6;
+const MAP_QUERY = "108 Adair Ave S, Hamilton, ON L8K 3S5, Canada";
+const MAP_ZOOM = 17;
+const GOOGLE_MAPS_URL = "https://www.google.com/maps/place/108+Adair+Ave+S,+Hamilton,+ON+L8K+3S5,+Canada/@43.232651,-79.7917752,17z/data=!3m1!4b1!4m6!3m5!1s0x882c991b954b58a3:0x513e9dfef099f98c!8m2!3d43.232651!4d-79.7917752!16s%2Fg%2F11c248_s8b";
 
-const EMAIL = "hello@beefnbuttsbbq.com";
+const EMAIL = "beefnbuttsbbq@gmail.com";
 const PHONE_DISPLAY = "+1 647 889-8033";
 const PHONE_HREF = "tel:+16478898033";
-const LOCATION = "Ontario, Canada";
+const LOCATION_LINE1 = "108 Adair Ave S";
+const LOCATION_LINE2 = "Hamilton, Ontario L8K 3S5";
 
 const DEFAULT_WHATSAPP = "https://wa.me/16478898033";
 
@@ -124,7 +126,15 @@ export default function Contact({ whatsappHref = DEFAULT_WHATSAPP }: Props) {
                     </div>
                     <div>
                         <h3 className="text-base font-bold text-black">Our Location</h3>
-                        <p className="mt-1.5 text-sm leading-relaxed text-neutral-700">{LOCATION}</p>
+                        <a
+                            href={GOOGLE_MAPS_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-1.5 block text-sm leading-relaxed text-neutral-700 hover:text-[#e4202b] transition-colors"
+                        >
+                            {LOCATION_LINE1}<br />
+                            {LOCATION_LINE2}
+                        </a>
                     </div>
                 </motion.div>
 
@@ -133,13 +143,25 @@ export default function Contact({ whatsappHref = DEFAULT_WHATSAPP }: Props) {
                     onMouseLeave={() => setMapActive(false)}
                 >
                     <iframe
-                        title="Map of Ontario, Canada"
+                        title="Map of 108 Adair Ave S, Hamilton, ON"
                         src={mapSrc}
                         className="h-full w-full border-0"
                         loading="lazy"
                         referrerPolicy="no-referrer-when-downgrade"
                         allowFullScreen
                     />
+
+                    <a
+                        href={GOOGLE_MAPS_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="absolute bottom-3 right-3 z-10 rounded bg-white/95 px-3 py-1.5 text-xs font-semibold text-neutral-800 shadow-md hover:bg-white hover:text-[#e4202b] transition-all flex items-center gap-1.5"
+                    >
+                        <span>Open in Google Maps</span>
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                    </a>
 
                     {!mapActive && (
                         <button
