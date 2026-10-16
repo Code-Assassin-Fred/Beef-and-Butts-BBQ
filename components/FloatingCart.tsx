@@ -10,6 +10,9 @@ const bodyFont = Montserrat({ subsets: ["latin"], weight: ["400", "500", "600", 
 
 type OrderType = "delivery" | "pickup";
 
+// Feature flag: set to true to restore scheduled date & time pickers in checkout
+const ENABLE_SCHEDULED_SLOTS = false;
+
 export default function FloatingCart() {
     const {
         cart,
@@ -162,8 +165,8 @@ export default function FloatingCart() {
                     total: totalPrice,
                     totalPrice: totalPrice,
                     orderType,
-                    date,
-                    time,
+                    date: ENABLE_SCHEDULED_SLOTS ? date : "",
+                    time: ENABLE_SCHEDULED_SLOTS ? time : "",
                     location,
                     customerName,
                     customerPhone,
@@ -376,20 +379,23 @@ export default function FloatingCart() {
                                     />
                                 )}
 
-                                <div className="grid grid-cols-2 gap-2">
-                                    <input
-                                        type="date"
-                                        value={date}
-                                        onChange={(e) => setDate(e.target.value)}
-                                        className="w-full rounded-sm bg-white/10 px-2 py-1.5 text-white focus:outline-none focus:ring-1 focus:ring-[#e4202b]"
-                                    />
-                                    <input
-                                        type="time"
-                                        value={time}
-                                        onChange={(e) => setTime(e.target.value)}
-                                        className="w-full rounded-sm bg-white/10 px-2 py-1.5 text-white focus:outline-none focus:ring-1 focus:ring-[#e4202b]"
-                                    />
-                                </div>
+                                {/* Scheduled date & time picker fields (kept behind feature flag to easily re-enable) */}
+                                {ENABLE_SCHEDULED_SLOTS && (
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <input
+                                            type="date"
+                                            value={date}
+                                            onChange={(e) => setDate(e.target.value)}
+                                            className="w-full rounded-sm bg-white/10 px-2 py-1.5 text-white focus:outline-none focus:ring-1 focus:ring-[#e4202b]"
+                                        />
+                                        <input
+                                            type="time"
+                                            value={time}
+                                            onChange={(e) => setTime(e.target.value)}
+                                            className="w-full rounded-sm bg-white/10 px-2 py-1.5 text-white focus:outline-none focus:ring-1 focus:ring-[#e4202b]"
+                                        />
+                                    </div>
+                                )}
 
                                 <div className="flex justify-end pt-1">
                                     <button
